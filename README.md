@@ -1,8 +1,5 @@
-# React + Vite
+# README
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
-
-Currently, two official plugins are available:
-
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## learns for next time     
+- proxy config is different with **Vite** when compared to using **Create React App**: see `vite.config.js` changes (rather than `package.json`).       
+- React.Strict mode renders components twice - _so don't stress trying to work out why (for example) `useEffect` seems to be firing twice_...       
