@@ -3,7 +3,7 @@ import Axios from 'axios'
 import { FormControl } from '@mui/base'
 import { Button, Container, FormLabel, TextField } from '@mui/material'
 
-export default function SignIn() {
+export default function SignIn({ signInRequest }) {
 
     const [formInput, setFormInput] = useState({
         emailAddress: '',
@@ -18,13 +18,7 @@ export default function SignIn() {
 
     const submitHandler = e => {
         e.preventDefault()
-        Axios.post('/api/auth/signin', formInput)
-        .then(res => {
-            console.log(res.data.token)
-        })
-        .catch(err => {
-            console.error(error)
-        })   
+        signInRequest(formInput)
     }
 
     return (
