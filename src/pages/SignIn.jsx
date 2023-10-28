@@ -1,9 +1,10 @@
 import React, { useState } from 'react'
-import Axios from 'axios'
 import { FormControl } from '@mui/base'
 import { Button, Container, FormLabel, TextField } from '@mui/material'
 
-export default function SignIn({ signInRequest }) {
+import { requestSignIn } from '../utils/authHelpers'
+
+export default function SignIn({ signIn }) {
 
     const [formInput, setFormInput] = useState({
         emailAddress: '',
@@ -16,9 +17,14 @@ export default function SignIn({ signInRequest }) {
         setFormInput(newFormInput)
     }
 
-    const submitHandler = e => {
+    const submitHandler = async e => {
         e.preventDefault()
-        signInRequest(formInput)
+        const user = await requestSignIn(formInput)
+        user.loggedIn ? signIn(user) : signInFailed()
+    }
+
+    const signInFailed = () => { // todo - update as required once components below have been fully built
+        alert('sign in failed')
     }
 
     return (
