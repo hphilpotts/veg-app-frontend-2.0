@@ -1,15 +1,18 @@
 import React from 'react'
-import { Button } from '@mui/material'
+import { Routes, Route } from 'react-router-dom'
 
 const App = () => {
 
-  const test = () => {
-    alert("WHAT DID I SAY")
-  }
-
   return (
     <>
-      <Button onClick={test} variant='contained' color='error'>Do not press me</Button>
+      <h1>header</h1>
+      <div>
+        <Routes>
+          <Route path='/' element={<p>Home</p>}></Route>
+          <Route path='about/' element={<p>About</p>}></Route>
+          <Route path='*' element={<p>no match</p>}></Route>
+        </Routes>
+      </div>
     </>
   )
 }
