@@ -4,7 +4,7 @@ import { Button, Container, FormLabel, TextField } from '@mui/material'
 
 import { requestSignIn } from '../utils/authHelpers'
 
-export default function SignIn({ signIn }) {
+export const SignIn = ({ signIn }) => {
 
     const [formInput, setFormInput] = useState({
         emailAddress: '',

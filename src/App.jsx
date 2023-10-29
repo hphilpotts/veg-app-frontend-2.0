@@ -1,18 +1,23 @@
 import React, { useState } from 'react'
-import { Routes, Route } from 'react-router-dom'
+import { Routes, Route, useNavigate } from 'react-router-dom'
 
-import SignIn from './pages/SignIn'
+import { Header } from './components/Header'
+
+import { SignIn } from './pages/SignIn'
 
 import { nullUser } from './utils/authHelpers'
 
 const App = () => {
 
+  const navigateTo = useNavigate()
+
   const [user, setUser] = useState(nullUser)
-  const signIn = input => setUser(input)
+  const signIn = input => { setUser(input), navigateTo('/') }
+  const signOut = () => { setUser(nullUser), navigateTo('signin/') }
 
   return (
     <>
-      <h1>header</h1>
+      <Header user={user} signOut={signOut} ></Header>
       <div>
         <Routes>
           <Route path='/' element={<p>Home</p>}></Route>
