@@ -1,8 +1,11 @@
-import React from 'react'
+import React, { useContext } from 'react'
 
 import { Link } from 'react-router-dom'
+import { UserContext } from '../App'
 
-export const Header = ({ user, signOut }) => {
+export const Header = ({ signOut }) => {
+
+    const user = useContext(UserContext)
 
     const signOutHandler = () => signOut()
 
