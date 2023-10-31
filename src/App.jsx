@@ -4,6 +4,7 @@ import { Routes, Route, useNavigate } from 'react-router-dom'
 import { Header } from './components/Header'
 
 import { SignIn } from './pages/SignIn'
+import { SignUp } from './pages/SignUp'
 
 import { nullUser } from './utils/authHelpers'
 
@@ -15,7 +16,10 @@ const App = () => {
 
   const [user, setUser] = useState(nullUser)
 
-  const signIn = input => { setUser(input), navigateTo('/') }
+  const signIn = input => { 
+    setUser(input)
+    navigateTo('/') 
+  }
 
   const signOut = () => { setUser(nullUser), navigateTo('signin/') }
 
@@ -26,6 +30,7 @@ const App = () => {
         <Routes>
           <Route path='/' element={<p>Home</p>}></Route>
           <Route path='signin/' element={<SignIn signIn={signIn} />}></Route>
+          <Route path='signup/' element={<SignUp signIn={signIn} />}></Route>
           <Route path='*' element={<p>no match</p>}></Route>
         </Routes>
       </div>

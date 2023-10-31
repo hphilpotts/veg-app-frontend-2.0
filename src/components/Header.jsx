@@ -11,10 +11,15 @@ export const Header = ({ signOut }) => {
 
     return (
         <div>
+            <Link to={'/'}>Home</Link>
             <h1>Hello, {user.name}</h1>
             {user.loggedIn ?
                 <button onClick={signOutHandler}>logout</button> :
-                <button ><Link to={'/signin/'}>sign in</Link></button>}
+                <>
+                    <button ><Link to={'/signin/'}>sign in</Link></button>
+                    <button ><Link to={'/signup/'}>sign up</Link></button>
+                </>
+            }
         </div>
     )
 }

@@ -2,13 +2,14 @@ import React, { useState } from 'react'
 import { FormControl } from '@mui/base'
 import { Button, Container, FormLabel, TextField } from '@mui/material'
 
-import { userSignInRequest } from '../utils/authHelpers'
+import { userSignupRequest, userSignInRequest } from '../utils/authHelpers'
 
-export const SignIn = ({ signIn }) => {
+export const SignUp = ({ signIn }) => {
 
     const [formInput, setFormInput] = useState({
         emailAddress: '',
-        password: ''
+        userName: '',
+        password: '',
     })
 
     const formChangeHandler = target => {
@@ -19,12 +20,17 @@ export const SignIn = ({ signIn }) => {
 
     const submitHandler = async e => {
         e.preventDefault()
-        const user = await userSignInRequest(formInput)
-        user.loggedIn ? signIn(user) : signInFailed()
+        const signupAttempt = await userSignupRequest(formInput)
+        if (signupAttempt.successful) {
+            const user = await userSignInRequest(formInput)
+            signIn(user)
+        } else {
+            signUpFailed(signupAttempt.message)
+        }
     }
 
-    const signInFailed = () => { // todo - update as required once components below have been fully built
-        alert('sign in failed')
+    const signUpFailed = message => { 
+        alert(message)
     }
 
     return (
@@ -32,6 +38,8 @@ export const SignIn = ({ signIn }) => {
             <Container sx={{ display: 'flex', flexDirection: 'column' }}>
                 <FormLabel>email address</FormLabel>
                 <TextField name='emailAddress' onChange={e => formChangeHandler(e.target)}></TextField>
+                <FormLabel>userName</FormLabel>
+                <TextField name='userName' onChange={e => formChangeHandler(e.target)}></TextField>
                 <FormLabel>password</FormLabel>
                 <TextField name='password' onChange={e => formChangeHandler(e.target)}></TextField>
                 <Button onClick={submitHandler}>Submit</Button>
