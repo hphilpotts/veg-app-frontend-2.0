@@ -5,6 +5,7 @@ import { Header } from './components/Header'
 
 import { SignIn } from './pages/SignIn'
 import { SignUp } from './pages/SignUp'
+import { FoodIndex } from './pages/FoodIndex'
 
 import { nullUser } from './utils/authHelpers'
 
@@ -27,6 +28,7 @@ const App = () => {
           <Route path='/' element={<p>Home</p>}></Route>
           <Route path='signin/' element={<SignIn signIn={signIn} />}></Route>
           <Route path='signup/' element={<SignUp signIn={signIn} />}></Route>
+          <Route path='foodIndex/' element={<FoodIndex></FoodIndex>}></Route>
           <Route path='*' element={<p>no match</p>}></Route>
         </Routes>
       </div>
