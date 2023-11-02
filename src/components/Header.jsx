@@ -16,6 +16,7 @@ export const Header = ({ signOut }) => {
             {user.loggedIn ?
                 <>
                 <button ><Link to={'/foodIndex/'}>index</Link></button>
+                <button ><Link to={'/addNewFood/'}>add</Link></button>
                 <button onClick={signOutHandler}>logout</button>
                 </> :
                 <>
