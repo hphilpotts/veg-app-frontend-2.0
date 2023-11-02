@@ -22,8 +22,8 @@ export const SignUp = ({ signIn }) => {
         e.preventDefault()
         const signup = await userSignupAttempt(formInput)
         if (signup.successful) {
-            const user = await userSignInRequest(formInput)
-            signIn(user)
+            const auth = await userSignInRequest(formInput)
+            signIn(auth.user)
         } else {
             signUpFailed(signup.message)
         }

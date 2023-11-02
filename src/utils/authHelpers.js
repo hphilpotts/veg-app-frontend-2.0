@@ -41,7 +41,6 @@ export const userSignInRequest = async (input) => {
 
     await Axios.post('/api/auth/signin', input)
         .then(res => {
-            console.log(res)
             if (res.status === 200) {
                 response.user = new User(true, res.data.body.userName, res.data.body._id, res.data.token)
                 response.attempt = new AuthAttempt(true, 'signed in successfully!')
