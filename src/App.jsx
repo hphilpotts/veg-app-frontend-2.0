@@ -16,11 +16,7 @@ const App = () => {
 
   const [user, setUser] = useState(nullUser)
 
-  const signIn = input => { 
-    setUser(input)
-    navigateTo('/') 
-  }
-
+  const signIn = input => { setUser(input), navigateTo('/') }
   const signOut = () => { setUser(nullUser), navigateTo('signin/') }
 
   return (

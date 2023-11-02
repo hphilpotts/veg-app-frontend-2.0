@@ -19,12 +19,12 @@ export const SignIn = ({ signIn }) => {
 
     const submitHandler = async e => {
         e.preventDefault()
-        const user = await userSignInRequest(formInput)
-        user.loggedIn ? signIn(user) : signInFailed()
+        const auth = await userSignInRequest(formInput)
+        auth.attempt.successful ? signIn(auth.user) : signInFailed(auth.attempt.message)
     }
 
-    const signInFailed = () => { // todo - update as required once components below have been fully built
-        alert('sign in failed')
+    const signInFailed = message => {
+        alert(message)
     }
 
     return (

@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { FormControl } from '@mui/base'
 import { Button, Container, FormLabel, TextField } from '@mui/material'
 
-import { userSignupRequest, userSignInRequest } from '../utils/authHelpers'
+import { userSignupAttempt, userSignInRequest } from '../utils/authHelpers'
 
 export const SignUp = ({ signIn }) => {
 
@@ -20,16 +20,16 @@ export const SignUp = ({ signIn }) => {
 
     const submitHandler = async e => {
         e.preventDefault()
-        const signupAttempt = await userSignupRequest(formInput)
-        if (signupAttempt.successful) {
+        const signup = await userSignupAttempt(formInput)
+        if (signup.successful) {
             const user = await userSignInRequest(formInput)
             signIn(user)
         } else {
-            signUpFailed(signupAttempt.message)
+            signUpFailed(signup.message)
         }
     }
 
-    const signUpFailed = message => { 
+    const signUpFailed = message => {
         alert(message)
     }
 
