@@ -4,11 +4,9 @@ import { Button, Container, FormLabel, MenuItem, Select, TextField } from '@mui/
 
 import { UserContext } from '../App'
 
-import { createFoodItem } from '../utils/foodHelpers'
+import { foodItemCategories, createFoodItem } from '../utils/foodHelpers'
 
 export const FoodAdd = () => {
-
-  const foodItemCategories = ['green vegetables', 'salad vegetables', 'salad leaves', 'root vegetables', 'onions & friends', 'berries', 'orchard fruits', 'citrus fruits', 'exotic fruits', 'grains', 'nuts & seeds', 'miscellaneous'];
 
   const user = useContext(UserContext)
 
@@ -25,14 +23,8 @@ export const FoodAdd = () => {
 
   const submitHandler = e => {
     e.preventDefault();
-
     if (!user.id) throw new Error('uh oh')
-
-    const newFoodItem = { ...formInput }
-    newFoodItem.addedBy = user.id
-    newFoodItem.token = user.token
-
-    createFoodItem(newFoodItem)
+    createFoodItem(Object.assign({ ...formInput }, { addedBy: user.id, token: user.token }))
   }
 
   return (
@@ -50,7 +42,6 @@ export const FoodAdd = () => {
             <MenuItem value={category} key={category + ix}>{category}</MenuItem>
           ))}
         </Select>
-        {/* <TextField name='category' onChange={changxeHandler}>{formInput.addedBy}</TextField> */}
         <Button type='submit' onClick={submitHandler}>submit</Button>
       </FormControl>
     </Container>
