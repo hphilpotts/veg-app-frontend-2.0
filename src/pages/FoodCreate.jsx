@@ -10,10 +10,9 @@ export const FoodAdd = () => {
 
   const user = useContext(UserContext)
 
-  const [formInput, setFormInput] = useState({
-    name: '',
-    category: 'miscellaneous'
-  })
+  const emptyFormInput = { name: '', category: 'miscellaneous' }
+  
+  const [formInput, setFormInput] = useState(emptyFormInput)
 
   const changeHandler = e => {
     const newInput = { ...formInput }
@@ -21,17 +20,22 @@ export const FoodAdd = () => {
     setFormInput(newInput)
   }
 
-  const submitHandler = e => {
-    e.preventDefault();
-    if (!user.id) throw new Error('uh oh')
-    createFoodItem(Object.assign({ ...formInput }, { addedBy: user.id, token: user.token }))
+  const submitHandler = async () => {
+    if (!user.id) throw new Error('You need to be signed in!')
+    const res = await createFoodItem(Object.assign({ ...formInput }, { addedBy: user.id, token: user.token }))
+    if (res.status === 201) {
+      alert(res.data.message)
+      setFormInput(emptyFormInput)
+    } else {
+      alert(res.response.data.message);
+    }
   }
 
   return (
     <Container>
       <FormControl>
         <FormLabel>Food Name</FormLabel>
-        <TextField name='name' onChange={changeHandler}>{formInput.addedBy}</TextField>
+        <TextField id='food-name-text-field' name='name' onChange={changeHandler} value={formInput.name}></TextField>
         <FormLabel>Category</FormLabel>
         <Select
           name='category'
