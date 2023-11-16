@@ -1,0 +1,87 @@
+
+    {
+        "green vegetables": {
+            "broccoli": "0x1F966",
+            "courgette": "0x1F952",
+            "greens": "0x1F96C"
+        },
+        "salad vegetables": {
+            "tomato": "0x1F345",
+            "avocado": "0x1F951",
+            "chilli": "0x1F336",
+            "pepper": "0x1FAD1",
+            "cucumber": "0x1F952"
+        },
+        "salad leaves": {
+            "leaves": "0x1F96C",
+            "salad": "0x1F957",
+            "herb": "0x1F33F",
+            "sprout": "0x1F331"
+        },
+        "root vegetables": {
+            "potato": "0x1F954",
+            "carrot": "0x1F955",
+            "sweet potato": "0x1F360"
+        },
+        "onions & friends": {
+            "garlic": "0x1F9C4",
+            "onion": "0x1F9C5"
+        },
+        "berries": {
+            "strawberry": "0x1F353",
+            "blueberry": "0x1FAD0"
+        },
+        "orchard fruits": {
+            "grapes": "0x1F347",
+            "red apple": "0x1F34E",
+            "green apple": "0x1F34F",
+            "pear": "0x1F350",
+            "peach": "0x1F351",
+            "cherries": "0x1F352"
+        },
+        "citrus fruits": {
+            "orange": "0x1F34",
+            "lemon": "0x1F34B"
+        },
+        "exotic fruits": {
+            "melon": "0x1F348",
+            "watermelon": "0x1F349",
+            "banana": "0x1F34C",
+            "pineapple": "0x1F34D",
+            "mango": "0x1F96",
+            "kiwi": "0x1F95D",
+            "coconut": "0x1F965"
+        },
+        "grains": {
+            "grain": "0x1F33E",
+            "rice": "0x1F35A",
+            "corn": "0x1F33D",
+            "popcorn": "0x1F37F"
+        },
+        "nuts & seeds": {
+            "peanuts": "0x1F95C",
+            "nut": "0x1F330",
+            "sunflower": "0x1F33B",
+            "seed": "0x1F331"
+        },
+        "miscellaneous": {
+            "olive": "0x1FAD2",
+            "aubergine": "0x1F346",
+            "mushroom": "0x1F344",
+            "falafel": "0x1F9C6",
+            "bowl": "0x1F963",
+            "tin": "0x1F96B",
+            "cup": "0x1F375",
+            "plate": "0x1F37D",
+            "question mark": "0x2753",
+            "red circle": "0x1F534",
+            "orange circle": "0x1F7E0",
+            "yellow circle": "0x1F7E1",
+            "green circle": "0x1F7E2",
+            "blue circle": "0x1F535",
+            "purple circle": "0x1F7E3",
+            "brown circle": "0x1F7E4",
+            "black circle": "0x26AB",
+            "white circle": "0x26AA"
+        }
+    }

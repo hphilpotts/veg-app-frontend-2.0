@@ -4,14 +4,16 @@ import { Button, Container, FormLabel, MenuItem, Select, TextField } from '@mui/
 
 import { UserContext } from '../App'
 
-import { convertTo0x } from '../utils/emojiHelpers'
+import { convertEmoji as emoji } from '../utils/emojiHelpers'
 import { foodItemCategories, createFoodItem } from '../utils/foodHelpers'
+
+import foodEmojis from '../assets/data/emojiTree.json'
 
 export const FoodAdd = () => {
 
   const user = useContext(UserContext)
 
-  const emptyFormInput = { name: '', category: 'miscellaneous', icon: 'U+2753' } // default to question mark emoji
+  const emptyFormInput = { name: '', category: 'miscellaneous', icon: '0x2753' } // default to question mark emoji
 
   const [formInput, setFormInput] = useState(emptyFormInput)
 
@@ -32,11 +34,10 @@ export const FoodAdd = () => {
     }
   }
 
-  const selectedEmoji = convertTo0x(formInput.icon) // test
 
   return (
     <Container>
-      <p>{selectedEmoji}</p> {/* test */}
+      <p>{emoji(formInput.icon)}</p> {/* test */}
       
       <FormControl>
         <FormLabel>Food Name</FormLabel>

@@ -1,6 +1,5 @@
-export const convertTo0x = unicode => {
-    let convertedEmojiCode = '0x' + unicode.slice(2);
-    return String.fromCodePoint(convertedEmojiCode)
+export const convertEmoji = code => {
+    return String.fromCodePoint(code)
 }
 
 export const convertToUnicode = xEmoji => {
