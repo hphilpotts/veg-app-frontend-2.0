@@ -1,6 +1,6 @@
 import React, { useContext, useState } from 'react'
 import { FormControl } from '@mui/base'
-import { Button, Container, FormLabel, MenuItem, Select, TextField } from '@mui/material'
+import { Button, Container, FormLabel, FormControlLabel, MenuItem, Radio, RadioGroup, Select, TextField } from '@mui/material'
 
 import { UserContext } from '../App'
 
@@ -41,11 +41,14 @@ export const FoodAdd = () => {
     }
   }
 
+  const currentIconObject = foodEmojis[iconGroup]
+
+  const iconOptions = Object.keys(currentIconObject).map(item => (
+    <FormControlLabel value={item} key={item} control={<Radio />} label={emoji(currentIconObject[item])} />
+  ))
 
   return (
     <Container>
-      {/* <p>{emoji(formInput.icon)}</p> test */}
-
       <FormControl>
         <FormLabel>Food Name</FormLabel>
         <TextField id='food-name-text-field' name='name' onChange={changeHandler} value={formInput.name}></TextField>
@@ -69,6 +72,18 @@ export const FoodAdd = () => {
             <MenuItem value={category} key={category + ix + 'b'}>{category}</MenuItem>
           ))}
         </Select>
+
+        <FormLabel id="demo-radio-buttons-group-label">Icon</FormLabel>
+        <p>{iconGroup}</p>
+        <RadioGroup
+          aria-labelledby="demo-radio-buttons-group-label"
+          defaultValue="female"
+          name="radio-buttons-group"
+          row
+        >
+          {iconOptions}
+        </RadioGroup>
+
         <Button type='submit' onClick={submitHandler}>submit</Button>
       </FormControl>
     </Container>
