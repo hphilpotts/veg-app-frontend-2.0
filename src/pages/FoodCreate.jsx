@@ -6,16 +6,15 @@ import { v4 as uuid } from 'uuid'
 
 import { FormControl } from '@mui/base'
 import { Button, Container, FormLabel, MenuItem, Select, TextField, ButtonGroup } from '@mui/material'
-
-import { UserContext } from '../App'
-
-import { convertEmoji as emoji } from '../utils/emojiHelpers'
-import { foodItemCategories, createFoodItem } from '../utils/foodHelpers'
-
-import foodEmojis from '../assets/data/emojiTree.json'
 import { Stack } from '@mui/system'
 
+import { UserContext } from '../App'
+import { convertEmoji as emoji } from '../utils/emojiHelpers'
+import { foodItemCategories, createFoodItem } from '../utils/foodHelpers'
+import foodEmojis from '../assets/data/emojiTree.json'
+
 export const FoodAdd = () => {
+
 
   const user = useContext(UserContext)
 
@@ -27,11 +26,10 @@ export const FoodAdd = () => {
     }
   }, [])
 
+
   const emptyFormInput = { name: '', category: 'miscellaneous', icon: '0x2753' } // default to question mark emoji
 
   const [formInput, setFormInput] = useState(emptyFormInput)
-
-  const [iconGroup, setIconGroup] = useState(formInput.category)
 
   const changeHandler = e => {
     const newInput = { ...formInput }
@@ -42,9 +40,6 @@ export const FoodAdd = () => {
     setFormInput(newInput)
   }
 
-  const selectIconMenu = e => {
-    setIconGroup(e.target.value)
-  }
 
   const submitHandler = async () => {
     if (!user.id) throw new Error('You need to be signed in!')
@@ -58,18 +53,28 @@ export const FoodAdd = () => {
     }
   }
 
+
+  const [iconGroup, setIconGroup] = useState(formInput.category)
+
+  const selectIconMenu = e => {
+    setIconGroup(e.target.value)
+  }
+
   const currentIconObject = foodEmojis[iconGroup]
 
   const iconOptions = Object.keys(currentIconObject).map(item => (
     <Button value={currentIconObject[item]} key={uuid()} name='icon' onClick={changeHandler} >{emoji(currentIconObject[item])}</Button>
   ))
 
+
   return (
     <Container>
       <FormControl>
         <Stack sx={{ maxWidth: '500px' }}>
+
           <FormLabel>Food Name</FormLabel>
           <TextField id='food-name-text-field' name='name' onChange={changeHandler} value={formInput.name}></TextField>
+
           <FormLabel>Category</FormLabel>
           <Select
             name='category'
@@ -80,7 +85,13 @@ export const FoodAdd = () => {
               <MenuItem value={category} key={uuid()}>{category}</MenuItem>
             ))}
           </Select>
-          <FormLabel>Icon category:</FormLabel>
+
+          <FormLabel>Current icon:</FormLabel>
+          <Container>
+            <h1>{emoji(formInput.icon)}</h1>
+          </Container>
+
+          <FormLabel>Select from icon category:</FormLabel>
           <Select
             name='icon category'
             value={iconGroup}
@@ -90,17 +101,12 @@ export const FoodAdd = () => {
               <MenuItem value={category} key={category + ix + 'b'}>{category}</MenuItem>
             ))}
           </Select>
-
-          <FormLabel id="demo-radio-buttons-group-label">Current icon:</FormLabel>
-          <Container>
-            <h1>{emoji(formInput.icon)}</h1>
-          </Container>
-          <p>Select a new icon:</p>
+          <br></br>
           <ButtonGroup
             disableElevation
             name="radio-buttons-group"
             size='large'
-            sx={{ display: 'flex', flexWrap: 'wrap', flexDirection: 'row'}}
+            sx={{ display: 'flex', flexWrap: 'wrap', flexDirection: 'row' }}
             variant='text'
           >
             {iconOptions}
