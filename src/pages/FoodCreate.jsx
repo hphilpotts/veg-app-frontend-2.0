@@ -3,7 +3,7 @@ import React, { useContext, useState } from 'react'
 import { v4 as uuid } from 'uuid'
 
 import { FormControl } from '@mui/base'
-import { Button, Container, FormLabel, FormControlLabel, MenuItem, Radio, RadioGroup, Select, TextField } from '@mui/material'
+import { Button, Container, FormLabel, FormControlLabel, MenuItem, Radio, RadioGroup, Select, TextField, ButtonGroup } from '@mui/material'
 
 import { UserContext } from '../App'
 
@@ -48,13 +48,13 @@ export const FoodAdd = () => {
   const currentIconObject = foodEmojis[iconGroup]
 
   const iconOptions = Object.keys(currentIconObject).map(item => (
-    <FormControlLabel value={item} key={uuid()} control={<Radio />} label={emoji(currentIconObject[item])} />
+    <Button value={currentIconObject[item]} key={uuid()} name='icon' onClick={changeHandler} >{emoji(currentIconObject[item])}</Button>
   ))
 
   return (
-    <Container sx={{ display: 'flex', flexDirection: 'column' }}>
-      <FormControl sx={{ display: 'flex', flexDirection: 'row' }}>
-        <Stack>
+    <Container>
+      <FormControl>
+        <Stack sx={{ maxWidth: '500px' }}>
           <FormLabel>Food Name</FormLabel>
           <TextField id='food-name-text-field' name='name' onChange={changeHandler} value={formInput.name}></TextField>
           <FormLabel>Category</FormLabel>
@@ -67,7 +67,7 @@ export const FoodAdd = () => {
               <MenuItem value={category} key={uuid()}>{category}</MenuItem>
             ))}
           </Select>
-          <FormLabel>Icon Category</FormLabel>
+          <FormLabel>Icon category:</FormLabel>
           <Select
             name='icon category'
             value={iconGroup}
@@ -78,16 +78,20 @@ export const FoodAdd = () => {
             ))}
           </Select>
 
-          <FormLabel id="demo-radio-buttons-group-label">Icon</FormLabel>
-          <p>{iconGroup}</p>
-          <RadioGroup
-            aria-labelledby="demo-radio-buttons-group-label"
-            defaultValue="female"
+          <FormLabel id="demo-radio-buttons-group-label">Current icon:</FormLabel>
+          <Container>
+            <h1>{emoji(formInput.icon)}</h1>
+          </Container>
+          <p>Select a new icon:</p>
+          <ButtonGroup
+            disableElevation
             name="radio-buttons-group"
-            row
+            size='large'
+            sx={{ display: 'flex', flexWrap: 'wrap', flexDirection: 'row'}}
+            variant='text'
           >
             {iconOptions}
-          </RadioGroup>
+          </ButtonGroup>
 
           <Button type='submit' onClick={submitHandler}>submit</Button>
         </Stack>
