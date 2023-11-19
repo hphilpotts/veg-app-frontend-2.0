@@ -1,9 +1,11 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
+
+import { useNavigate } from 'react-router-dom'
 
 import { v4 as uuid } from 'uuid'
 
 import { FormControl } from '@mui/base'
-import { Button, Container, FormLabel, FormControlLabel, MenuItem, Radio, RadioGroup, Select, TextField, ButtonGroup } from '@mui/material'
+import { Button, Container, FormLabel, MenuItem, Select, TextField, ButtonGroup } from '@mui/material'
 
 import { UserContext } from '../App'
 
@@ -17,6 +19,14 @@ export const FoodAdd = () => {
 
   const user = useContext(UserContext)
 
+  const navigateTo = useNavigate()
+
+  useEffect(() => {
+    if (!user.token) {
+      navigateTo('/signin')
+    }
+  }, [])
+
   const emptyFormInput = { name: '', category: 'miscellaneous', icon: '0x2753' } // default to question mark emoji
 
   const [formInput, setFormInput] = useState(emptyFormInput)
@@ -26,7 +36,9 @@ export const FoodAdd = () => {
   const changeHandler = e => {
     const newInput = { ...formInput }
     newInput[e.target.name] = e.target.value
-    setIconGroup(newInput.category)
+    if ((formInput.icon == '0x2753') || !formInput.name) {
+      setIconGroup(newInput.category)
+    }
     setFormInput(newInput)
   }
 
@@ -40,8 +52,9 @@ export const FoodAdd = () => {
     if (res.status === 201) {
       alert(res.data.message)
       setFormInput(emptyFormInput)
+      setIconGroup(emptyFormInput.category)
     } else {
-      alert(res.response.data.message);
+      alert(res.response.data.message)
     }
   }
 
