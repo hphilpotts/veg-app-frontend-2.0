@@ -7,7 +7,7 @@ import { userSignInRequest } from '../utils/authHelpers'
 export const SignIn = ({ signIn }) => {
 
     const [formInput, setFormInput] = useState({
-        emailAddress: '',
+        email: '',
         password: ''
     })
 
@@ -31,9 +31,9 @@ export const SignIn = ({ signIn }) => {
         <FormControl>
             <Container sx={{ display: 'flex', flexDirection: 'column' }}>
                 <FormLabel>email address</FormLabel>
-                <TextField name='emailAddress' onChange={e => formChangeHandler(e.target)}></TextField>
+                <TextField name='email' type='email' onChange={e => formChangeHandler(e.target)}></TextField>
                 <FormLabel>password</FormLabel>
-                <TextField name='password' onChange={e => formChangeHandler(e.target)}></TextField>
+                <TextField name='password' type='password' onChange={e => formChangeHandler(e.target)}></TextField>
                 <Button onClick={submitHandler}>Submit</Button>
             </Container>
         </FormControl>

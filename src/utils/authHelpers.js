@@ -5,9 +5,9 @@ function AuthAttempt(success, message) {
     this.message = message
 }
 
-function User(loggedIn, userName, userId, token) {
+function User(loggedIn, username, userId, token) {
     this.loggedIn = loggedIn
-    this.name = userName
+    this.name = username
     this.id = userId
     this.token = token
 }
@@ -42,7 +42,7 @@ export const userSignInRequest = async (input) => {
     await Axios.post('/api/auth/signin', input)
         .then(res => {
             if (res.status === 200) {
-                response.user = new User(true, res.data.body.userName, res.data.body._id, res.data.token)
+                response.user = new User(true, res.data.body.username, res.data.body._id, res.data.token)
                 response.attempt = new AuthAttempt(true, 'signed in successfully!')
             }
         })
