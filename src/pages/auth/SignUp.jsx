@@ -1,37 +1,37 @@
-import React, { useState } from 'react'
-import { FormControl } from '@mui/base'
-import { Button, Container, FormLabel, TextField } from '@mui/material'
+import React, { useState } from 'react';
+import { FormControl } from '@mui/base';
+import { Button, Container, FormLabel, TextField } from '@mui/material';
 
-import { userSignupAttempt, userSignInRequest } from '../utils/authHelpers'
+import { userSignupAttempt, userSignInRequest } from '../../utils/authHelpers';
 
-export const SignUp = ({ signIn }) => {
+export const SignUp = ({ setUserFromSignIn }) => {
 
     const [formInput, setFormInput] = useState({
         email: '',
         username: '',
         password: '',
-    })
+    });
 
     const formChangeHandler = target => {
-        const newFormInput = { ...formInput }
-        newFormInput[target.name] = target.value
-        setFormInput(newFormInput)
-    }
+        const newFormInput = { ...formInput };
+        newFormInput[target.name] = target.value;
+        setFormInput(newFormInput);
+    };
 
     const submitHandler = async e => {
-        e.preventDefault()
-        const signup = await userSignupAttempt(formInput)
+        e.preventDefault();
+        const signup = await userSignupAttempt(formInput);
         if (signup.successful) {
-            const auth = await userSignInRequest(formInput)
-            signIn(auth.user)
+            const auth = await userSignInRequest(formInput);
+            setUserFromSignIn(auth.user);
         } else {
-            signUpFailed(signup.message)
-        }
-    }
+            signUpFailed(signup.message);
+        };
+    };
 
     const signUpFailed = message => {
-        alert(message)
-    }
+        alert(message);
+    };
 
     return (
         <FormControl>
@@ -45,5 +45,5 @@ export const SignUp = ({ signIn }) => {
                 <Button onClick={submitHandler}>Submit</Button>
             </Container>
         </FormControl>
-    )
-}
+    );
+};
