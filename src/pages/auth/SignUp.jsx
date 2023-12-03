@@ -3,6 +3,7 @@ import { FormControl } from '@mui/base';
 import { Button, Container, FormLabel, TextField } from '@mui/material';
 
 import { userSignupAttempt, userSignInRequest } from '../../utils/authHelpers';
+import { createNewFoodDocument } from '../../utils/foodHelpers';
 
 export const SignUp = ({ setUserFromSignIn }) => {
 
@@ -24,6 +25,7 @@ export const SignUp = ({ setUserFromSignIn }) => {
         if (signup.successful) {
             const auth = await userSignInRequest(formInput);
             setUserFromSignIn(auth.user);
+            createNewFoodDocument(auth.user);
         } else {
             signUpFailed(signup.message);
         };

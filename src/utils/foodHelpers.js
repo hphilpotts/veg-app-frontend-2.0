@@ -14,3 +14,12 @@ export const createFoodItem = async formData => {
         return error
     }
 }
+
+export const createNewFoodDocument = async user => {
+    const requestBody = { user: user.id };
+    try {
+        return await Axios.post('/api/foods/create', requestBody, xAuth(user.token));
+    } catch (error) {
+        return error;
+    };
+};
