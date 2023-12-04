@@ -15,29 +15,42 @@ export const Header = ({ signOut }) => {
             <AppBar position='static'>
                 <Container maxWidth='xl' sx={{ display: 'flex' }}>
                     <Box flex={2}>
-                        <Link to={'/'}>
-                            <IconButton color='secondary'>
-                                <CottageIcon></CottageIcon>
-                            </IconButton>
-                        </Link>
+                        <HomeIcon />
                     </Box>
                     <Box flex={2} textAlign={'right'} sx={{ display: 'flex', justifyContent: 'end' }}>
-                        {user.loggedIn ?
-                            <>
-                                <Typography color='inherit' variant='body2' sx={{ margin: '0.5em' }} onClick={signOut}>logout</Typography>
-                            </> :
-                            <>
-                                <Link underline="none" color='inherit' variant='body2' sx={{ margin: '0.5em' }} component={RouterLink} to={'signin/'}>
-                                    sign in
-                                </Link>
-                                <Link underline="none" color='inherit' variant='body2' sx={{ margin: '0.5em' }} component={RouterLink} to={'signup/'}>
-                                    sign up
-                                </Link>
-                            </>
-                        }
+                        {user.loggedIn ? <ActiveUserControls /> : <InactiveUserControls />}
                     </Box>
                 </Container>
             </AppBar>
         </Box>
+    );
+};
+
+const HomeIcon = () => {
+    return (
+        <Link to={'/'}>
+            <IconButton color='secondary'>
+                <CottageIcon></CottageIcon>
+            </IconButton>
+        </Link>
+    );
+};
+
+const ActiveUserControls = ({ signOut }) => {
+    return (
+        <Typography color='inherit' variant='body2' sx={{ margin: '0.5em' }} onClick={signOut}>logout</Typography>
+    );
+};
+
+const InactiveUserControls = () => {
+    return (
+        <>
+            <Link underline="none" color='inherit' variant='body2' sx={{ margin: '0.5em' }} component={RouterLink} to={'signin/'}>
+                sign in
+            </Link>
+            <Link underline="none" color='inherit' variant='body2' sx={{ margin: '0.5em' }} component={RouterLink} to={'signup/'}>
+                sign up
+            </Link>
+        </>
     );
 };
