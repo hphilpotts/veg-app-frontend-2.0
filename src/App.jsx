@@ -1,23 +1,23 @@
-import React, { useState, createContext } from 'react'
-import { Routes, Route, useNavigate } from 'react-router-dom'
+import React, { useState, createContext } from 'react';
+import { Routes, Route, useNavigate } from 'react-router-dom';
 
-import { Header } from './components/Header'
+import { Header } from './components/Header';
 
-import { SignIn } from './pages/auth/SignIn'
-import { SignUp } from './pages/auth/SignUp'
+import { SignIn } from './pages/auth/SignIn';
+import { SignUp } from './pages/auth/SignUp';
 
-import { nullUser } from './utils/authHelpers'
+import { nullUser } from './utils/authHelpers';
 
-export const UserContext = createContext()
+export const UserContext = createContext();
 
 const App = () => {
 
-  const navigateTo = useNavigate()
+  const navigateTo = useNavigate();
 
-  const [user, setUser] = useState(nullUser)
+  const [user, setUser] = useState(nullUser);
 
-  const setUserFromSignIn = input => { setUser(input), navigateTo('/') }
-  const signOut = () => { setUser(nullUser), navigateTo('signin/') }
+  const setUserFromSignIn = input => { setUser(input), navigateTo('/') };
+  const signOut = () => { setUser(nullUser), navigateTo('signin/') };
 
   return (
     <UserContext.Provider value={user}>
@@ -31,7 +31,7 @@ const App = () => {
         </Routes>
       </div>
     </UserContext.Provider>
-  )
-}
+  );
+};
 
-export default App
+export default App;
