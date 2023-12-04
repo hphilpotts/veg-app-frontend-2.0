@@ -1,25 +1,50 @@
-import Axios from 'axios'
+import Axios from 'axios';
 import { xAuth } from './axiosConfig';
 
-export const foodItemCategories = ['green vegetables', 'salad vegetables', 'salad leaves', 'root vegetables', 'onions & friends', 'berries', 'orchard fruits', 'citrus fruits', 'exotic fruits', 'grains', 'nuts & seeds', 'miscellaneous'];
-
-export const createFoodItem = async formData => {
-    console.log(formData)
-    console.log(formData.icon)
-    console.log(typeof formData.icon)
-    try {
-        const res = await Axios.post('/api/foodItem/add', formData, xAuth(formData.token))
-        return res
-    } catch (error) {
-        return error
-    }
-}
+export const foodItemCategoryKeys = [
+    'greenVegetables',
+    'saladVegetables',
+    'saladLeaves',
+    'rootVegetables',
+    'onionsAndFriends',
+    'legumesAndPulses',
+    'nutsAndSeeds',
+    'grainsAndCereals',
+    'orchardFruits',
+    'citrusFruits',
+    'exoticFruits',
+    'berries',
+    'otherFruits',
+    'herbs',
+    'spices',
+    'sweeteners',
+    'oils',
+    'miscellaneous'
+];
 
 export const createNewFoodDocument = async user => {
     const requestBody = { user: user.id };
     try {
         return await Axios.post('/api/foods/create', requestBody, xAuth(user.token));
     } catch (error) {
+        console.error(error);
         return error;
     };
+};
+
+export const getFoods = async (user, category) => {
+
+    let url = `/api/foods?user=${user.id}`;
+    if (category) {
+        url += `&optionalCategoryFilter=${category}`;
+    };
+
+    try {
+        const res = await Axios.get(url, xAuth(user.token));
+        return res.data;
+    } catch (error) {
+        console.error(error);
+        return error;
+    };
+
 };

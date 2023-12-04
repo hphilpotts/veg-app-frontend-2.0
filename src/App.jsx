@@ -5,8 +5,6 @@ import { Header } from './components/Header'
 
 import { SignIn } from './pages/auth/SignIn'
 import { SignUp } from './pages/auth/SignUp'
-import { FoodIndex } from './pages/FoodIndex'
-import { FoodAdd } from './pages/FoodCreate'
 
 import { nullUser } from './utils/authHelpers'
 
@@ -29,8 +27,6 @@ const App = () => {
           <Route path='/' element={<p>Home</p>}></Route>
           <Route path='signin/' element={<SignIn setUserFromSignIn={setUserFromSignIn} />}></Route>
           <Route path='signup/' element={<SignUp setUserFromSignIn={setUserFromSignIn} />}></Route>
-          <Route path='foodIndex/' element={<FoodIndex></FoodIndex>}></Route>
-          <Route path='addNewFood/' element={<FoodAdd></FoodAdd>}></Route>
           <Route path='*' element={<p>no match</p>}></Route>
         </Routes>
       </div>
