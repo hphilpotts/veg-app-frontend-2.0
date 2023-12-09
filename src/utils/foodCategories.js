@@ -27,6 +27,27 @@ export const subCategoriesWithEmojis = {
     }
 };
 
+export const subCategoriesWithDocumentKeys = {
+    "Green Vegetables": "greenVegetables",
+    "Salad Vegetables": "saladVegetables",
+    "Salad Leaves": "saladLeaves",
+    "Root Vegetables": "rootVegetables",
+    "Onions & Friends": "onionsAndFriends",
+    "Orchard Fruits": "orchardFruits",
+    "Citrus Fruits": "citrusFruits",
+    "Exotic Fruits": "exoticFruits",
+    "Berries": "berries",
+    "Other Fruits": "otherFruits",
+    "Legumes & Pulses": "legumesAndPulses",
+    "Nuts & Seeds": "nutsAndSeeds",
+    "Grains & Cereals": "grainsAndCereals",
+    "Herbs": "herbs",
+    "Spices": "spices",
+    "Sweeteners": "sweeteners",
+    "Oils": "oils",
+    "Miscellaneous": "miscellaneous"
+};
+
 export const foodsSchemaKeys = [
     'greenVegetables',
     'saladVegetables',
