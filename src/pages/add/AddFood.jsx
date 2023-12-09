@@ -4,6 +4,7 @@ import { v4 as uuid } from 'uuid';
 import { Container, ButtonGroup, Button, Typography, Select, MenuItem, FormControl, FormHelperText, Stack, Skeleton } from '@mui/material';
 import { flexColumnCentered as center, topMargin } from '../../utils/muiTheme';
 import { PageTitle } from '../../components/PageTitle';
+import { LoadingSkeleton } from '../../components/LoadingSkeleton';
 
 import { getFoods } from '../../utils/foodHelpers';
 import { subCategoriesWithEmojis as categoryData, subCategoriesWithDocumentKeys as keysForSubCategory } from '../../utils/foodCategories';
@@ -112,15 +113,7 @@ const SubCategorySelector = ({ setSubCategory, mainCategory, subCategory, popula
 const FoodItemSelector = ({ foodItemsList }) => {
     if (!foodItemsList.length) {
         return (
-
-            <Stack spacing={1}>
-                <Skeleton variant="rounded" width={210} height={60} />
-                <Skeleton variant="rounded" width={210} height={60} />
-                <Skeleton variant="rounded" width={210} height={60} />
-                <Skeleton variant="rounded" width={210} height={60} />
-                <Skeleton variant="rounded" width={210} height={60} />
-            </Stack>
-
+            <LoadingSkeleton count={5} />
         )
     } else {
         return (
