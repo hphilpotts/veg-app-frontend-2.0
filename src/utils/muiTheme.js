@@ -13,7 +13,7 @@ export const theme = createTheme({
             main: '#FFFFFF'
         },
         highlighted: {
-            main: green[500],
+            main: green[400],
             contrastText: '#FFFFFF'
         }
     }

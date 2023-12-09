@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { v4 as uuid } from 'uuid';
 
-import { Container, ButtonGroup, Button, Typography, Select, MenuItem, InputLabel, FormControl, FormHelperText } from '@mui/material';
+import { Container, ButtonGroup, Button, Typography, Select, MenuItem, FormControl, FormHelperText } from '@mui/material';
 import { flexColumnCentered as center, topMargin } from '../../utils/muiTheme';
+import { PageTitle } from '../../components/PageTitle';
 
 const mainCategories = ['veg', 'fruit', 'misc'];
 
@@ -46,11 +47,11 @@ export const AddFood = () => {
     }
 
     return (
-        <Container sx={{ ...center, ...topMargin }}>
-            <Typography variant='h4' margin={2}>log foods</Typography>
+        <>
+            <PageTitle titleText={'log new foods'} />
             <MainCategorySelector setCurrentCategory={setNewCategory} currentCategory={currentCategory} />
             <SubCategorySelector setCurrentSubCategory={setCurrentSubCategory} currentCategory={currentCategory} currentSubCategory={currentSubCategory} />
-        </Container>
+        </>
     );
 };
 
@@ -97,5 +98,5 @@ const SubCategorySelector = ({ setCurrentSubCategory, currentCategory, currentSu
                 <FormHelperText>select a category</FormHelperText>
             </FormControl>
         </Container>
-    )
-}
+    );
+};

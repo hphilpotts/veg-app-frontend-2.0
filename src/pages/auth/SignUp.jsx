@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
+
 import { FormControl } from '@mui/base';
 import { Button, Container, FormLabel, TextField } from '@mui/material';
+import { PageTitle } from '../../components/PageTitle';
 
 import { userSignupAttempt, userSignInRequest } from '../../utils/authHelpers';
 import { createNewFoodDocument } from '../../utils/foodHelpers';
@@ -36,16 +38,19 @@ export const SignUp = ({ setUserFromSignIn }) => {
     };
 
     return (
-        <FormControl>
-            <Container sx={{ display: 'flex', flexDirection: 'column' }}>
-                <FormLabel>email address</FormLabel>
-                <TextField name='email' type='email' onChange={e => formChangeHandler(e.target)}></TextField>
-                <FormLabel>username</FormLabel>
-                <TextField name='username' onChange={e => formChangeHandler(e.target)}></TextField>
-                <FormLabel>password</FormLabel>
-                <TextField name='password' type='password' onChange={e => formChangeHandler(e.target)}></TextField>
-                <Button onClick={submitHandler}>Submit</Button>
-            </Container>
-        </FormControl>
+        <>
+            <PageTitle titleText={'sign up'} />
+            <FormControl>
+                <Container sx={{ display: 'flex', flexDirection: 'column' }}>
+                    <FormLabel>email address</FormLabel>
+                    <TextField name='email' type='email' onChange={e => formChangeHandler(e.target)}></TextField>
+                    <FormLabel>username</FormLabel>
+                    <TextField name='username' onChange={e => formChangeHandler(e.target)}></TextField>
+                    <FormLabel>password</FormLabel>
+                    <TextField name='password' type='password' onChange={e => formChangeHandler(e.target)}></TextField>
+                    <Button onClick={submitHandler}>Submit</Button>
+                </Container>
+            </FormControl>
+        </>
     );
 };
