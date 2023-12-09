@@ -1,27 +1,6 @@
 import Axios from 'axios';
 import { xAuth } from './axiosConfig';
 
-export const foodItemCategoryKeys = [
-    'greenVegetables',
-    'saladVegetables',
-    'saladLeaves',
-    'rootVegetables',
-    'onionsAndFriends',
-    'legumesAndPulses',
-    'nutsAndSeeds',
-    'grainsAndCereals',
-    'orchardFruits',
-    'citrusFruits',
-    'exoticFruits',
-    'berries',
-    'otherFruits',
-    'herbs',
-    'spices',
-    'sweeteners',
-    'oils',
-    'miscellaneous'
-];
-
 export const createNewFoodDocument = async user => {
     const requestBody = { user: user.id };
     try {

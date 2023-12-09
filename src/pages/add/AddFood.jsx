@@ -5,98 +5,86 @@ import { Container, ButtonGroup, Button, Typography, Select, MenuItem, FormContr
 import { flexColumnCentered as center, topMargin } from '../../utils/muiTheme';
 import { PageTitle } from '../../components/PageTitle';
 
-const mainCategories = ['veg', 'fruit', 'misc'];
+import { subCategoriesWithEmojis as categoryData } from '../../utils/foodCategories';
 
-const subCategories = {
-    veg: {
-        "Green Vegetables": "🥬",
-        "Salad Vegetables": "🥒",
-        "Salad Leaves": "🥗",
-        "Root Vegetables": "🥕",
-        "Onions & Friends": "🧅"
-    },
-    fruit: {
-        "Orchard Fruits": "🍏",
-        "Citrus Fruits": "🍋",
-        "Exotic Fruits": "🥭",
-        "Berries": "🍓",
-        "Other Fruits": "🍇"
-    },
-    misc: {
-        "Legumes & Pulses": "🌱",
-        "Nuts & Seeds": "🥜",
-        "Grains & Cereals": "🌾",
-        "Herbs": "🌿",
-        "Spices": "🌶️",
-        "Sweeteners": "🍯",
-        "Oils": "🫒",
-        "Miscellaneous": "🥄"
-    }
-};
+const mainCategoryOptions = Object.keys(categoryData); // ['veg', 'fruit', 'misc'] 
 
 export const AddFood = () => {
 
-    const [currentCategory, setCurrentCategory] = useState(mainCategories[0]);
-    const defaultSubcategory = Object.keys(subCategories[currentCategory])[0];
-    const [currentSubCategory, setCurrentSubCategory] = useState(defaultSubcategory);
+    const defaultMainCategory = mainCategoryOptions[0] // 'veg'
+    const [mainCategory, setMainCategory] = useState(defaultMainCategory);
+
+    const defaultSubCategory = Object.keys(categoryData[defaultMainCategory])[0]; // top item in Select component within SubCategorySelector
+    const [subCategory, setSubCategory] = useState(defaultSubCategory);
 
     const setNewCategory = item => {
-        setCurrentCategory(item);
-        const newDefaultSubcategory = Object.keys(subCategories[item])[0];
-        setCurrentSubCategory(newDefaultSubcategory);
-    }
+        setMainCategory(item);
+        const newDefaultSubCategory = Object.keys(categoryData[item])[0];
+        setSubCategory(newDefaultSubCategory);
+    };
 
     return (
+
+        // full page with main components below
         <>
             <PageTitle titleText={'log new foods'} />
-            <MainCategorySelector setCurrentCategory={setNewCategory} currentCategory={currentCategory} />
-            <SubCategorySelector setCurrentSubCategory={setCurrentSubCategory} currentCategory={currentCategory} currentSubCategory={currentSubCategory} />
+            <MainCategorySelector setMainCategory={setNewCategory} mainCategory={mainCategory} />
+            <SubCategorySelector setSubCategory={setSubCategory} mainCategory={mainCategory} subCategory={subCategory} />
         </>
+
     );
 };
 
-const MainCategorySelector = ({ setCurrentCategory, currentCategory }) => {
+
+const MainCategorySelector = ({ setMainCategory, mainCategory }) => {
     return (
+
+        // select main category component
         <Container sx={center}>
             <ButtonGroup variant='contained' size='large'>
-                {mainCategories.map(item => {
+                {mainCategoryOptions.map(item => {
 
                     let colour = 'primary';
-                    if (item === currentCategory) colour = 'highlighted';
+                    if (item === mainCategory) colour = 'highlighted';
 
                     return (
                         <Button key={uuid()} color={colour}>
-                            <Typography variant='h6' onClick={() => setCurrentCategory(item)} sx={{ textTransform: 'lowercase' }}>{item}</Typography>
+                            <Typography variant='h6' onClick={() => setMainCategory(item)} sx={{ textTransform: 'lowercase' }}>{item}</Typography>
                         </Button>
                     );
                 })}
             </ButtonGroup>
         </Container>
+
     );
 };
 
-const SubCategorySelector = ({ setCurrentSubCategory, currentCategory, currentSubCategory }) => {
 
-    const currentCategoryObject = subCategories[currentCategory];
+const SubCategorySelector = ({ setSubCategory, mainCategory, subCategory }) => {
+
+    const mainCategoryObject = categoryData[mainCategory];
 
     const handleChange = event => {
-        setCurrentSubCategory(event.target.value);
+        setSubCategory(event.target.value);
     };
 
-    return (
+    return ( 
+        
+        // select sub category component - options populated depending on main category selected above
         <Container sx={{ ...center, ...topMargin }}>
             <FormControl fullWidth sx={{ maxWidth: '300px', textTransform: 'lowercase' }}>
                 <Select
-                    value={currentSubCategory}
+                    value={subCategory}
                     onChange={handleChange}
                     displayEmpty
                 >
-                    {Object.keys(currentCategoryObject).map(key => (
-                        <MenuItem value={key} sx={{ textTransform: 'lowercase' }} key={uuid()} >{`${key} ${currentCategoryObject[key]}`}</MenuItem>
+                    {Object.keys(mainCategoryObject).map(key => (
+                        <MenuItem value={key} sx={{ textTransform: 'lowercase' }} key={uuid()} >{`${key} ${mainCategoryObject[key]}`}</MenuItem>
                     ))}
                 </Select>
                 <FormHelperText>select a category</FormHelperText>
             </FormControl>
         </Container>
+
     );
 };
