@@ -10,6 +10,7 @@ import { getFoods } from '../../utils/foodHelpers';
 import { subCategoriesWithEmojis as categoryData, subCategoriesWithDocumentKeys as keysForSubCategory } from '../../utils/foodCategories';
 
 import { UserContext } from '../../App';
+import { useNavigate } from 'react-router-dom';
 
 const mainCategoryOptions = Object.keys(categoryData); // ['veg', 'fruit', 'misc'] 
 
@@ -38,9 +39,19 @@ export const AddFood = () => {
         setFoodsList(response.Category);
     };
 
+    const navigateTo = useNavigate();
+
     useEffect(() => {
-        populateFoodItems(subCategory);
-    }, []);
+        if (!user.loggedIn) {
+            navigateTo('/');
+        } else {
+            populateFoodItems(subCategory);
+        }
+    }, [user]);
+
+    if (!user.loggedIn) {
+        return (<LoadingSkeleton/>);
+    };
 
     return (
 

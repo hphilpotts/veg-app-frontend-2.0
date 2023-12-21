@@ -27,16 +27,16 @@ const App = () => {
   return (
     <UserContext.Provider value={user}>
       <Header signOut={signOut} />
-        <Container sx={{ ...center, ...topMargin }}>
-          <Routes>
-            <Route path='/' element={<p>Home</p>}></Route>
-            <Route path='signin/' element={<SignIn setUserFromSignIn={setUserFromSignIn} />}></Route>
-            <Route path='signup/' element={<SignUp setUserFromSignIn={setUserFromSignIn} />}></Route>
-            <Route path='logFood/' element={<AddFood />}></Route>
-            <Route path='*' element={<p>no match</p>}></Route>
-          </Routes>
-        </Container>
-      <Footer />
+      <Container sx={{ ...center, ...topMargin }}>
+        <Routes>
+          <Route path='/' element={<p>Home</p>}></Route>
+          <Route path='signin/' element={<SignIn setUserFromSignIn={setUserFromSignIn} />}></Route>
+          <Route path='signup/' element={<SignUp setUserFromSignIn={setUserFromSignIn} />}></Route>
+          <Route path='logFood/' element={<AddFood />}></Route>
+          <Route path='*' element={<p>no match</p>}></Route>
+        </Routes>
+      </Container>
+      {user.loggedIn ? <Footer /> : null }
     </UserContext.Provider>
   );
 };
