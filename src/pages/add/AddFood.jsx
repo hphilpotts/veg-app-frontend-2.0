@@ -1,7 +1,7 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { v4 as uuid } from 'uuid';
 
-import { Container, ButtonGroup, Button, Typography, Select, MenuItem, FormControl, FormHelperText, Stack, Skeleton } from '@mui/material';
+import { Container, ButtonGroup, Button, Typography, Select, MenuItem, FormControl, FormHelperText, FormLabel, RadioGroup, FormControlLabel, Radio } from '@mui/material';
 import { flexColumnCentered as center, topMargin } from '../../utils/muiTheme';
 import { PageTitle } from '../../components/PageTitle';
 import { LoadingSkeleton } from '../../components/LoadingSkeleton';
@@ -11,6 +11,10 @@ import { subCategoriesWithEmojis as categoryData, subCategoriesWithDocumentKeys 
 
 import { UserContext } from '../../App';
 import { useNavigate } from 'react-router-dom';
+
+// TODO - should probably break this out into separate files
+// TODO - add date selector
+// TODO - add MUI FAB for add food
 
 const mainCategoryOptions = Object.keys(categoryData); // ['veg', 'fruit', 'misc'] 
 
@@ -39,6 +43,12 @@ export const AddFood = () => {
         setFoodsList(response.Category);
     };
 
+    const [selectedFood, setSelectedFood] = useState('');
+
+    const handleFoodSelect = event => {
+        setSelectedFood(event.target.value);
+    };
+
     const navigateTo = useNavigate();
 
     useEffect(() => {
@@ -46,7 +56,7 @@ export const AddFood = () => {
             navigateTo('/');
         } else {
             populateFoodItems(subCategory);
-        }
+        };
     }, [user]);
 
     if (!user.loggedIn) {
@@ -60,7 +70,7 @@ export const AddFood = () => {
             <PageTitle titleText={'log new foods'} />
             <MainCategorySelector  mainCategory={mainCategory} setMainCategory={setNewCategory} />
             <SubCategorySelector mainCategory={mainCategory}  subCategory={subCategory} setSubCategory={setSubCategory} populateFoodItems={populateFoodItems} />
-            <FoodItemSelector foodItemsList={foodsList} />
+            <FoodItemSelector foodItemsList={foodsList} selectedFood={selectedFood} handleFoodSelect={handleFoodSelect} />
         </>
 
     );
@@ -105,6 +115,7 @@ const SubCategorySelector = ({ setSubCategory, mainCategory, subCategory, popula
         // select sub category component - options populated depending on main category selected above
         <Container sx={{ ...center, ...topMargin }}>
             <FormControl fullWidth sx={{ maxWidth: '300px', textTransform: 'lowercase' }}>
+                <FormHelperText>select a category</FormHelperText>
                 <Select
                     value={subCategory}
                     onChange={handleChange}
@@ -114,27 +125,24 @@ const SubCategorySelector = ({ setSubCategory, mainCategory, subCategory, popula
                         <MenuItem value={key} sx={{ textTransform: 'lowercase' }} key={uuid()} >{`${key} ${mainCategoryObject[key]}`}</MenuItem>
                     ))}
                 </Select>
-                <FormHelperText>select a category</FormHelperText>
             </FormControl>
         </Container>
 
     );
 };
 
-const FoodItemSelector = ({ foodItemsList }) => {
+const FoodItemSelector = ({ foodItemsList, selectedFood, handleFoodSelect }) => {
     if (!foodItemsList.length) {
-        return (
-            <LoadingSkeleton count={5} />
-        )
+        return <LoadingSkeleton count={5} />
     } else {
         return (
-
-            <Stack spacing={1} >
-                {foodItemsList.map(item => (
-                    <p key={uuid()}>{item}</p>
-                ))}
-            </Stack>
-
-        )
+            <FormControl>
+                <RadioGroup name='food-item-selector-group' value={selectedFood} onChange={handleFoodSelect}>
+                    {foodItemsList.map(item => (
+                        <FormControlLabel value={item} control={<Radio />} label={item} key={uuid()}/>
+                    ))}
+                </RadioGroup>
+            </FormControl>
+        );
     };
 };
