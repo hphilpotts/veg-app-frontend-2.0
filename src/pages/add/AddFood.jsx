@@ -13,8 +13,6 @@ import { UserContext } from '../../App';
 import { useNavigate } from 'react-router-dom';
 
 // TODO - should probably break this out into separate files
-// TODO - add date selector
-// TODO - add MUI FAB for add food
 
 const mainCategoryOptions = Object.keys(categoryData); // ['veg', 'fruit', 'misc'] 
 
@@ -60,7 +58,7 @@ export const AddFood = () => {
     }, [user]);
 
     if (!user.loggedIn) {
-        return (<LoadingSkeleton/>);
+        return (<LoadingSkeleton />);
     };
 
     return (
@@ -68,9 +66,10 @@ export const AddFood = () => {
         // full page with main components below
         <>
             <PageTitle titleText={'log new foods'} />
-            <MainCategorySelector  mainCategory={mainCategory} setMainCategory={setNewCategory} />
-            <SubCategorySelector mainCategory={mainCategory}  subCategory={subCategory} setSubCategory={setSubCategory} populateFoodItems={populateFoodItems} />
+            <MainCategorySelector mainCategory={mainCategory} setMainCategory={setNewCategory} />
+            <SubCategorySelector mainCategory={mainCategory} subCategory={subCategory} setSubCategory={setSubCategory} populateFoodItems={populateFoodItems} />
             <FoodItemSelector foodItemsList={foodsList} selectedFood={selectedFood} handleFoodSelect={handleFoodSelect} />
+            <AddFoodButton selectedFood={selectedFood} />
         </>
 
     );
@@ -133,16 +132,31 @@ const SubCategorySelector = ({ setSubCategory, mainCategory, subCategory, popula
 
 const FoodItemSelector = ({ foodItemsList, selectedFood, handleFoodSelect }) => {
     if (!foodItemsList.length) {
-        return <LoadingSkeleton count={5} />
+        return <LoadingSkeleton count={8} />
     } else {
         return (
-            <FormControl>
-                <RadioGroup name='food-item-selector-group' value={selectedFood} onChange={handleFoodSelect}>
+            <FormControl >
+                <RadioGroup name='food-item-selector-group' value={selectedFood} onChange={handleFoodSelect} >
                     {foodItemsList.map(item => (
-                        <FormControlLabel value={item} control={<Radio />} label={item} key={uuid()}/>
+                        <FormControlLabel value={item} control={<Radio />} label={item} key={uuid()} />
                     ))}
                 </RadioGroup>
             </FormControl>
         );
     };
 };
+
+const AddFoodButton = ({ selectedFood }) => {
+
+    const handleClick = () => {
+        console.log(selectedFood);
+    }
+
+    return (
+        <Container sx={center}>
+            <Button key={uuid()} variant='contained' color='primary'>
+                <Typography variant='h6' onClick={handleClick} sx={{ textTransform: 'lowercase' }}>add food</Typography>
+            </Button>
+        </Container>
+    )
+}

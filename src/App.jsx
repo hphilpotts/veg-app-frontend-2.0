@@ -27,7 +27,7 @@ const App = () => {
   return (
     <UserContext.Provider value={user}>
       <Header signOut={signOut} />
-      <Container sx={{ ...center, ...topMargin }}>
+      <Container sx={{ ...center, ...topMargin, marginBottom: '15%' }}>
         <Routes>
           <Route path='/' element={<p>Home</p>}></Route>
           <Route path='signin/' element={<SignIn setUserFromSignIn={setUserFromSignIn} />}></Route>
