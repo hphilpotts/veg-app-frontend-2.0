@@ -1,10 +1,11 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { v4 as uuid } from 'uuid';
 
-import { Container, ButtonGroup, Button, Typography, Select, MenuItem, FormControl, FormHelperText, FormLabel, RadioGroup, FormControlLabel, Radio } from '@mui/material';
+import { Container, ButtonGroup, Button, Typography, Select, MenuItem, FormControl, FormHelperText, RadioGroup, FormControlLabel, Radio } from '@mui/material';
 import { flexColumnCentered as center, topMargin } from '../../utils/muiTheme';
 import { PageTitle } from '../../components/PageTitle';
 import { LoadingSkeleton } from '../../components/LoadingSkeleton';
+import { AddFoodButton } from './AddFoodButton';
 
 import { getFoods } from '../../utils/foodHelpers';
 import { subCategoriesWithEmojis as categoryData, subCategoriesWithDocumentKeys as keysForSubCategory } from '../../utils/foodCategories';
@@ -69,7 +70,7 @@ export const AddFood = () => {
             <MainCategorySelector mainCategory={mainCategory} setMainCategory={setNewCategory} />
             <SubCategorySelector mainCategory={mainCategory} subCategory={subCategory} setSubCategory={setSubCategory} populateFoodItems={populateFoodItems} />
             <FoodItemSelector foodItemsList={foodsList} selectedFood={selectedFood} handleFoodSelect={handleFoodSelect} />
-            <AddFoodButton selectedFood={selectedFood} />
+            <AddFoodButton selectedFood={selectedFood} user={user} />
         </>
 
     );
@@ -145,18 +146,3 @@ const FoodItemSelector = ({ foodItemsList, selectedFood, handleFoodSelect }) => 
         );
     };
 };
-
-const AddFoodButton = ({ selectedFood }) => {
-
-    const handleClick = () => {
-        console.log(selectedFood);
-    }
-
-    return (
-        <Container sx={center}>
-            <Button key={uuid()} variant='contained' color='primary'>
-                <Typography variant='h6' onClick={handleClick} sx={{ textTransform: 'lowercase' }}>add food</Typography>
-            </Button>
-        </Container>
-    )
-}
