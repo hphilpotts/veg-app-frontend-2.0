@@ -1,10 +1,11 @@
 // main imports
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 
 // component imports
-    // mui
+// mui
 import { Stack, Container } from '@mui/material';
-    // other
+// other
+import { DateScroller } from '../../components/DateScroller';
 import { PageTitle } from '../../components/PageTitle';
 
 // utils
@@ -17,14 +18,14 @@ export const AddFood = () => {
 
     const user = useContext(UserContext);
 
+    const [activeDay, setActiveDay] = useState(new Date()); // inits as today
+
     return (
         <Stack sx={{ height: '90vh', width: '100vw' }}>
             <Container sx={{ height: '10%', ...center }}>
                 <PageTitle titleText={'log new foods'} />
             </Container>
-            <Container sx={{ height: '10%', ...center }}>
-                <p>this is where the date selection bit goes</p>
-            </Container>
+            <DateScroller activeDay={activeDay} setActiveDay={setActiveDay} />
             <Container sx={{ height: '10%', ...center }}>
                 <p>this will be the add new button</p>
             </Container>
