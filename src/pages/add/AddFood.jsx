@@ -22,9 +22,7 @@ export const AddFood = () => {
 
     return (
         <Stack sx={{ height: '90vh', width: '100vw' }}>
-            <Container sx={{ height: '10%', ...center }}>
-                <PageTitle titleText={'log new foods'} />
-            </Container>
+            <TitleContainer />
             <DateScroller activeDay={activeDay} setActiveDay={setActiveDay} />
             <Container sx={{ height: '10%', ...center }}>
                 <p>this will be the add new button</p>
@@ -47,4 +45,12 @@ export const AddFood = () => {
         </Stack>
     )
 
+}
+
+const TitleContainer = () => {
+    return (
+        <Container sx={{ height: '10%', ...center }}>
+            <PageTitle titleText={'log new foods'} />
+        </Container>
+    )
 }
