@@ -16,7 +16,15 @@ export const theme = createTheme({
             main: green[400],
             contrastText: '#FFFFFF'
         }
-    }
+    },
+    typography: {
+        fontFamily: [
+            'Inter', 
+            'sans-serif',
+            'Outfit', 
+            'sans-serif'
+        ].join(','),
+      },
 });
 
 export const flexColumnCentered = {
