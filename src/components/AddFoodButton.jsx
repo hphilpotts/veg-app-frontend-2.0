@@ -7,27 +7,23 @@ import { Autocomplete, TextField } from '@mui/material';
 export const AddFoodButton = ({ foods }) => {
 
     if (foods) {
+
         return (
             <Autocomplete
                 disablePortal
                 options={foods}
                 sx={{ width: 300 }}
-                renderOption={(props, option) => {
-                    return (
-                        <p {...props} key={uuid()}>
-                            {option}
-                        </p>
-                    )
-                }}
-                renderInput={(params) => <TextField {...params} label="food" />}
+                renderOption={(props, option) =>(<li {...props} key={uuid()}>{option}</li>)}
+                renderInput={(params) => <TextField {...params} label="search" />}
             />
-        )
+        );
 
     } else {
+
         return (
-            <p> : </p>
-        )
-    }
+            <TextField sx={{ width: 300 }} />
+        );
+        
+    };
 
-
-}
+};
