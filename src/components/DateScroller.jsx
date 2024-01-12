@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import { Container, Stack, IconButton, Typography } from '@mui/material';
 
@@ -10,14 +10,28 @@ import ArrowRightIcon from '@mui/icons-material/ArrowRight';
 
 export const DateScroller = ({ activeDay, setActiveDay }) => {
 
+    const [buttonDisabled, setButtonDisabled] = useState(false);
+
     const decrementHandler = date => {
+
         const previousDay = decrementDate(date);
         setActiveDay(previousDay);
+        setButtonDisabled(false);
+
     };
 
     const incrementHandler = date => {
+
         const nextDay = incrementDate(date);
         setActiveDay(nextDay);
+
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+
+        if (today.getTime() <= nextDay.getTime()) { // check if next day is in the future, disable button if so
+            setButtonDisabled(true);
+        };
+
     };
 
     return (
@@ -29,7 +43,7 @@ export const DateScroller = ({ activeDay, setActiveDay }) => {
                 <Container sx={{ display: 'flex', alignItems: 'center' }}>
                     <Typography variant='h5'>{activeDay.toLocaleDateString()}</Typography>
                 </Container>
-                <IconButton aria-label='next day' color='primary' size='large' disableRipple onClick={() => incrementHandler(activeDay)}>
+                <IconButton id='increment-date-button' aria-label='next day' color='primary' size='large' disabled={buttonDisabled} disableRipple onClick={() => incrementHandler(activeDay)}>
                     <ArrowRightIcon fontSize='large' />
                 </IconButton>
             </Stack>
