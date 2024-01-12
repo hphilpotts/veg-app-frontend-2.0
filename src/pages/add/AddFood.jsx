@@ -46,11 +46,13 @@ export const AddFood = () => {
 
     }, [user]);
 
+    const containerStyle = { height: '10%', ...center }
+
     return (
         <Stack sx={{ height: '90vh', width: '100vw' }}>
-            <TitleContainer />
+            <TitleContainer containerStyle={containerStyle} />
             <DateScroller activeDay={activeDay} setActiveDay={setActiveDay} />
-            <AddFoodButtonContainer foodsIndex={foodsIndex} />
+            <AddFoodButton containerStyle={containerStyle} foodsIndex={foodsIndex} />
             <Container sx={{ height: '70%', overflow: 'scroll' }}>
                 <p>this will be the already loaded data</p>
                 <p>this will be the already loaded data</p>
@@ -71,18 +73,10 @@ export const AddFood = () => {
 
 }
 
-const TitleContainer = () => {
+const TitleContainer = ({ containerStyle }) => {
     return (
-        <Container sx={{ height: '10%', ...center }}>
+        <Container sx={containerStyle}>
             <PageTitle titleText={'log new foods'} />
-        </Container>
-    )
-}
-
-const AddFoodButtonContainer = ({ foodsIndex }) => {
-    return (
-        <Container sx={{ height: '10%', ...center }}>
-            <AddFoodButton foodsIndex={foodsIndex} />
         </Container>
     )
 }
