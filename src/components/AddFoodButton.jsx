@@ -4,14 +4,14 @@ import { v4 as uuid } from 'uuid';
 
 import { Autocomplete, TextField } from '@mui/material';
 
-export const AddFoodButton = ({ foods }) => {
+export const AddFoodButton = ({ foodsIndex }) => {
 
-    if (foods) {
+    if (foodsIndex) {
 
         return (
             <Autocomplete
                 disablePortal
-                options={foods}
+                options={foodsIndex}
                 sx={{ width: 300 }}
                 renderOption={(props, option) =>(<li {...props} key={uuid()}>{option}</li>)}
                 renderInput={(params) => <TextField {...params} label="search" />}
@@ -23,7 +23,7 @@ export const AddFoodButton = ({ foods }) => {
         return (
             <TextField sx={{ width: 300 }} />
         );
-        
+
     };
 
 };
