@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Container, Stack, IconButton } from '@mui/material';
+import { Container, Stack, IconButton, Typography } from '@mui/material';
 
 import { flexColumnCentered as centre } from '../utils/muiTheme';
 import { incrementDate, decrementDate } from '../utils/dateHelpers';
@@ -24,11 +24,13 @@ export const DateScroller = ({ activeDay, setActiveDay }) => {
         <Container sx={{ height: '10%', ...centre }}>
             <Stack direction={'row'}>
                 <IconButton aria-label='previous day' color='primary' size='large' disableRipple onClick={() => decrementHandler(activeDay)}>
-                    <ArrowLeftIcon />
+                    <ArrowLeftIcon fontSize='large' />
                 </IconButton>
-                <p>{activeDay.toLocaleDateString()}</p>
+                <Container sx={{ display: 'flex', alignItems: 'center' }}>
+                    <Typography variant='h5'>{activeDay.toLocaleDateString()}</Typography>
+                </Container>
                 <IconButton aria-label='next day' color='primary' size='large' disableRipple onClick={() => incrementHandler(activeDay)}>
-                    <ArrowRightIcon />
+                    <ArrowRightIcon fontSize='large' />
                 </IconButton>
             </Stack>
         </Container>
