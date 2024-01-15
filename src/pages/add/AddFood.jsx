@@ -1,6 +1,9 @@
 import React, { useContext, useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+import Axios from 'axios';
+import { xAuth } from '../../utils/axiosConfig';
+
 import { Stack, Container } from '@mui/material';
 
 import { DateScroller } from '../../components/DateScroller';
@@ -20,6 +23,8 @@ export const AddFood = () => {
 
     const [foodsIndex, setFoodsIndex] = useState(null);
 
+    const [weekData, setWeekData] = useState(null);
+
     const getAllFoods = async user => {
 
         const allFoodsOutput = [];
@@ -34,6 +39,19 @@ export const AddFood = () => {
 
     };
 
+    const getWeek = async (user, date) => {
+        const urlDate = date.toISOString().split('T')[0];
+        const requestUrl = `/api/week/find?user=${user.id}&date=${urlDate}`;
+        try {
+            const res = await Axios.get(requestUrl, xAuth(user.token));
+            console.log(res.data);
+            setWeekData(res.data);
+        } catch (error) {
+            console.error(error);
+            return error;
+        }
+    }
+
     const navigateTo = useNavigate();
 
     useEffect(() => {
@@ -42,6 +60,7 @@ export const AddFood = () => {
             navigateTo('/');
         } else {
             getAllFoods(user);
+            getWeek(user, activeDay);
         };
 
     }, [user]);
@@ -53,6 +72,7 @@ export const AddFood = () => {
             <TitleContainer containerStyle={containerStyle} />
             <DateScroller activeDay={activeDay} setActiveDay={setActiveDay} />
             <AddFoodButton containerStyle={containerStyle} foodsIndex={foodsIndex} />
+            <button onClick={() => getWeek(user, activeDay)}></button>
             <Container sx={{ height: '70%', overflow: 'scroll' }}>
                 <p>this will be the already loaded data</p>
                 <p>this will be the already loaded data</p>
