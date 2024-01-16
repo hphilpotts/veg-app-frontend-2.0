@@ -8,14 +8,14 @@ import { incrementDate, decrementDate } from '../utils/dateHelpers';
 import ArrowLeftIcon from '@mui/icons-material/ArrowLeft';
 import ArrowRightIcon from '@mui/icons-material/ArrowRight';
 
-export const DateScroller = ({ activeDay, setActiveDay }) => {
+export const DateScroller = ({ activeDay, handleDateScroll }) => {
 
     const [buttonDisabled, setButtonDisabled] = useState(true);
 
     const decrementHandler = date => {
 
         const previousDay = decrementDate(date);
-        setActiveDay(previousDay);
+        handleDateScroll(previousDay);
         setButtonDisabled(false);
 
     };
@@ -23,7 +23,7 @@ export const DateScroller = ({ activeDay, setActiveDay }) => {
     const incrementHandler = date => {
 
         const nextDay = incrementDate(date);
-        setActiveDay(nextDay);
+        handleDateScroll(nextDay);
 
         const today = new Date();
         today.setHours(0, 0, 0, 0);
