@@ -59,6 +59,21 @@ export const AddFood = () => {
         getDayData(user, newDate); // user is from useContext above
     };
 
+    const handleLogFood = async foodItem => {
+        const requestUrl = `api/week/update`;
+        const day = getDayName(activeDay);
+        const requestBody = { id: user.id, day: day, newData: foodItem };
+        try {
+            console.log(requestUrl)
+            console.log(requestBody)
+            // const res = await Axios.put(requestUrl, requestBody, xAuth(user.token));
+            return res;
+        } catch (error) {
+            console.error(error);
+            return error;
+        };
+    };
+
     const navigateTo = useNavigate();
 
     useEffect(() => {
@@ -86,7 +101,7 @@ export const AddFood = () => {
         <Stack sx={{ height: '90vh', width: '100vw' }}>
             <TitleContainer containerStyle={containerStyle} />
             <DateScroller activeDay={activeDay} handleDateScroll={handleDateScroll} />
-            <AddFoodButton containerStyle={containerStyle} foodsIndex={foodsIndex} />
+            <AddFoodButton containerStyle={containerStyle} foodsIndex={foodsIndex} handleLogFood={handleLogFood} />
             <Container sx={{ height: '70%', overflow: 'scroll' }}>
                 {foodItemsList}
             </Container>

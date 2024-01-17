@@ -1,15 +1,26 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import { v4 as uuid } from 'uuid';
 
 import { Autocomplete, TextField, Container, Stack, Button, Typography } from '@mui/material';
 
-export const AddFoodButton = ({ foodsIndex, containerStyle }) => {
+export const AddFoodButton = ({ foodsIndex, containerStyle, handleLogFood }) => {
+
+    const [selectedFood, setSelectedFood] = useState(null);
+
+    const selectFoodHandler = foodItem => {
+        setSelectedFood(foodItem);
+    };
+
+    const addFoodClickHandler = selectedFood => {
+        handleLogFood(selectedFood);
+    };
 
     if (foodsIndex) {
 
         return (
             <Container sx={containerStyle}>
+                <p>{selectedFood}</p>
                 <Stack direction={'row'}>
                     <Autocomplete
                         disablePortal
