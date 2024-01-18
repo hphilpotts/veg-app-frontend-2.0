@@ -60,13 +60,14 @@ export const AddFood = () => {
     };
 
     const handleLogFood = async foodItem => {
-        const requestUrl = `api/week/update`;
+        const requestUrl = `/api/week/update`;
         const day = getDayName(activeDay);
         const requestBody = { id: user.id, day: day, newData: foodItem };
+        const headers = xAuth(user.token)
         try {
             console.log(requestUrl)
             console.log(requestBody)
-            // const res = await Axios.put(requestUrl, requestBody, xAuth(user.token));
+            const res = await Axios.put(requestUrl, requestBody, headers); // TODO fix
             return res;
         } catch (error) {
             console.error(error);

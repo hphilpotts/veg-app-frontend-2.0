@@ -8,10 +8,6 @@ export const AddFoodButton = ({ foodsIndex, containerStyle, handleLogFood }) => 
 
     const [selectedFood, setSelectedFood] = useState(null);
 
-    const selectFoodHandler = foodItem => {
-        setSelectedFood(foodItem);
-    };
-
     const addFoodClickHandler = selectedFood => {
         handleLogFood(selectedFood);
     };
@@ -20,7 +16,6 @@ export const AddFoodButton = ({ foodsIndex, containerStyle, handleLogFood }) => 
 
         return (
             <Container sx={containerStyle}>
-                <p>{selectedFood}</p>
                 <Stack direction={'row'}>
                     <Autocomplete
                         disablePortal
@@ -28,9 +23,10 @@ export const AddFoodButton = ({ foodsIndex, containerStyle, handleLogFood }) => 
                         sx={{ width: 275 }}
                         renderOption={(props, option) => (<li {...props} key={uuid()}>{option}</li>)}
                         renderInput={(params) => <TextField {...params} label="search" />}
+                        onChange={(e, value) => setSelectedFood(value)}
                     />
                     <Container sx={{ width: '75px' }}>
-                        <Button key={uuid()} variant='contained' color='primary'>
+                        <Button onClick={() => addFoodClickHandler(selectedFood)} key={uuid()} variant='contained' color='primary'>
                             <Typography variant='h4' sx={{ textTransform: 'lowercase' }}>+</Typography>
                         </Button>
                     </Container>
