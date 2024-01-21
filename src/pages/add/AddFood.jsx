@@ -60,14 +60,18 @@ export const AddFood = () => {
     };
 
     const handleLogFood = async foodItem => {
+        const newDayData = [...dayData];
+        newDayData.push(foodItem);
+        setDayData(newDayData);
+    };
+
+    const submitLoggedFood = async data => {
         const requestUrl = `/api/week/update`;
         const day = getDayName(activeDay);
-        const requestBody = { id: user.id, day: day, newData: foodItem };
+        const requestBody = { id: user.id, day: day, newData: data };
         const headers = xAuth(user.token)
         try {
-            console.log(requestUrl)
-            console.log(requestBody)
-            const res = await Axios.put(requestUrl, requestBody, headers); // TODO fix
+            const res = await Axios.put(requestUrl, requestBody, headers);
             return res;
         } catch (error) {
             console.error(error);
