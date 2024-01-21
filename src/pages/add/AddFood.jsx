@@ -26,7 +26,8 @@ export const AddFood = () => {
 
     const [foodsIndex, setFoodsIndex] = useState(null);
 
-    const [dayData, setDayData] = useState(null);
+    const [liveDayData, setLiveDayData] = useState(null);
+    const [originalDayData, setOriginalDayData] = useState(null);
 
     const getAllFoods = async user => {
 
@@ -47,10 +48,11 @@ export const AddFood = () => {
         const requestUrl = `/api/week/find?user=${user.id}&date=${urlDate}`;
         try {
             const res = await Axios.get(requestUrl, xAuth(user.token));
-            setDayData(res.data.Week[getDayName(date)]);
+            setLiveDayData(res.data.Week[getDayName(date)]);
+            setOriginalDayData(res.data.Week[getDayName(date)]);
         } catch (error) {
             // if a null TypeError then day has no food data, set to null; otherwise log other errors to the console
-            error.message.includes('Cannot read properties of null') ? setDayData(null) : console.error(error);
+            error.message.includes('Cannot read properties of null') ? setLiveDayData(null) : console.error(error);
         };
     };
 
@@ -60,9 +62,9 @@ export const AddFood = () => {
     };
 
     const handleLogFood = async foodItem => {
-        const newDayData = [...dayData];
-        newDayData.push(foodItem);
-        setDayData(newDayData);
+        const updatedDayData = [...liveDayData];
+        updatedDayData.push(foodItem);
+        setLiveDayData(updatedDayData);
     };
 
     const submitLoggedFood = async data => {
@@ -96,19 +98,22 @@ export const AddFood = () => {
 
     let foodItemsList;
 
-    if (dayData) {
-        foodItemsList = dayData.map(foodItem => <p key={uuid()}>{foodItem}</p>)
-    } else {
-        foodItemsList = null;
-    }
-
+    if (liveDayData) {
+        foodItemsList = liveDayData.map(foodItem => {
+            if (originalDayData.includes(foodItem)) {
+                return <p key={uuid()}>{foodItem}</p>
+            } else {
+                return <p style={{color:'green'}} key={uuid()}>{foodItem}</p>
+            }
+        
+    })}
     return (
         <Stack sx={{ height: '90vh', width: '100vw' }}>
             <TitleContainer containerStyle={containerStyle} />
             <DateScroller activeDay={activeDay} handleDateScroll={handleDateScroll} />
             <AddFoodButton containerStyle={containerStyle} foodsIndex={foodsIndex} handleLogFood={handleLogFood} />
             <Container sx={{ height: '70%', overflow: 'scroll' }}>
-                {foodItemsList}
+                {foodItemsList ? foodItemsList.reverse() : null}
             </Container>
         </Stack>
     )
