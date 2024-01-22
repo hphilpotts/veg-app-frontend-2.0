@@ -61,13 +61,20 @@ export const AddFood = () => {
         getDayData(user, newDate); // user is from useContext above
     };
 
-    const handleLogFood = async foodItem => {
+    const handleLogFood = foodItem => {
         const updatedDayData = [...liveDayData];
         updatedDayData.push(foodItem);
         setLiveDayData(updatedDayData);
     };
 
-    const submitLoggedFood = async data => {
+    const handleRemoveFood = foodItem => {
+        const updatedDayData = [...liveDayData];
+        const removalItemIndex = updatedDayData.indexOf(foodItem);
+        updatedDayData.splice(removalItemIndex, 1);
+        setActiveDay(updatedDayData);
+    };
+
+    const submitLoggedFoods = async data => {
         const requestUrl = `/api/week/update`;
         const day = getDayName(activeDay);
         const requestBody = { id: user.id, day: day, newData: data };
@@ -103,10 +110,11 @@ export const AddFood = () => {
             if (originalDayData.includes(foodItem)) {
                 return <p key={uuid()}>{foodItem}</p>
             } else {
-                return <p style={{color:'green'}} key={uuid()}>{foodItem}</p>
+                return <p style={{ color: 'green' }} key={uuid()}>{foodItem}</p>
             }
-        
-    })}
+
+        })
+    }
     return (
         <Stack sx={{ height: '90vh', width: '100vw' }}>
             <TitleContainer containerStyle={containerStyle} />
