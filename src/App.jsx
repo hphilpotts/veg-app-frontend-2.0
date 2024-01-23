@@ -8,7 +8,7 @@ import { Footer } from './components/Footer';
 
 import { SignIn } from './pages/auth/SignIn';
 import { SignUp } from './pages/auth/SignUp';
-import { AddFood } from './pages/add/LogFood';
+import { LogFood } from './pages/logFoods/LogFood';
 
 import { nullUser } from './utils/authHelpers';
 import { flexColumnCentered as center, topMargin } from '../src/utils/muiTheme';
@@ -32,7 +32,7 @@ const App = () => {
           <Route path='/' element={<p>Home</p>}></Route>
           <Route path='signin/' element={<SignIn setUserFromSignIn={setUserFromSignIn} />}></Route>
           <Route path='signup/' element={<SignUp setUserFromSignIn={setUserFromSignIn} />}></Route>
-          <Route path='logFood/' element={<AddFood />}></Route>
+          <Route path='logFood/' element={<LogFood />}></Route>
           <Route path='*' element={<p>no match</p>}></Route>
         </Routes>
       </Container>

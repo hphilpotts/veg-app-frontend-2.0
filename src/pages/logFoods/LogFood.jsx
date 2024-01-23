@@ -10,7 +10,7 @@ import { Stack, Container, IconButton } from '@mui/material';
 import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
 
 import { DateScroller } from '../../components/DateScroller';
-import { AddFoodButton } from '../../components/logFoodPage/AddFoodButton';
+import { LogFoodButton } from '../../components/logFoodPage/LogFoodButton';
 import { PageTitle } from '../../components/PageTitle';
 
 import { flexColumnCentered as center } from '../../utils/muiTheme';
@@ -19,15 +19,15 @@ import { getDayName } from '../../utils/dateHelpers';
 
 import { UserContext } from '../../App';
 
-export const AddFood = () => {
+export const LogFood = () => {
 
     const user = useContext(UserContext);
 
-    const [activeDay, setActiveDay] = useState(new Date()); // inits as today
+    const [selectedDay, setSelectedDay] = useState(new Date()); // inits as today
 
-    const [foodsIndex, setFoodsIndex] = useState(null);
+    const [foodOptions, setFoodOptions] = useState(null);
 
-    const [liveDayData, setLiveDayData] = useState(null);
+    const [currentDayData, setCurrentDayData] = useState(null);
     const [originalDayData, setOriginalDayData] = useState(null);
 
     const getAllFoods = async user => {
@@ -40,7 +40,7 @@ export const AddFood = () => {
 
         categoryKeys.forEach(categoryKey => allFoodsOutput.push(foodsCollection.Foods[categoryKey]));
 
-        setFoodsIndex(allFoodsOutput.flat());
+        setFoodOptions(allFoodsOutput.flat());
 
     };
 
@@ -49,35 +49,35 @@ export const AddFood = () => {
         const requestUrl = `/api/week/find?user=${user.id}&date=${urlDate}`;
         try {
             const res = await Axios.get(requestUrl, xAuth(user.token));
-            setLiveDayData(res.data.Week[getDayName(date)]);
+            setCurrentDayData(res.data.Week[getDayName(date)]);
             setOriginalDayData(res.data.Week[getDayName(date)]);
         } catch (error) {
             // if a null TypeError then day has no food data, set to null; otherwise log other errors to the console
-            error.message.includes('Cannot read properties of null') ? setLiveDayData(null) : console.error(error);
+            error.message.includes('Cannot read properties of null') ? setCurrentDayData(null) : console.error(error);
         };
     };
 
     const handleDateScroll = newDate => {
-        setActiveDay(newDate);
+        setSelectedDay(newDate);
         getDayData(user, newDate); // user is from useContext above
     };
 
     const handleLogFood = foodItem => {
-        const updatedDayData = [...liveDayData];
+        const updatedDayData = [...currentDayData];
         updatedDayData.push(foodItem);
-        setLiveDayData(updatedDayData);
+        setCurrentDayData(updatedDayData);
     };
 
     const handleRemoveFood = foodItem => {
-        const updatedDayData = [...liveDayData];
+        const updatedDayData = [...currentDayData];
         const removalItemIndex = updatedDayData.indexOf(foodItem);
         updatedDayData.splice(removalItemIndex, 1);
-        setActiveDay(updatedDayData);
+        setSelectedDay(updatedDayData);
     };
 
     const submitLoggedFoods = async data => {
         const requestUrl = `/api/week/update`;
-        const day = getDayName(activeDay);
+        const day = getDayName(selectedDay);
         const requestBody = { id: user.id, day: day, newData: data };
         const headers = xAuth(user.token)
         try {
@@ -97,7 +97,7 @@ export const AddFood = () => {
             navigateTo('/');
         } else {
             getAllFoods(user);
-            getDayData(user, activeDay);
+            getDayData(user, selectedDay);
         };
 
     }, [user]);
@@ -106,8 +106,8 @@ export const AddFood = () => {
 
     let foodItemsList;
 
-    if (liveDayData) {
-        foodItemsList = liveDayData.map(foodItem => {
+    if (currentDayData) {
+        foodItemsList = currentDayData.map(foodItem => {
             if (originalDayData.includes(foodItem)) {
                 return <Container sx={{ display: 'flex', justifyContent: 'space-between', width: '100%' }} key={uuid()}>
                             <p>{foodItem}</p>
@@ -116,7 +116,8 @@ export const AddFood = () => {
                             </IconButton>
                         </Container>
             } else {
-                return <Container>
+                // todo - move key when refactoring
+                return <Container> 
                             <p style={{ color: 'green' }} key={uuid()}>{foodItem}</p>
                         </Container>
             }
@@ -126,8 +127,8 @@ export const AddFood = () => {
     return (
         <Stack sx={{ height: '90vh', width: '100vw' }}>
             <TitleContainer containerStyle={containerStyle} />
-            <DateScroller activeDay={activeDay} handleDateScroll={handleDateScroll} />
-            <AddFoodButton containerStyle={containerStyle} foodsIndex={foodsIndex} handleLogFood={handleLogFood} />
+            <DateScroller selectedDay={selectedDay} handleDateScroll={handleDateScroll} />
+            <LogFoodButton containerStyle={containerStyle} foodOptions={foodOptions} handleLogFood={handleLogFood} />
             <Container sx={{ height: '70%', overflow: 'scroll' }}>
                 {foodItemsList ? foodItemsList.reverse() : null}
             </Container>

@@ -4,7 +4,7 @@ import { v4 as uuid } from 'uuid';
 
 import { Autocomplete, TextField, Container, Stack, Button, Typography } from '@mui/material';
 
-export const AddFoodButton = ({ foodsIndex, containerStyle, handleLogFood }) => {
+export const LogFoodButton = ({ foodOptions, containerStyle, handleLogFood }) => {
 
     const [selectedFood, setSelectedFood] = useState(null);
 
@@ -12,14 +12,14 @@ export const AddFoodButton = ({ foodsIndex, containerStyle, handleLogFood }) => 
         handleLogFood(selectedFood);
     };
 
-    if (foodsIndex) {
+    if (foodOptions) {
 
         return (
             <Container sx={containerStyle}>
                 <Stack direction={'row'}>
                     <Autocomplete
                         disablePortal
-                        options={foodsIndex}
+                        options={foodOptions}
                         sx={{ width: 275 }}
                         renderOption={(props, option) => (<li {...props} key={uuid()}>{option}</li>)}
                         renderInput={(params) => <TextField {...params} label="search" />}

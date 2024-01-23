@@ -8,7 +8,7 @@ import { incrementDate, decrementDate } from '../utils/dateHelpers';
 import ArrowLeftIcon from '@mui/icons-material/ArrowLeft';
 import ArrowRightIcon from '@mui/icons-material/ArrowRight';
 
-export const DateScroller = ({ activeDay, handleDateScroll }) => {
+export const DateScroller = ({ selectedDay, handleDateScroll }) => {
 
     const [buttonDisabled, setButtonDisabled] = useState(true);
 
@@ -37,13 +37,13 @@ export const DateScroller = ({ activeDay, handleDateScroll }) => {
     return (
         <Container sx={{ height: '10%', ...centre }}>
             <Stack direction={'row'}>
-                <IconButton aria-label='previous day' color='primary' size='large' disableRipple onClick={() => decrementHandler(activeDay)}>
+                <IconButton aria-label='previous day' color='primary' size='large' disableRipple onClick={() => decrementHandler(selectedDay)}>
                     <ArrowLeftIcon fontSize='large' />
                 </IconButton>
                 <Container sx={{ display: 'flex', alignItems: 'center' }}>
-                    <Typography variant='h5'>{activeDay.toLocaleDateString()}</Typography>
+                    <Typography variant='h5'>{selectedDay.toLocaleDateString()}</Typography>
                 </Container>
-                <IconButton id='increment-date-button' aria-label='next day' color='primary' size='large' disabled={buttonDisabled} disableRipple onClick={() => incrementHandler(activeDay)}>
+                <IconButton id='increment-date-button' aria-label='next day' color='primary' size='large' disabled={buttonDisabled} disableRipple onClick={() => incrementHandler(selectedDay)}>
                     <ArrowRightIcon fontSize='large' />
                 </IconButton>
             </Stack>
