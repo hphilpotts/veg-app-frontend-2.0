@@ -6,7 +6,8 @@ import { v4 as uuid } from 'uuid';
 import Axios from 'axios';
 import { xAuth } from '../../utils/axiosConfig';
 
-import { Stack, Container } from '@mui/material';
+import { Stack, Container, IconButton } from '@mui/material';
+import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
 
 import { DateScroller } from '../../components/DateScroller';
 import { AddFoodButton } from '../../components/AddFoodButton';
@@ -108,9 +109,16 @@ export const AddFood = () => {
     if (liveDayData) {
         foodItemsList = liveDayData.map(foodItem => {
             if (originalDayData.includes(foodItem)) {
-                return <p key={uuid()}>{foodItem}</p>
+                return <Container sx={{ display: 'flex', justifyContent: 'space-between', width: '100%' }} key={uuid()}>
+                            <p>{foodItem}</p>
+                            <IconButton>
+                                <RemoveCircleOutlineIcon />
+                            </IconButton>
+                        </Container>
             } else {
-                return <p style={{ color: 'green' }} key={uuid()}>{foodItem}</p>
+                return <Container>
+                            <p style={{ color: 'green' }} key={uuid()}>{foodItem}</p>
+                        </Container>
             }
 
         })
