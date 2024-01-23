@@ -10,7 +10,7 @@ import { Stack, Container, IconButton } from '@mui/material';
 import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
 
 import { DateScroller } from '../../components/DateScroller';
-import { AddFoodButton } from '../../components/AddFoodButton';
+import { AddFoodButton } from '../../components/logFoodPage/AddFoodButton';
 import { PageTitle } from '../../components/PageTitle';
 
 import { flexColumnCentered as center } from '../../utils/muiTheme';

@@ -8,7 +8,7 @@ import { Footer } from './components/Footer';
 
 import { SignIn } from './pages/auth/SignIn';
 import { SignUp } from './pages/auth/SignUp';
-import { AddFood } from './pages/add/AddFood';
+import { AddFood } from './pages/add/LogFood';
 
 import { nullUser } from './utils/authHelpers';
 import { flexColumnCentered as center, topMargin } from '../src/utils/muiTheme';
