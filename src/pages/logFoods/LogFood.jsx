@@ -1,13 +1,10 @@
 import React, { useContext, useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import { v4 as uuid } from 'uuid';
-
 import Axios from 'axios';
 import { xAuth } from '../../utils/axiosConfig';
 
-import { Stack, Container, IconButton } from '@mui/material';
-import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
+import { Stack, Container } from '@mui/material';
 
 import { DateScroller } from '../../components/DateScroller';
 import { LogFoodButton } from '../../components/logFoodPage/LogFoodButton';
@@ -103,37 +100,14 @@ export const LogFood = () => {
 
     }, [user]);
 
-    const containerStyle = { height: '10%', ...center }
+    const h10Center = { height: '10%', ...center }
 
-    let foodItemsList;
-
-    if (currentDayData) {
-        foodItemsList = currentDayData.map(foodItem => {
-            if (originalDayData.includes(foodItem)) {
-                return <Container sx={{ display: 'flex', justifyContent: 'space-between', width: '100%' }} key={uuid()}>
-                            <p>{foodItem}</p>
-                            <IconButton>
-                                <RemoveCircleOutlineIcon />
-                            </IconButton>
-                        </Container>
-            } else {
-                // todo - move key when refactoring
-                return <Container sx={{ display: 'flex', justifyContent: 'space-between', width: '100%' }} key={uuid()}> 
-                            <p style={{ color: 'green' }} key={uuid()}>{foodItem}</p>
-                            <IconButton>
-                                <RemoveCircleOutlineIcon />
-                            </IconButton>
-                        </Container>
-            }
-
-        })
-    }
     return (
         <Stack sx={{ height: '90vh', width: '100vw' }}>
-            <TitleContainer containerStyle={containerStyle} />
+            <TitleContainer containerStyle={h10Center} />
             <DateScroller selectedDay={selectedDay} handleDateScroll={handleDateScroll} />
-            <LogFoodButton containerStyle={containerStyle} foodOptions={foodOptions} handleLogFood={handleLogFood} />
-            <LogFoodDataDisplay foodItemsList={foodItemsList} />
+            <LogFoodButton containerStyle={h10Center} foodOptions={foodOptions} handleLogFood={handleLogFood} />
+            <LogFoodDataDisplay currentDayData={currentDayData} originalDayData={originalDayData} />
         </Stack>
     )
 
