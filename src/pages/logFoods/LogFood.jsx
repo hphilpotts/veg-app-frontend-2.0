@@ -66,11 +66,10 @@ export const LogFood = () => {
         setCurrentDayData(updatedDayData);
     };
 
-    const handleRemoveFood = foodItem => {
+    const handleRemoveFood = foodItemIndex => {
         const updatedDayData = [...currentDayData];
-        const removalItemIndex = updatedDayData.indexOf(foodItem);
-        updatedDayData.splice(removalItemIndex, 1);
-        setSelectedDay(updatedDayData);
+        updatedDayData.splice(foodItemIndex, 1);
+        setCurrentDayData(updatedDayData);
     };
 
     const submitLoggedFoods = async data => {
@@ -107,7 +106,7 @@ export const LogFood = () => {
             <TitleContainer containerStyle={h10Center} />
             <DateScroller selectedDay={selectedDay} handleDateScroll={handleDateScroll} />
             <LogFoodButton containerStyle={h10Center} foodOptions={foodOptions} handleLogFood={handleLogFood} />
-            <LogFoodDataDisplay currentDayData={currentDayData} originalDayData={originalDayData} />
+            <LogFoodDataDisplay currentDayData={currentDayData} originalDayData={originalDayData} handleRemoveFood={handleRemoveFood} />
         </Stack>
     )
 

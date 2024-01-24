@@ -6,17 +6,17 @@ import { Container, IconButton, Typography } from '@mui/material';
 import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
 
 
-export const LogFoodDataDisplay = ({ currentDayData, originalDayData }) => {
+export const LogFoodDataDisplay = ({ currentDayData, originalDayData, handleRemoveFood }) => {
 
     let foodItemsList;
 
     if (currentDayData) {
-        foodItemsList = currentDayData.map(foodItem => (
-            <Container sx={{ display: 'flex', justifyContent: 'space-between', width: '100%' }} key={uuid()}>
+        foodItemsList = currentDayData.map((foodItem, index) => (
+            <Container sx={{ display: 'flex', justifyContent: 'space-between', width: '100%' }} index={index} key={uuid()}>
                 <Typography variant='body1' color={originalDayData.includes(foodItem) ? 'black': 'primary'} gutterBottom>
                     {foodItem}
                 </Typography>
-                <IconButton>
+                <IconButton onClick={() => handleRemoveFood(index)}>
                     <RemoveCircleOutlineIcon />
                 </IconButton>
             </Container>
@@ -28,5 +28,5 @@ export const LogFoodDataDisplay = ({ currentDayData, originalDayData }) => {
             {foodItemsList ? foodItemsList.reverse() : null}
         </Container>
     );
-    
+
 };
