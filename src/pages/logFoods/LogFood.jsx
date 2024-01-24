@@ -11,6 +11,7 @@ import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
 
 import { DateScroller } from '../../components/DateScroller';
 import { LogFoodButton } from '../../components/logFoodPage/LogFoodButton';
+import { LogFoodDataDisplay } from '../../components/logFoodPage/LogFoodDataDisplay';
 import { PageTitle } from '../../components/PageTitle';
 
 import { flexColumnCentered as center } from '../../utils/muiTheme';
@@ -117,8 +118,11 @@ export const LogFood = () => {
                         </Container>
             } else {
                 // todo - move key when refactoring
-                return <Container> 
+                return <Container sx={{ display: 'flex', justifyContent: 'space-between', width: '100%' }} key={uuid()}> 
                             <p style={{ color: 'green' }} key={uuid()}>{foodItem}</p>
+                            <IconButton>
+                                <RemoveCircleOutlineIcon />
+                            </IconButton>
                         </Container>
             }
 
@@ -129,9 +133,7 @@ export const LogFood = () => {
             <TitleContainer containerStyle={containerStyle} />
             <DateScroller selectedDay={selectedDay} handleDateScroll={handleDateScroll} />
             <LogFoodButton containerStyle={containerStyle} foodOptions={foodOptions} handleLogFood={handleLogFood} />
-            <Container sx={{ height: '70%', overflow: 'scroll' }}>
-                {foodItemsList ? foodItemsList.reverse() : null}
-            </Container>
+            <LogFoodDataDisplay foodItemsList={foodItemsList} />
         </Stack>
     )
 
