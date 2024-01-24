@@ -25,8 +25,8 @@ export const LogFood = () => {
 
     const [foodOptions, setFoodOptions] = useState(null);
 
-    const [currentDayData, setCurrentDayData] = useState(null);
-    const [originalDayData, setOriginalDayData] = useState(null);
+    const [currentDayData, setCurrentDayData] = useState([]);
+    const [originalDayData, setOriginalDayData] = useState([]);
 
     const getAllFoods = async user => {
 
@@ -61,7 +61,7 @@ export const LogFood = () => {
     };
 
     const handleLogFood = foodItem => {
-        const updatedDayData = [...currentDayData];
+        const updatedDayData = currentDayData ? [...currentDayData] : [];
         updatedDayData.push(foodItem);
         setCurrentDayData(updatedDayData);
     };
@@ -102,7 +102,7 @@ export const LogFood = () => {
     const h10Center = { height: '10%', ...center }
 
     return (
-        <Stack sx={{ height: '90vh', width: '100vw' }}>
+        <Stack sx={{ height: '90vh', width: '100vw', maxWidth: 600 }}>
             <TitleContainer containerStyle={h10Center} />
             <DateScroller selectedDay={selectedDay} handleDateScroll={handleDateScroll} />
             <LogFoodButton containerStyle={h10Center} foodOptions={foodOptions} handleLogFood={handleLogFood} />
