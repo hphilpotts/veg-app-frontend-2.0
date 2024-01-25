@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { Container, Stack, IconButton, Typography } from '@mui/material';
 
 import { flexColumnCentered as centre } from '../utils/muiTheme';
-import { incrementDate, decrementDate } from '../utils/dateHelpers';
+import { incrementDate, decrementDate, getDayName } from '../utils/dateHelpers';
 
 import ArrowLeftIcon from '@mui/icons-material/ArrowLeft';
 import ArrowRightIcon from '@mui/icons-material/ArrowRight';
@@ -33,6 +33,8 @@ export const DateScroller = ({ selectedDay, handleDateScroll }) => {
         };
 
     };
+    
+    const displayDate = `${getDayName(selectedDay).slice(0, 3)} ${selectedDay.toLocaleDateString()}`
 
     return (
         <Container sx={{ height: '10%', ...centre }}>
@@ -41,7 +43,7 @@ export const DateScroller = ({ selectedDay, handleDateScroll }) => {
                     <ArrowLeftIcon fontSize='large' />
                 </IconButton>
                 <Container sx={{ display: 'flex', alignItems: 'center' }}>
-                    <Typography variant='h5'>{selectedDay.toLocaleDateString()}</Typography>
+                    <Typography variant='h6'>{displayDate}</Typography>
                 </Container>
                 <IconButton id='increment-date-button' aria-label='next day' color='primary' size='large' disabled={buttonDisabled} disableRipple onClick={() => incrementHandler(selectedDay)}>
                     <ArrowRightIcon fontSize='large' />
