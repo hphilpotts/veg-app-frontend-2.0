@@ -27,6 +27,7 @@ export const LogFood = () => {
 
     const [currentDayData, setCurrentDayData] = useState([]);
     const [originalDayData, setOriginalDayData] = useState([]);
+    const [weekId, setWeekId] = useState('');
 
     const getAllFoods = async user => {
 
@@ -42,13 +43,15 @@ export const LogFood = () => {
 
     };
 
-    const getDayData = async (user, date) => {
+    const getDayData = async (user, date) => { // todo - fire create week req if no week is found (here or in submitLogFoods...?)
         const urlDate = date.toISOString().split('T')[0];
         const requestUrl = `/api/week/find?user=${user.id}&date=${urlDate}`;
         try {
             const res = await Axios.get(requestUrl, xAuth(user.token));
+            // todo - combine into single state?
             setCurrentDayData(res.data.Week[getDayName(date)]);
             setOriginalDayData(res.data.Week[getDayName(date)]);
+            setWeekId(res.data.Week._id);
         } catch (error) {
             // if a null TypeError then day has no food data, set to null; otherwise log other errors to the console
             error.message.includes('Cannot read properties of null') ? setCurrentDayData(null) : console.error(error);
@@ -75,10 +78,12 @@ export const LogFood = () => {
     const submitLoggedFoods = async data => {
         const requestUrl = `/api/week/update`;
         const day = getDayName(selectedDay);
-        const requestBody = { id: user.id, day: day, newData: data };
-        const headers = xAuth(user.token)
+        const requestBody = { id: weekId, day: day, newData: data }; // ? fire create Week req here if weekId is null (or above in getDayData...?)
         try {
-            const res = await Axios.put(requestUrl, requestBody, headers);
+            console.log(requestUrl);
+            console.log(day);
+            console.log(requestBody);
+            const res = await Axios.put(requestUrl, requestBody, xAuth(user.token));
             return res;
         } catch (error) {
             console.error(error);
@@ -101,11 +106,15 @@ export const LogFood = () => {
 
     const h10Center = { height: '10%', ...center }
 
+    // TODO - remove button element (testing Axios req)
+        // ? automate saving when scrolling to next day or leaving page?
+        // ? or add a 'save' button? - perhaps floating in mobile and fixed on wider screens?
     return (
         <Stack sx={{ height: '90vh', width: '100vw', maxWidth: 600 }}>
             <TitleContainer containerStyle={h10Center} />
             <DateScroller selectedDay={selectedDay} handleDateScroll={handleDateScroll} />
             <LogFoodButton containerStyle={h10Center} foodOptions={foodOptions} handleLogFood={handleLogFood} />
+            <button onClick={() => submitLoggedFoods(currentDayData)}>save</button>
             <LogFoodDataDisplay currentDayData={currentDayData} originalDayData={originalDayData} handleRemoveFood={handleRemoveFood} />
         </Stack>
     )
