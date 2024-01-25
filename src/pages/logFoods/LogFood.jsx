@@ -14,6 +14,7 @@ import { PageTitle } from '../../components/PageTitle';
 import { flexColumnCentered as center } from '../../utils/muiTheme';
 import { getFoods } from '../../utils/foodHelpers';
 import { getDayName } from '../../utils/dateHelpers';
+import { createNewWeekDocument } from '../../utils/weekHelpers';
 
 import { UserContext } from '../../App';
 
@@ -43,9 +44,9 @@ export const LogFood = () => {
 
     };
 
-    const getDayData = async (user, date) => { // todo - fire create week req if no week is found (here or in submitLogFoods...?)
-        const urlDate = date.toISOString().split('T')[0];
-        const requestUrl = `/api/week/find?user=${user.id}&date=${urlDate}`;
+    const getDayData = async (user, date) => {
+        const formattedDate = date.toISOString().split('T')[0];
+        const requestUrl = `/api/week/find?user=${user.id}&date=${formattedDate}`;
         try {
             const res = await Axios.get(requestUrl, xAuth(user.token));
             // todo - combine into single state?
@@ -53,8 +54,17 @@ export const LogFood = () => {
             setOriginalDayData(res.data.Week[getDayName(date)]);
             setWeekId(res.data.Week._id);
         } catch (error) {
-            // if a null TypeError then day has no food data, set to null; otherwise log other errors to the console
-            error.message.includes('Cannot read properties of null') ? setCurrentDayData(null) : console.error(error);
+            // if a null TypeError week document does not exist, create new week and retry; otherwise log other errors to the console
+            error.message.includes('Cannot read properties of null') ? handleNullWeek(user, date) : console.error(error);
+        };
+    };
+
+    const handleNullWeek = async (user, date) => {
+        const res = await createNewWeekDocument(user, date);
+        if (res.status === 201) {
+            getDayData(user, date);
+        } else {
+            console.error("error handling null week");
         };
     };
 
@@ -78,7 +88,7 @@ export const LogFood = () => {
     const submitLoggedFoods = async data => {
         const requestUrl = `/api/week/update`;
         const day = getDayName(selectedDay);
-        const requestBody = { id: weekId, day: day, newData: data }; // ? fire create Week req here if weekId is null (or above in getDayData...?)
+        const requestBody = { id: weekId, day: day, newData: data };
         try {
             console.log(requestUrl);
             console.log(day);
@@ -107,8 +117,8 @@ export const LogFood = () => {
     const h10Center = { height: '10%', ...center }
 
     // TODO - remove button element (testing Axios req)
-        // ? automate saving when scrolling to next day or leaving page?
-        // ? or add a 'save' button? - perhaps floating in mobile and fixed on wider screens?
+    // ? automate saving when scrolling to next day or leaving page?
+    // ? or add a 'save' button? - perhaps floating in mobile and fixed on wider screens?
     return (
         <Stack sx={{ height: '90vh', width: '100vw', maxWidth: 600 }}>
             <TitleContainer containerStyle={h10Center} />
