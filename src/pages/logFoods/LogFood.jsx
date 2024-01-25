@@ -80,12 +80,14 @@ export const LogFood = () => {
         const updatedDayData = currentDayData ? [...currentDayData] : [];
         updatedDayData.push(foodItem);
         setCurrentDayData(updatedDayData);
+        submitLoggedFoods(updatedDayData);
     };
 
     const handleRemoveFood = foodItemIndex => {
         const updatedDayData = [...currentDayData];
         updatedDayData.splice(foodItemIndex, 1);
         setCurrentDayData(updatedDayData);
+        submitLoggedFoods(updatedDayData);
     };
 
     const submitLoggedFoods = async data => {
@@ -112,15 +114,11 @@ export const LogFood = () => {
     }, [user]);
 
 
-    // TODO - remove button element (testing Axios req)
-    // ? automate saving when scrolling to next day or leaving page?
-    // ? or add a 'save' button? - perhaps floating in mobile and fixed on wider screens?
     return (
         <Stack sx={{ height: '90vh', width: '100vw', maxWidth: 600 }}>
             <TitleContainer containerStyle={{ height: '10%', ...center }} />
             <DateScroller selectedDay={selectedDay} handleDateScroll={handleDateScroll} />
             <LogFoodButton containerStyle={{ height: '10%', ...center }} foodOptions={foodOptions} handleLogFood={handleLogFood} />
-            <button onClick={() => submitLoggedFoods(currentDayData)}>save</button>
             <LogFoodDataDisplay currentDayData={currentDayData} originalDayData={originalDayData} handleRemoveFood={handleRemoveFood} />
         </Stack>
     );
