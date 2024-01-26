@@ -14,7 +14,7 @@ export const LogFoodDataDisplay = ({ currentDayData, originalDayData, handleRemo
         // TODO - add dialogue to confirm deletion of original items
         foodItemsList = currentDayData.map((foodItem, index) => (
             <Container sx={{ display: 'flex', justifyContent: 'space-between', width: '100%' }} index={index} key={uuid()}>
-                <Typography variant='body1' color={originalDayData.includes(foodItem) ? 'black': 'primary'} gutterBottom>
+                <Typography variant='body1' color={ifExistingEntry(originalDayData, foodItem, index) ? 'black': 'primary'} gutterBottom>
                     {foodItem}
                 </Typography>
                 <IconButton onClick={() => handleRemoveFood(index)}> 
@@ -30,4 +30,14 @@ export const LogFoodDataDisplay = ({ currentDayData, originalDayData, handleRemo
         </Container>
     );
 
+};
+
+const ifExistingEntry = (originalData, foodItem, index) => {
+    if (!originalData.includes(foodItem)) {
+        return false;
+    }
+    if (index >= originalData.length) {
+        return false;
+    }
+    return true;
 };
