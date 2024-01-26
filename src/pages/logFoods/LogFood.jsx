@@ -24,10 +24,9 @@ export const LogFood = () => {
     const user = useContext(UserContext);
 
     const [selectedDay, setSelectedDay] = useState(new Date()); // inits as today
-
     const [foodOptions, setFoodOptions] = useState(null);
-
     const [week, setWeek] = useState({ id: '', currentDayData: [], originalDayData: [] });
+    const [searchMode, setSearchMode] = useState(true);
 
 
     const getAllFoods = async user => {
@@ -116,7 +115,7 @@ export const LogFood = () => {
             <TitleContainer containerStyle={{ height: '10%', ...center }} />
             <DateScroller selectedDay={selectedDay} handleDateScroll={handleDateScroll} />
             <LogFoodButton containerStyle={{ height: '10%', ...center }} foodOptions={foodOptions} handleLogFood={handleLogFood} />
-            <SelectModeButton />
+            <SelectModeButton searchMode={searchMode} setSearchMode={setSearchMode} />
             <LogFoodDataDisplay currentDayData={week.currentDayData} originalDayData={week.originalDayData} handleRemoveFood={handleRemoveFood} />
         </Stack>
     );
