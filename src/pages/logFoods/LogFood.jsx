@@ -26,9 +26,7 @@ export const LogFood = () => {
 
     const [foodOptions, setFoodOptions] = useState(null);
 
-    const [currentDayData, setCurrentDayData] = useState([]);
-    const [originalDayData, setOriginalDayData] = useState([]);
-    const [weekId, setWeekId] = useState('');
+    const [week, setWeek] = useState({ id: '', currentDayData: [], originalDayData: [] });
 
 
     const getAllFoods = async user => {
@@ -51,10 +49,8 @@ export const LogFood = () => {
 
         try {
             const res = await Axios.get(requestUrl, xAuth(user.token));
-            // todo - combine into single state?
-            setCurrentDayData(res.data.Week[getDayName(date)]);
-            setOriginalDayData(res.data.Week[getDayName(date)]);
-            setWeekId(res.data.Week._id);
+            const dayData = res.data.Week[getDayName(date)];
+            setWeek({ id: res.data.Week._id, currentDayData: [...dayData], originalDayData: [...dayData]});
         } catch (error) {
             // if a null TypeError week document does not exist, create new week and retry; otherwise log other errors to the console
             error.message.includes('Cannot read properties of null') ? handleNullWeek(user, date) : console.error(error);
@@ -77,22 +73,22 @@ export const LogFood = () => {
     };
 
     const handleLogFood = foodItem => {
-        const updatedDayData = currentDayData ? [...currentDayData] : [];
-        updatedDayData.push(foodItem);
-        setCurrentDayData(updatedDayData);
-        submitLoggedFoods(updatedDayData);
+        const newWeek = {...week};
+        newWeek.currentDayData.push(foodItem);
+        setWeek(newWeek);
+        submitLoggedFoods(newWeek.currentDayData);
     };
 
     const handleRemoveFood = foodItemIndex => {
-        const updatedDayData = [...currentDayData];
-        updatedDayData.splice(foodItemIndex, 1);
-        setCurrentDayData(updatedDayData);
-        submitLoggedFoods(updatedDayData);
+        const newWeek = {...week};
+        newWeek.currentDayData.splice(foodItemIndex, 1);
+        setWeek(newWeek);
+        submitLoggedFoods(newWeek.currentDayData);
     };
 
     const submitLoggedFoods = async data => {
         const day = getDayName(selectedDay);
-        const requestBody = { id: weekId, day: day, newData: data };
+        const requestBody = { id: week.id, day: day, newData: data };
         try {
             const res = await Axios.put(`/api/week/update`, requestBody, xAuth(user.token));
             return res;
@@ -119,7 +115,7 @@ export const LogFood = () => {
             <TitleContainer containerStyle={{ height: '10%', ...center }} />
             <DateScroller selectedDay={selectedDay} handleDateScroll={handleDateScroll} />
             <LogFoodButton containerStyle={{ height: '10%', ...center }} foodOptions={foodOptions} handleLogFood={handleLogFood} />
-            <LogFoodDataDisplay currentDayData={currentDayData} originalDayData={originalDayData} handleRemoveFood={handleRemoveFood} />
+            <LogFoodDataDisplay currentDayData={week.currentDayData} originalDayData={week.originalDayData} handleRemoveFood={handleRemoveFood} />
         </Stack>
     );
 
