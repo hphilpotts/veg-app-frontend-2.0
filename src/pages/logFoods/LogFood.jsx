@@ -10,6 +10,7 @@ import { DateScroller } from '../../components/DateScroller';
 import { LogFoodButton } from '../../components/logFoodPage/LogFoodButton';
 import { LogFoodDataDisplay } from '../../components/logFoodPage/LogFoodDataDisplay';
 import { PageTitle } from '../../components/PageTitle';
+import { SelectModeButton } from '../../components/logFoodPage/SelectModeButton';
 
 import { flexColumnCentered as center } from '../../utils/muiTheme';
 import { getFoods } from '../../utils/foodHelpers';
@@ -115,6 +116,7 @@ export const LogFood = () => {
             <TitleContainer containerStyle={{ height: '10%', ...center }} />
             <DateScroller selectedDay={selectedDay} handleDateScroll={handleDateScroll} />
             <LogFoodButton containerStyle={{ height: '10%', ...center }} foodOptions={foodOptions} handleLogFood={handleLogFood} />
+            <SelectModeButton />
             <LogFoodDataDisplay currentDayData={week.currentDayData} originalDayData={week.originalDayData} handleRemoveFood={handleRemoveFood} />
         </Stack>
     );
