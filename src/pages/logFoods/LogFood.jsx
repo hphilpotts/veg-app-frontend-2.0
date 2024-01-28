@@ -51,7 +51,7 @@ export const LogFood = () => {
         try {
             const res = await Axios.get(requestUrl, xAuth(user.token));
             const dayData = res.data.Week[getDayName(date)];
-            setWeek({ id: res.data.Week._id, currentDayData: [...dayData], originalDayData: [...dayData]});
+            setWeek({ id: res.data.Week._id, currentDayData: [...dayData], originalDayData: [...dayData] });
         } catch (error) {
             // if a null TypeError week document does not exist, create new week and retry; otherwise log other errors to the console
             error.message.includes('Cannot read properties of null') ? handleNullWeek(user, date) : console.error(error);
@@ -74,14 +74,14 @@ export const LogFood = () => {
     };
 
     const handleLogFood = foodItem => {
-        const newWeek = {...week};
+        const newWeek = { ...week };
         newWeek.currentDayData.push(foodItem);
         setWeek(newWeek);
         submitLoggedFoods(newWeek.currentDayData);
     };
 
     const handleRemoveFood = foodItemIndex => {
-        const newWeek = {...week};
+        const newWeek = { ...week };
         newWeek.currentDayData.splice(foodItemIndex, 1);
         setWeek(newWeek);
         submitLoggedFoods(newWeek.currentDayData);
@@ -115,7 +115,11 @@ export const LogFood = () => {
         <Stack sx={{ height: '90vh', width: '100vw', maxWidth: 600 }}>
             <TitleContainer containerStyle={{ height: '10%', ...center }} />
             <DateScroller selectedDay={selectedDay} handleDateScroll={handleDateScroll} />
-            <LogFoodButton containerStyle={{ height: '10%', ...center }} foodOptions={foodOptions} handleLogFood={handleLogFood} />
+            {searchMode ?
+                <LogFoodButton containerStyle={{ height: '10%', ...center }} foodOptions={foodOptions} handleLogFood={handleLogFood} />
+                :
+                <CategoryButton containerStyle={{ height: '10%', ...center }} />
+            }
             <SelectModeButton searchMode={searchMode} setSearchMode={setSearchMode} />
             <LogFoodDataDisplay currentDayData={week.currentDayData} originalDayData={week.originalDayData} handleRemoveFood={handleRemoveFood} />
         </Stack>
