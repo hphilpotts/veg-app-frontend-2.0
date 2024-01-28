@@ -6,6 +6,7 @@ import { xAuth } from '../../utils/axiosConfig';
 
 import { Stack, Container } from '@mui/material';
 
+import { CategoryButton } from '../../components/logFoodPage/CategoryButton';
 import { DateScroller } from '../../components/DateScroller';
 import { LogFoodButton } from '../../components/logFoodPage/LogFoodButton';
 import { LogFoodDataDisplay } from '../../components/logFoodPage/LogFoodDataDisplay';
