@@ -12,7 +12,7 @@ export const LogFoodButton = ({ foodOptions, containerStyle, handleLogFood }) =>
         handleLogFood(selectedFood);
     };
 
-    if (foodOptions) {
+    if (foodOptions && Array.isArray(foodOptions)) { // array check required where foodOptions may be Object, prevents prop fail from Autocomplete
 
         return (
             <Container sx={containerStyle}>

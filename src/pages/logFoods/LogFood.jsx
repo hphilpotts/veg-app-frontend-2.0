@@ -30,27 +30,23 @@ export const LogFood = () => {
     const [searchMode, setSearchMode] = useState(true);
 
 
-    const getAllFoods = async user => {
-
+    const getAllFoodOptions = async user => {
         const foodsCollection = await getFoods(user, null);
-        // filter non-food keys from returned object
-        const categoryKeys = Object.keys(foodsCollection.Foods).filter(key => key[0] != '_' && key != 'user');
-        searchMode ? setFoodOptionsWithFlatArray(foodsCollection, categoryKeys) : setFoodOptionsWithCategorisedObject(foodsCollection, categoryKeys);
-
+        setFoodOptionsHandler(searchMode, foodsCollection.Foods);
     };
 
-    const setFoodOptionsWithFlatArray = (responseData, keys) => {
-        const output = [];
-        categoryKeys.forEach(categoryKey => output.push(responseData[categoryKey]));
-        setFoodOptions(output.flat());
+    const setFoodOptionsHandler = (inSearchMode, responseData) => {
+        const categoryKeys = Object.keys(responseData).filter(key => key[0] != '_' && key != 'user'); // filter out non-category keys from GET res data
+        if (inSearchMode) {
+            const output = [];
+            categoryKeys.forEach(categoryKey => output.push(responseData[categoryKey]));
+            setFoodOptions(output.flat());
+        } else {
+            const output = {};
+            categoryKeys.forEach(categoryKey => output[categoryKey] = responseData[categoryKey]);
+            setFoodOptions(output);
+        };
     };
-
-    const setFoodOptionsWithCategorisedObject = (responseData, keys) => {
-        const output = {};
-        categoryKeys.forEach(categoryKey => output[categoryKey] = foodsCollection.Foods[categoryKey]);
-        setFoodOptions(output);
-    };
-
 
     const getDayData = async (user, date) => {
 
@@ -114,10 +110,10 @@ export const LogFood = () => {
         if (!user.loggedIn) {
             navigateTo('/');
         } else {
-            getAllFoods(user);
+            getAllFoodOptions(user);
             getDayData(user, selectedDay);
         };
-    }, [user]);
+    }, [user, searchMode]);
 
 
     return (
