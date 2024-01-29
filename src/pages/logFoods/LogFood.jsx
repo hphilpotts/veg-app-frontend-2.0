@@ -32,13 +32,20 @@ export const LogFood = () => {
 
     const getAllFoods = async user => {
 
-        const allFoodsOutput = [];
         const foodsCollection = await getFoods(user, null);
 
         // filter non-food keys from returned object
         const categoryKeys = Object.keys(foodsCollection.Foods).filter(key => key[0] != '_' && key != 'user');
-        categoryKeys.forEach(categoryKey => allFoodsOutput.push(foodsCollection.Foods[categoryKey]));
-        setFoodOptions(allFoodsOutput.flat());
+
+        if (searchMode) { // set state with flat array of all food options
+            const allFoodsArray = [];
+            categoryKeys.forEach(categoryKey => allFoodsArray.push(foodsCollection.Foods[categoryKey]));
+            setFoodOptions(allFoodsArray.flat());
+        } else { // set state with object contaning food options by category
+            const allFoodsObject = {}
+            categoryKeys.forEach(categoryKey => allFoodsObject[categoryKey] = foodsCollection.Foods[categoryKey]);
+            setFoodOptions(allFoodsObject);
+        };
 
     };
 
