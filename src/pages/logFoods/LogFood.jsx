@@ -120,7 +120,7 @@ export const LogFood = () => {
         <Stack sx={{ height: '90vh', width: '100vw', maxWidth: 600 }}>
             <TitleContainer containerStyle={{ height: '10%', ...center }} />
             <DateScroller selectedDay={selectedDay} handleDateScroll={handleDateScroll} />
-            {inputMode === 'search' ?
+            {inputMode === 'search' ? // TODO - add FavButton component here
                 <LogFoodButton containerStyle={{ height: '10%', ...center }} foodOptions={foodOptions} handleLogFood={handleLogFood} />
                 :
                 <CategoryButton containerStyle={{ height: '10%', ...center }} />

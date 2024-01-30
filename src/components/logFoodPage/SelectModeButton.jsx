@@ -5,11 +5,7 @@ import { Stack, Button } from '@mui/material';
 export const SelectModeButton = ({ inputMode, setInputMode }) => {
 
     const clickHandler = button => {
-        if (button.id === 'search-mode') {
-            setInputMode('search');
-        } else {
-            setInputMode('category');
-        };
+        setInputMode(button.id);
     };
 
     return (
@@ -18,7 +14,8 @@ export const SelectModeButton = ({ inputMode, setInputMode }) => {
                 onClick={e => clickHandler(e.target)}
                 variant='outlined' color={inputMode === "search" ? 'primary' : 'grey'}
                 size='small'
-                disableRipple id='search-mode'
+                disableRipple 
+                id='search'
             >
                 search
             </Button>
@@ -26,9 +23,19 @@ export const SelectModeButton = ({ inputMode, setInputMode }) => {
                 onClick={e => clickHandler(e.target)}
                 variant='outlined' color={inputMode === 'category' ? 'primary' : 'grey'}
                 size='small'
-                disableRipple id='category mode'
+                disableRipple 
+                id='category'
             >
                 category
+            </Button>
+            <Button
+                onClick={e => clickHandler(e.target)}
+                variant='outlined' color={inputMode === 'favourites' ? 'primary' : 'grey'}
+                size='small'
+                disableRipple
+                id='favourites'
+            >
+                favourites
             </Button>
         </Stack>
     );
