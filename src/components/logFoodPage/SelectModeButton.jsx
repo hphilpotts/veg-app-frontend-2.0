@@ -2,13 +2,13 @@ import React from 'react';
 
 import { Stack, Button } from '@mui/material';
 
-export const SelectModeButton = ({ searchMode, setSearchMode }) => {
+export const SelectModeButton = ({ inputMode, setInputMode }) => {
 
     const clickHandler = button => {
         if (button.id === 'search-mode') {
-            setSearchMode(true);
+            setInputMode('search');
         } else {
-            setSearchMode(false);
+            setInputMode('category');
         };
     };
 
@@ -16,7 +16,7 @@ export const SelectModeButton = ({ searchMode, setSearchMode }) => {
         <Stack direction={'row'} sx={{ justifyContent: 'space-around', marginTop: '2%' }} >
             <Button
                 onClick={e => clickHandler(e.target)}
-                variant='outlined' color={searchMode ? 'primary' : 'grey'}
+                variant='outlined' color={inputMode === "search" ? 'primary' : 'grey'}
                 size='small'
                 disableRipple id='search-mode'
             >
@@ -24,7 +24,7 @@ export const SelectModeButton = ({ searchMode, setSearchMode }) => {
             </Button>
             <Button
                 onClick={e => clickHandler(e.target)}
-                variant='outlined' color={!searchMode ? 'primary' : 'grey'}
+                variant='outlined' color={inputMode === 'category' ? 'primary' : 'grey'}
                 size='small'
                 disableRipple id='category mode'
             >

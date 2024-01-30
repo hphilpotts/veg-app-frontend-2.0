@@ -27,17 +27,17 @@ export const LogFood = () => {
     const [selectedDay, setSelectedDay] = useState(new Date()); // inits as today
     const [foodOptions, setFoodOptions] = useState(null);
     const [week, setWeek] = useState({ id: '', currentDayData: [], originalDayData: [] });
-    const [searchMode, setSearchMode] = useState(true);
+    const [inputMode, setInputMode] = useState('search');
 
 
     const getAllFoodOptions = async user => {
         const foodsCollection = await getFoods(user, null);
-        setFoodOptionsHandler(searchMode, foodsCollection.Foods);
+        setFoodOptionsHandler(inputMode, foodsCollection.Foods);
     };
 
-    const setFoodOptionsHandler = (inSearchMode, responseData) => {
+    const setFoodOptionsHandler = (mode, responseData) => {
         const categoryKeys = Object.keys(responseData).filter(key => key[0] != '_' && key != 'user'); // filter out non-category keys from GET res data
-        if (inSearchMode) {
+        if (mode === 'search') {
             const output = [];
             categoryKeys.forEach(categoryKey => output.push(responseData[categoryKey]));
             setFoodOptions(output.flat());
@@ -113,19 +113,19 @@ export const LogFood = () => {
             getAllFoodOptions(user);
             getDayData(user, selectedDay);
         };
-    }, [user, searchMode]);
+    }, [user, inputMode]);
 
 
     return (
         <Stack sx={{ height: '90vh', width: '100vw', maxWidth: 600 }}>
             <TitleContainer containerStyle={{ height: '10%', ...center }} />
             <DateScroller selectedDay={selectedDay} handleDateScroll={handleDateScroll} />
-            {searchMode ?
+            {inputMode === 'search' ?
                 <LogFoodButton containerStyle={{ height: '10%', ...center }} foodOptions={foodOptions} handleLogFood={handleLogFood} />
                 :
                 <CategoryButton containerStyle={{ height: '10%', ...center }} />
             }
-            <SelectModeButton searchMode={searchMode} setSearchMode={setSearchMode} />
+            <SelectModeButton inputMode={inputMode} setInputMode={setInputMode} />
             <LogFoodDataDisplay currentDayData={week.currentDayData} originalDayData={week.originalDayData} handleRemoveFood={handleRemoveFood} />
         </Stack>
     );
