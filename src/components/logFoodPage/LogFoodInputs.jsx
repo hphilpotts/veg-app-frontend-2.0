@@ -52,3 +52,11 @@ export const LogFoodCategoryInput = ({ containerStyle }) => {
         </Container>
     );
 };
+
+export const LogFoodFavouritesInput = ({ containerStyle }) => {
+    return (
+        <Container sx={containerStyle}>
+            <p>Favourites Button</p>
+        </Container>
+    );
+};

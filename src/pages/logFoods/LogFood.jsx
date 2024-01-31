@@ -7,7 +7,7 @@ import { xAuth } from '../../utils/axiosConfig';
 import { Stack, Container } from '@mui/material';
 
 import { DateScroller } from '../../components/DateScroller';
-import { LogFoodSearchInput, LogFoodCategoryInput } from '../../components/logFoodPage/LogFoodInputs';
+import { LogFoodSearchInput, LogFoodCategoryInput, LogFoodFavouritesInput } from '../../components/logFoodPage/LogFoodInputs';
 import { LogFoodDataDisplay } from '../../components/logFoodPage/LogFoodDataDisplay';
 import { PageTitle } from '../../components/PageTitle';
 import { SelectModeButton } from '../../components/logFoodPage/SelectModeButton';
@@ -146,7 +146,7 @@ const LogFoodInput = ({ inputMode, foodOptions, handleLogFood }) => {
         );
     } else {
         return (
-            <p>fav</p>
+            <LogFoodFavouritesInput containerStyle={{ height: '10%', ...center }} />
         );
     };
 };
