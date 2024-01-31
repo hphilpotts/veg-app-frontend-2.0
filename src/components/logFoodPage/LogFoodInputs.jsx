@@ -4,7 +4,7 @@ import { v4 as uuid } from 'uuid';
 
 import { Autocomplete, TextField, Container, Stack, Button, Typography } from '@mui/material';
 
-export const LogFoodButton = ({ foodOptions, containerStyle, handleLogFood }) => {
+export const LogFoodSearchInput = ({ foodOptions, containerStyle, handleLogFood }) => {
 
     const [selectedFood, setSelectedFood] = useState(null);
 
@@ -43,4 +43,12 @@ export const LogFoodButton = ({ foodOptions, containerStyle, handleLogFood }) =>
 
     };
 
+};
+
+export const LogFoodCategoryInput = ({ containerStyle }) => {
+    return (
+        <Container sx={containerStyle}>
+            <p>Category Button</p>
+        </Container>
+    );
 };

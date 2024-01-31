@@ -6,9 +6,8 @@ import { xAuth } from '../../utils/axiosConfig';
 
 import { Stack, Container } from '@mui/material';
 
-import { CategoryButton } from '../../components/logFoodPage/CategoryButton';
 import { DateScroller } from '../../components/DateScroller';
-import { LogFoodButton } from '../../components/logFoodPage/LogFoodButton';
+import { LogFoodSearchInput, LogFoodCategoryInput } from '../../components/logFoodPage/LogFoodInputs';
 import { LogFoodDataDisplay } from '../../components/logFoodPage/LogFoodDataDisplay';
 import { PageTitle } from '../../components/PageTitle';
 import { SelectModeButton } from '../../components/logFoodPage/SelectModeButton';
@@ -120,7 +119,7 @@ export const LogFood = () => {
         <Stack sx={{ height: '90vh', width: '100vw', maxWidth: 600 }}>
             <TitleContainer containerStyle={{ height: '10%', ...center }} />
             <DateScroller selectedDay={selectedDay} handleDateScroll={handleDateScroll} />
-            <InputContainer inputMode={inputMode} foodOptions={foodOptions} handleLogFood={handleLogFood} />
+            <LogFoodInput inputMode={inputMode} foodOptions={foodOptions} handleLogFood={handleLogFood} />
             <SelectModeButton inputMode={inputMode} setInputMode={setInputMode} />
             <LogFoodDataDisplay currentDayData={week.currentDayData} originalDayData={week.originalDayData} handleRemoveFood={handleRemoveFood} />
         </Stack>
@@ -136,14 +135,14 @@ const TitleContainer = ({ containerStyle }) => {
     );
 };
 
-const InputContainer = ({ inputMode, foodOptions, handleLogFood }) => {
+const LogFoodInput = ({ inputMode, foodOptions, handleLogFood }) => {
     if (inputMode === 'search') {
         return (
-            <LogFoodButton containerStyle={{ height: '10%', ...center }} foodOptions={foodOptions} handleLogFood={handleLogFood} />
+            <LogFoodSearchInput containerStyle={{ height: '10%', ...center }} foodOptions={foodOptions} handleLogFood={handleLogFood} />
         );
     } else if (inputMode === 'category') {
         return (
-            <CategoryButton containerStyle={{ height: '10%', ...center }} />
+            <LogFoodCategoryInput containerStyle={{ height: '10%', ...center }} />
         );
     } else {
         return (
