@@ -120,11 +120,7 @@ export const LogFood = () => {
         <Stack sx={{ height: '90vh', width: '100vw', maxWidth: 600 }}>
             <TitleContainer containerStyle={{ height: '10%', ...center }} />
             <DateScroller selectedDay={selectedDay} handleDateScroll={handleDateScroll} />
-            {inputMode === 'search' ? // TODO - add FavButton component here
-                <LogFoodButton containerStyle={{ height: '10%', ...center }} foodOptions={foodOptions} handleLogFood={handleLogFood} />
-                :
-                <CategoryButton containerStyle={{ height: '10%', ...center }} />
-            }
+            <InputContainer inputMode={inputMode} foodOptions={foodOptions} handleLogFood={handleLogFood} />
             <SelectModeButton inputMode={inputMode} setInputMode={setInputMode} />
             <LogFoodDataDisplay currentDayData={week.currentDayData} originalDayData={week.originalDayData} handleRemoveFood={handleRemoveFood} />
         </Stack>
@@ -138,4 +134,20 @@ const TitleContainer = ({ containerStyle }) => {
             <PageTitle titleText={'log new foods'} />
         </Container>
     );
+};
+
+const InputContainer = ({ inputMode, foodOptions, handleLogFood }) => {
+    if (inputMode === 'search') {
+        return (
+            <LogFoodButton containerStyle={{ height: '10%', ...center }} foodOptions={foodOptions} handleLogFood={handleLogFood} />
+        );
+    } else if (inputMode === 'category') {
+        return (
+            <CategoryButton containerStyle={{ height: '10%', ...center }} />
+        );
+    } else {
+        return (
+            <p>fav</p>
+        );
+    };
 };
