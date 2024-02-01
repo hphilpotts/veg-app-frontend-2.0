@@ -93,7 +93,7 @@ export const LogFood = () => {
 
     const submitLoggedFoods = async data => {
         const day = getDayName(selectedDay);
-        const requestBody = { id: week.id, day: day, newData: data };
+        const requestBody = { id: week.id, day: day, newData: data, user: user.id };
         try {
             const res = await Axios.put(`/api/week/update`, requestBody, xAuth(user.token));
             return res;
@@ -138,15 +138,15 @@ const TitleContainer = ({ containerStyle }) => {
 const LogFoodInput = ({ inputMode, foodOptions, handleLogFood }) => {
     if (inputMode === 'search') {
         return (
-            <LogFoodSearchInput containerStyle={{ height: '10%', ...center }} foodOptions={foodOptions} handleLogFood={handleLogFood} />
+            <LogFoodSearchInput containerStyle={{ height: '30%', justifyContent: 'center', ...center }} foodOptions={foodOptions} handleLogFood={handleLogFood} />
         );
     } else if (inputMode === 'category') {
         return (
-            <LogFoodCategoryInput containerStyle={{ height: '10%', ...center }} />
+            <LogFoodCategoryInput containerStyle={{ height: '30%', justifyContent: 'center', ...center }} foodOptions={foodOptions} />
         );
     } else {
         return (
-            <LogFoodFavouritesInput containerStyle={{ height: '10%', ...center }} />
+            <LogFoodFavouritesInput containerStyle={{ height: '30%', ...center }} />
         );
     };
 };
