@@ -4,6 +4,28 @@ import { v4 as uuid } from 'uuid';
 
 import { Autocomplete, TextField, Container, Stack, Button, Typography, Select } from '@mui/material';
 
+export const LogFoodInputContainer = ({ inputMode, foodOptions, handleLogFood }) => {
+
+    if (foodOptions) {
+        return (
+            <Container sx={{height: '30%', justifyContent: 'center', ...center}}>
+                <Stack direction={'row'} flexWrap={'wrap'} width={350}>
+                    <p>search placeholder</p>
+                    <p>category placeholder</p>
+                    <p>fav placeholder</p>
+                </Stack>
+            </Container>
+        )
+    } else {
+        return (
+            <TextField sx={{ width: 300, height: '30%' }} />
+        )
+    }
+
+}
+
+// TODO - reshape below components as children of above LogFoodInputContainer
+
 export const LogFoodSearchInput = ({ foodOptions, containerStyle, handleLogFood }) => {
 
     const [selectedFood, setSelectedFood] = useState(null);
