@@ -7,7 +7,7 @@ import { xAuth } from '../../utils/axiosConfig';
 import { Stack, Container } from '@mui/material';
 
 import { DateScroller } from '../../components/DateScroller';
-import { LogFoodSearchInput, LogFoodCategoryInput, LogFoodFavouritesInput } from '../../components/logFoodPage/LogFoodInputs';
+import { LogFoodInputContainer } from '../../components/logFoodPage/LogFoodInputs';
 import { LogFoodDataDisplay } from '../../components/logFoodPage/LogFoodDataDisplay';
 import { PageTitle } from '../../components/PageTitle';
 import { SelectModeButton } from '../../components/logFoodPage/SelectModeButton';
@@ -119,7 +119,7 @@ export const LogFood = () => {
         <Stack sx={{ height: '90vh', width: '100vw', maxWidth: 600 }}>
             <TitleContainer containerStyle={{ height: '10%', ...center }} />
             <DateScroller selectedDay={selectedDay} handleDateScroll={handleDateScroll} />
-            <LogFoodInput inputMode={inputMode} foodOptions={foodOptions} handleLogFood={handleLogFood} />
+            <LogFoodInputContainer inputMode={inputMode} foodOptions={foodOptions} handleLogFood={handleLogFood}/>
             <SelectModeButton inputMode={inputMode} setInputMode={setInputMode} />
             <LogFoodDataDisplay currentDayData={week.currentDayData} originalDayData={week.originalDayData} handleRemoveFood={handleRemoveFood} />
         </Stack>
@@ -133,20 +133,4 @@ const TitleContainer = ({ containerStyle }) => {
             <PageTitle titleText={'log new foods'} />
         </Container>
     );
-};
-
-const LogFoodInput = ({ inputMode, foodOptions, handleLogFood }) => {
-    if (inputMode === 'search') {
-        return (
-            <LogFoodSearchInput containerStyle={{ height: '30%', justifyContent: 'center', ...center }} foodOptions={foodOptions} handleLogFood={handleLogFood} />
-        );
-    } else if (inputMode === 'category') {
-        return (
-            <LogFoodCategoryInput containerStyle={{ height: '30%', justifyContent: 'center', ...center }} foodOptions={foodOptions} />
-        );
-    } else {
-        return (
-            <LogFoodFavouritesInput containerStyle={{ height: '30%', ...center }} />
-        );
-    };
 };
