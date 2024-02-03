@@ -12,9 +12,9 @@ export const LogFoodInputContainer = ({ inputMode, foodOptions, handleLogFood })
         return (
             <Container sx={{ height: '30%', justifyContent: 'center', ...center }}>
                 <Stack direction={'row'} flexWrap={'wrap'} width={350}>
-                    <LogFoodSearchInput foodOptions={foodOptions} handleLogFood={handleLogFood} />
-                    {/* <LogFoodCategoryInput />
-                    <LogFoodFavouritesInput /> */}
+                    <LogFoodSearchInput isActive={inputMode === 'search'} foodOptions={foodOptions} handleLogFood={handleLogFood} />
+                    <LogFoodCategoryInput isActive={inputMode === 'category'} foodOptions={foodOptions} />
+                    <LogFoodFavouritesInput isActive={inputMode === 'favourites'} />
                 </Stack>
             </Container>
         )
@@ -27,9 +27,7 @@ export const LogFoodInputContainer = ({ inputMode, foodOptions, handleLogFood })
 
 };
 
-// TODO - reshape below components as children of above LogFoodInputContainer
-
-export const LogFoodSearchInput = ({ foodOptions, handleLogFood }) => {
+export const LogFoodSearchInput = ({ isActive, foodOptions, handleLogFood }) => {
 
     const [selectedFood, setSelectedFood] = useState(null);
 
@@ -37,8 +35,7 @@ export const LogFoodSearchInput = ({ foodOptions, handleLogFood }) => {
         handleLogFood(selectedFood);
     };
 
-    if (foodOptions && Array.isArray(foodOptions)) { // array check required where foodOptions may be Object, prevents prop fail from Autocomplete
-
+    if (Array.isArray(foodOptions) && isActive) { // array check required where foodOptions may be Object, prevents prop fail from Autocomplete
         return (
             <>
                 <Autocomplete
@@ -56,38 +53,49 @@ export const LogFoodSearchInput = ({ foodOptions, handleLogFood }) => {
                 </Container>
             </>
         );
-    } else {
-        // TODO - swap w/ loading skeleton
-        return <TextField sx={{ width: 300, height: '30%' }} /> 
     };
+
+    return null;
+
 };
 
-export const LogFoodCategoryInput = ({ foodOptions }) => {
+export const LogFoodCategoryInput = ({ isActive, foodOptions }) => {
 
-    return (
-        <>
-            <Select sx={{ width: 275, marginBottom: '5px' }} value='placeholder'>
+    if (isActive) {
+        return (
+            <>
+                <Select sx={{ width: 275, marginBottom: '5px' }} value='placeholder'>
 
-            </Select>
-            <Autocomplete
-                disablePortal
-                options={foodOptions}
-                renderOption={(props, option) => (<li {...props} key={uuid()}>{option}</li>)}
-                renderInput={(params) => <TextField {...params} label="search" />}
-                onChange={(e, value) => setSelectedFood(value)}
-                sx={{ width: 275 }}
-            />
-            <Container sx={{ width: '75px' }}>
-                <Button onClick={() => addFoodClickHandler(selectedFood)} key={uuid()} variant='contained' color='primary'>
-                    <Typography variant='h4' sx={{ textTransform: 'lowercase' }}>+</Typography>
-                </Button>
-            </Container>
-        </>
-    );
+                </Select>
+                <Autocomplete
+                    disablePortal
+                    options={foodOptions}
+                    renderOption={(props, option) => (<li {...props} key={uuid()}>{option}</li>)}
+                    renderInput={(params) => <TextField {...params} label="search" />}
+                    onChange={(e, value) => setSelectedFood(value)}
+                    sx={{ width: 275 }}
+                />
+                <Container sx={{ width: '75px' }}>
+                    <Button onClick={() => addFoodClickHandler(selectedFood)} key={uuid()} variant='contained' color='primary'>
+                        <Typography variant='h4' sx={{ textTransform: 'lowercase' }}>+</Typography>
+                    </Button>
+                </Container>
+            </>
+        );
+    };
+
+    return null;
 };
 
-export const LogFoodFavouritesInput = () => {
-    return (
-        <p>Favourites Button</p>
-    );
+export const LogFoodFavouritesInput = ({ isActive }) => {
+
+    if (isActive) {
+
+        return (
+            <p>Favourites Button</p>
+        );
+    };
+
+    return null;
+
 };
