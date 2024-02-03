@@ -3,27 +3,26 @@ import React, { useState } from 'react';
 import { v4 as uuid } from 'uuid';
 
 import { Autocomplete, TextField, Container, Stack, Button, Typography, Select } from '@mui/material';
+import { LoadingSkeleton } from '../LoadingSkeleton';
 
 import { flexColumnCentered as center } from '../../utils/muiTheme';
 
 export const LogFoodInputContainer = ({ inputMode, foodOptions, handleLogFood }) => {
 
-    if (foodOptions) {
-        return (
-            <Container sx={{ height: '30%', justifyContent: 'center', ...center }}>
-                <Stack direction={'row'} flexWrap={'wrap'} width={350}>
-                    <LogFoodSearchInput isActive={inputMode === 'search'} foodOptions={foodOptions} handleLogFood={handleLogFood} />
-                    <LogFoodCategoryInput isActive={inputMode === 'category'} foodOptions={foodOptions} />
-                    <LogFoodFavouritesInput isActive={inputMode === 'favourites'} />
-                </Stack>
-            </Container>
-        )
-    } else {
-        return (
-            // TODO - swap w/ loading skeleton
-            <TextField sx={{ width: 300, height: '30%' }} />
-        );
-    };
+    return (
+        <Container sx={{ height: '30%', justifyContent: 'center', ...center }}>
+            <Stack direction={'row'} flexWrap={'wrap'} width={350}>
+                {foodOptions ?
+                    <>
+                        <LogFoodSearchInput isActive={inputMode === 'search'} foodOptions={foodOptions} handleLogFood={handleLogFood} />
+                        <LogFoodCategoryInput isActive={inputMode === 'category'} foodOptions={foodOptions} />
+                        <LogFoodFavouritesInput isActive={inputMode === 'favourites'} />
+                    </>
+                    : <LoadingSkeleton count={1} />
+                }
+            </Stack>
+        </Container>
+    );
 
 };
 
