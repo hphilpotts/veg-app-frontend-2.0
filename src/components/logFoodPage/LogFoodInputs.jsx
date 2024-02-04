@@ -2,10 +2,11 @@ import React, { useState } from 'react';
 
 import { v4 as uuid } from 'uuid';
 
-import { Autocomplete, TextField, Container, Stack, Button, Typography, Select } from '@mui/material';
+import { Autocomplete, TextField, Container, Stack, Button, Typography, Select, MenuItem } from '@mui/material';
 import { LoadingSkeleton } from '../LoadingSkeleton';
 
 import { flexColumnCentered as center } from '../../utils/muiTheme';
+import { subCategoriesWithDocumentKeys as documentCategories } from '../../utils/foodCategories';
 
 export const LogFoodInputContainer = ({ inputMode, foodOptions, handleLogFood }) => {
 
@@ -60,20 +61,24 @@ export const LogFoodSearchInput = ({ isActive, foodOptions, handleLogFood }) => 
 
 export const LogFoodCategoryInput = ({ isActive, foodOptions }) => {
 
+    const [category, setCategory] = useState("");
+    const [categoryFoods, setCategoryFoods] = useState([]);
+
+    const handleChange = e => {
+        setCategory(e.target.value)
+        const newDocumentKey = documentCategories[e.target.value]
+        setCategoryFoods(foodOptions[newDocumentKey])
+    }
+
+    const categoryMenuItems = Object.keys(documentCategories).map(key => (<MenuItem value={key} key={uuid()}>{key}</MenuItem>));
+
     if (isActive) {
         return (
             <>
-                <Select sx={{ width: 275, marginBottom: '5px' }} value='placeholder'>
-
+                <Select sx={{ width: 275, marginBottom: '5px' }} value={category} onChange={handleChange}>
+                    {categoryMenuItems}
                 </Select>
-                <Autocomplete
-                    disablePortal
-                    options={foodOptions}
-                    renderOption={(props, option) => (<li {...props} key={uuid()}>{option}</li>)}
-                    renderInput={(params) => <TextField {...params} label="search" />}
-                    onChange={(e, value) => setSelectedFood(value)}
-                    sx={{ width: 275 }}
-                />
+                <Select sx={{ width: 275 }}></Select>
                 <Container sx={{ width: '75px' }}>
                     <Button onClick={() => addFoodClickHandler(selectedFood)} key={uuid()} variant='contained' color='primary'>
                         <Typography variant='h4' sx={{ textTransform: 'lowercase' }}>+</Typography>
