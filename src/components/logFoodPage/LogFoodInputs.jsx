@@ -63,23 +63,35 @@ export const LogFoodCategoryInput = ({ isActive, foodOptions }) => {
 
     const [category, setCategory] = useState("");
     const [categoryFoods, setCategoryFoods] = useState([]);
+    const [selectedFood, setSelectedFood] = useState('');
 
-    const handleChange = e => {
-        setCategory(e.target.value)
-        const newDocumentKey = documentCategories[e.target.value]
-        setCategoryFoods(foodOptions[newDocumentKey])
-    }
+    const handleCategoryChange = e => {
+        setCategory(e.target.value);
+        const newDocumentKey = documentCategories[e.target.value];
+        setCategoryFoods(foodOptions[newDocumentKey]);
+        setSelectedFood('');
+    };
+
+    const handleSelectFood = e => {
+        setSelectedFood(e.target.value);
+    };
 
     const categoryMenuItems = Object.keys(documentCategories).map(key => (<MenuItem value={key} key={uuid()}>{key}</MenuItem>));
+    const foodItems = categoryFoods.map(food => <MenuItem value={food} key={uuid()}>{food}</MenuItem>);
 
     if (isActive) {
         return (
             <>
-                <Select sx={{ width: 275, marginBottom: '5px' }} value={category} onChange={handleChange}>
+                {/* TODO - add labels */}
+                <Select sx={{ width: 275, marginBottom: '5px' }} value={category} onChange={handleCategoryChange}>
                     {categoryMenuItems}
                 </Select>
-                <Select sx={{ width: 275 }}></Select>
+                <Select sx={{ width: 275 }} value={selectedFood} onChange={handleSelectFood} disabled={!category}>
+                    {foodItems}
+                </Select>
                 <Container sx={{ width: '75px' }}>
+                    {/* TODO - break add button into child component to reuse for all three options */}
+                    {/* TODO - implement addFoodClickHandler */}
                     <Button onClick={() => addFoodClickHandler(selectedFood)} key={uuid()} variant='contained' color='primary'>
                         <Typography variant='h4' sx={{ textTransform: 'lowercase' }}>+</Typography>
                     </Button>
@@ -92,7 +104,7 @@ export const LogFoodCategoryInput = ({ isActive, foodOptions }) => {
 };
 
 export const LogFoodFavouritesInput = ({ isActive }) => {
-
+    // TODO - implement when backend updated
     if (isActive) {
 
         return (

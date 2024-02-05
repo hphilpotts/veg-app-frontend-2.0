@@ -32,11 +32,12 @@ export const SelectModeButton = ({ inputMode, setInputMode }) => {
                     color={inputMode === 'favourites' ? 'primary' : 'grey'}
                     disableRipple
                     id='favourites'
+                    disabled // * - re-enable when LogFoodFavouritesInput component finished
                 >
                     favourites
                 </Button>
             </ButtonGroup>
         </Stack>
     );
-    
+
 };
