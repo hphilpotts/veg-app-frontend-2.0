@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 
 import { v4 as uuid } from 'uuid';
 
-import { Autocomplete, TextField, Container, Stack, Button, Typography, Select, MenuItem } from '@mui/material';
+import { Autocomplete, TextField, Container, Stack, Button, Typography, Select, MenuItem, FormControl, InputLabel } from '@mui/material';
 import { LoadingSkeleton } from '../LoadingSkeleton';
 
 import { flexColumnCentered as center } from '../../utils/muiTheme';
@@ -74,14 +74,30 @@ const LogFoodCategoryInput = ({ isActive, foodOptions, handleLogFood }) => {
     if (isActive) {
         return (
             <>
-                {/* TODO - add labels */}
-                <Select sx={{ width: 275, marginBottom: '5px' }} value={category} onChange={handleCategoryChange}>
-                    {categoryMenuItems}
-                </Select>
-                <Select sx={{ width: 275 }} value={selectedFood} onChange={handleSelectFood} disabled={!category}>
-                    {foodItems}
-                </Select>
-                <AddFoodItemButton handleLogFood={handleLogFood} selectedFood={selectedFood} />
+                <FormControl>
+                    <InputLabel id="log-food-category-select-label">category</InputLabel>
+                    <Select
+                        sx={{ width: 275, marginBottom: '5px' }}
+                        value={category}
+                        onChange={handleCategoryChange}
+                        label="category"
+                        labelId="log-food-category-select-label">
+                        {categoryMenuItems}
+                    </Select>
+                </FormControl>
+                <FormControl sx={{ flexDirection: 'row' }}>
+                    <InputLabel id="log-food-food-select-label">food to add</InputLabel>
+                    <Select
+                        sx={{ width: 275 }}
+                        value={selectedFood}
+                        onChange={handleSelectFood}
+                        disabled={!category}
+                        label="food to add"
+                        labelId="log-food-food-select-label">
+                        {foodItems}
+                    </Select>
+                    <AddFoodItemButton handleLogFood={handleLogFood} selectedFood={selectedFood} />
+                </FormControl>
             </>
         );
     };
