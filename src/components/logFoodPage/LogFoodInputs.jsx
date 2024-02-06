@@ -16,7 +16,7 @@ export const LogFoodInputContainer = ({ inputMode, foodOptions, handleLogFood })
                 {foodOptions ?
                     <>
                         <LogFoodSearchInput isActive={inputMode === 'search'} foodOptions={foodOptions} handleLogFood={handleLogFood} />
-                        <LogFoodCategoryInput isActive={inputMode === 'category'} foodOptions={foodOptions} />
+                        <LogFoodCategoryInput isActive={inputMode === 'category'} foodOptions={foodOptions} handleLogFood={handleLogFood} />
                         <LogFoodFavouritesInput isActive={inputMode === 'favourites'} />
                     </>
                     : <LoadingSkeleton count={1} />
@@ -27,13 +27,9 @@ export const LogFoodInputContainer = ({ inputMode, foodOptions, handleLogFood })
 
 };
 
-export const LogFoodSearchInput = ({ isActive, foodOptions, handleLogFood }) => {
+const LogFoodSearchInput = ({ isActive, foodOptions, handleLogFood }) => {
 
     const [selectedFood, setSelectedFood] = useState(null);
-
-    const addFoodClickHandler = selectedFood => {
-        handleLogFood(selectedFood);
-    };
 
     if (Array.isArray(foodOptions) && isActive) { // array check required where foodOptions may be Object, prevents prop fail from Autocomplete
         return (
@@ -47,7 +43,7 @@ export const LogFoodSearchInput = ({ isActive, foodOptions, handleLogFood }) => 
                     onChange={(e, value) => setSelectedFood(value)}
                 />
                 <Container sx={{ width: '75px' }}>
-                    <Button onClick={() => addFoodClickHandler(selectedFood)} key={uuid()} variant='contained' color='primary'>
+                    <Button onClick={() => handleLogFood(selectedFood)} key={uuid()} variant='contained' color='primary'>
                         <Typography variant='h4' sx={{ textTransform: 'lowercase' }}>+</Typography>
                     </Button>
                 </Container>
@@ -59,7 +55,7 @@ export const LogFoodSearchInput = ({ isActive, foodOptions, handleLogFood }) => 
 
 };
 
-export const LogFoodCategoryInput = ({ isActive, foodOptions }) => {
+const LogFoodCategoryInput = ({ isActive, foodOptions, handleLogFood }) => {
 
     const [category, setCategory] = useState("");
     const [categoryFoods, setCategoryFoods] = useState([]);
@@ -91,8 +87,7 @@ export const LogFoodCategoryInput = ({ isActive, foodOptions }) => {
                 </Select>
                 <Container sx={{ width: '75px' }}>
                     {/* TODO - break add button into child component to reuse for all three options */}
-                    {/* TODO - implement addFoodClickHandler */}
-                    <Button onClick={() => addFoodClickHandler(selectedFood)} key={uuid()} variant='contained' color='primary'>
+                    <Button onClick={() => handleLogFood(selectedFood)} key={uuid()} variant='contained' color='primary'>
                         <Typography variant='h4' sx={{ textTransform: 'lowercase' }}>+</Typography>
                     </Button>
                 </Container>
@@ -101,9 +96,10 @@ export const LogFoodCategoryInput = ({ isActive, foodOptions }) => {
     };
 
     return null;
+
 };
 
-export const LogFoodFavouritesInput = ({ isActive }) => {
+const LogFoodFavouritesInput = ({ isActive }) => {
     // TODO - implement when backend updated
     if (isActive) {
 
