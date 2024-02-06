@@ -42,11 +42,7 @@ const LogFoodSearchInput = ({ isActive, foodOptions, handleLogFood }) => {
                     renderInput={(params) => <TextField {...params} label="search" />}
                     onChange={(e, value) => setSelectedFood(value)}
                 />
-                <Container sx={{ width: '75px' }}>
-                    <Button onClick={() => handleLogFood(selectedFood)} key={uuid()} variant='contained' color='primary'>
-                        <Typography variant='h4' sx={{ textTransform: 'lowercase' }}>+</Typography>
-                    </Button>
-                </Container>
+                <AddFoodItemButton handleLogFood={handleLogFood} selectedFood={selectedFood} />
             </>
         );
     };
@@ -85,12 +81,7 @@ const LogFoodCategoryInput = ({ isActive, foodOptions, handleLogFood }) => {
                 <Select sx={{ width: 275 }} value={selectedFood} onChange={handleSelectFood} disabled={!category}>
                     {foodItems}
                 </Select>
-                <Container sx={{ width: '75px' }}>
-                    {/* TODO - break add button into child component to reuse for all three options */}
-                    <Button onClick={() => handleLogFood(selectedFood)} key={uuid()} variant='contained' color='primary'>
-                        <Typography variant='h4' sx={{ textTransform: 'lowercase' }}>+</Typography>
-                    </Button>
-                </Container>
+                <AddFoodItemButton handleLogFood={handleLogFood} selectedFood={selectedFood} />
             </>
         );
     };
@@ -102,12 +93,19 @@ const LogFoodCategoryInput = ({ isActive, foodOptions, handleLogFood }) => {
 const LogFoodFavouritesInput = ({ isActive }) => {
     // TODO - implement when backend updated
     if (isActive) {
-
-        return (
-            <p>Favourites Button</p>
-        );
+        return <p>Favourites Button</p>
     };
 
     return null;
 
+};
+
+const AddFoodItemButton = ({ handleLogFood, selectedFood }) => {
+    return (
+        <Container sx={{ width: '75px' }}>
+            <Button onClick={() => handleLogFood(selectedFood)} key={uuid()} variant='contained' color='primary'>
+                <Typography variant='h4' sx={{ textTransform: 'lowercase' }}>+</Typography>
+            </Button>
+        </Container>
+    );
 };
