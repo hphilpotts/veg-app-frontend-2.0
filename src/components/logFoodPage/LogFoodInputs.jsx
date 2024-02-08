@@ -114,11 +114,10 @@ const LogFoodFavouritesInput = ({ isActive, foodOptions, handleLogFood }) => {
         setSelectedFood(e.target.value);
     };
 
+    // getting .map is not a function error when switching modes, array check here to prevent this
+    const favouriteFoodOptions = Array.isArray(foodOptions) ? foodOptions.map(food => <MenuItem value={food} key={uuid()}>{food}</MenuItem>) : null;
 
     if (isActive) {
-
-        // getting .map is not a function error when switching modes, array check here to prevent this
-        const favouriteFoodOptions = Array.isArray(foodOptions) ? foodOptions.map(food => <MenuItem value={food} key={uuid()}>{food}</MenuItem>) : null;
 
         return (
             <FormControl sx={{ flexFlow: 'row' }}>
@@ -134,8 +133,9 @@ const LogFoodFavouritesInput = ({ isActive, foodOptions, handleLogFood }) => {
                 <AddFoodItemButton handleLogFood={handleLogFood} selectedFood={selectedFood} />
             </FormControl>
         );
-    };
-
+    }
+        
+    if (selectedFood) setSelectedFood(''); // clears Select component value when switching between modes
     return null;
 
 };
