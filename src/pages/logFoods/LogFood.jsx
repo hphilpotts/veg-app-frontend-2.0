@@ -13,7 +13,7 @@ import { PageTitle } from '../../components/PageTitle';
 import { SelectModeButton } from '../../components/logFoodPage/SelectModeButton';
 
 import { flexColumnCentered as center } from '../../utils/muiTheme';
-import { getFoods } from '../../utils/foodHelpers';
+import { getFoods, getFavouritesRequest } from '../../utils/foodHelpers';
 import { getDayName } from '../../utils/dateHelpers';
 import { createNewWeekDocument } from '../../utils/weekHelpers';
 
@@ -34,15 +34,18 @@ export const LogFood = () => {
         setFoodOptionsHandler(inputMode, foodsCollection.Foods);
     };
 
-    const setFoodOptionsHandler = (mode, responseData) => {
+    const setFoodOptionsHandler = async (mode, responseData) => {
         const categoryKeys = Object.keys(responseData).filter(key => key[0] != '_' && key != 'user'); // filter out non-category keys from GET res data
         if (mode === 'search') {
             const output = [];
             categoryKeys.forEach(categoryKey => output.push(responseData[categoryKey]));
             setFoodOptions(output.flat());
-        } else {
+        } else if (mode === 'category') {
             const output = {};
             categoryKeys.forEach(categoryKey => output[categoryKey] = responseData[categoryKey]);
+            setFoodOptions(output);
+        } else {
+            const output = await getFavouritesRequest(user);
             setFoodOptions(output);
         };
     };
