@@ -17,7 +17,7 @@ export const LogFoodInputContainer = ({ inputMode, foodOptions, handleLogFood })
                     <>
                         <LogFoodSearchInput isActive={inputMode === 'search'} foodOptions={foodOptions} handleLogFood={handleLogFood} />
                         <LogFoodCategoryInput isActive={inputMode === 'category'} foodOptions={foodOptions} handleLogFood={handleLogFood} />
-                        <LogFoodFavouritesInput isActive={inputMode === 'favourites'} />
+                        <LogFoodFavouritesInput isActive={inputMode === 'favourites'} foodOptions={foodOptions} handleLogFood={handleLogFood} />
                     </>
                     : <LoadingSkeleton count={1} />
                 }
@@ -106,10 +106,34 @@ const LogFoodCategoryInput = ({ isActive, foodOptions, handleLogFood }) => {
 
 };
 
-const LogFoodFavouritesInput = ({ isActive }) => {
-    // TODO - implement when backend updated
+const LogFoodFavouritesInput = ({ isActive, foodOptions, handleLogFood }) => {
+
+    const [selectedFood, setSelectedFood] = useState('');
+
+    const handleSelectFood = e => {
+        setSelectedFood(e.target.value);
+    };
+
+
     if (isActive) {
-        return <p>Favourites Button</p>
+
+        // getting .map is not a function error when switching modes, array check here to prevent this
+        const favouriteFoodOptions = Array.isArray(foodOptions) ? foodOptions.map(food => <MenuItem value={food} key={uuid()}>{food}</MenuItem>) : null;
+
+        return (
+            <FormControl sx={{ flexFlow: 'row' }}>
+                <InputLabel id="log-food-favourites-select-label">favourited foods</InputLabel>
+                <Select
+                    sx={{ width: 275 }}
+                    value={selectedFood}
+                    onChange={handleSelectFood}
+                    label="favourited foods"
+                    labelId="log-food-favourites-select-label">
+                    {favouriteFoodOptions}
+                </Select>
+                <AddFoodItemButton handleLogFood={handleLogFood} selectedFood={selectedFood} />
+            </FormControl>
+        );
     };
 
     return null;

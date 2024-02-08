@@ -4,5 +4,8 @@
 - proxy config is different with **Vite** when compared to using **Create React App**: see `vite.config.js` changes (rather than `package.json`).       
 - React.Strict mode renders components twice - _so don't stress trying to work out why (for example) `useEffect` seems to be firing twice_...   
 
-## bugs list
-- originalDayData updated with just-added Food Items in LogFood when switching between input modes - work out how to prevent this
+## bug list
+- `originalDayData` updates with just-added Food Items in LogFood when switching between input modes - work out how to prevent this
+
+## snagging list
+- `addFoodItemButton` in `LogFoodInputs` moves from bottom to middle of parent div based on input mode: adjust so that it remains consistent(presumably in its own parent element)
