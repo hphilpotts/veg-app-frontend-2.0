@@ -25,16 +25,21 @@ export const LogFood = () => {
 
     const [selectedDay, setSelectedDay] = useState(new Date()); // inits as today
     const [foodOptions, setFoodOptions] = useState(null);
+    const [favourites, setFavourites] = useState([]);
     const [week, setWeek] = useState({ id: '', currentDayData: [], originalDayData: [] });
     const [inputMode, setInputMode] = useState('search');
 
+    const getFavourites = async user => {
+        const res = await getFavouritesRequest(user);
+        setFavourites(res);
+    };
 
     const getAllFoodOptions = async user => {
         const foodsCollection = await getFoods(user, null);
         setFoodOptionsHandler(inputMode, foodsCollection.Foods);
     };
 
-    const setFoodOptionsHandler = async (mode, responseData) => {
+    const setFoodOptionsHandler = (mode, responseData) => {
         const categoryKeys = Object.keys(responseData).filter(key => key[0] != '_' && key != 'user'); // filter out non-category keys from GET res data
         if (mode === 'search') {
             const output = [];
@@ -45,8 +50,7 @@ export const LogFood = () => {
             categoryKeys.forEach(categoryKey => output[categoryKey] = responseData[categoryKey]);
             setFoodOptions(output);
         } else {
-            const output = await getFavouritesRequest(user);
-            setFoodOptions(output);
+            setFoodOptions(favourites);
         };
     };
 
@@ -112,6 +116,7 @@ export const LogFood = () => {
         if (!user.loggedIn) {
             navigateTo('/');
         } else {
+            getFavourites(user);
             getAllFoodOptions(user);
             getDayData(user, selectedDay);
         };
