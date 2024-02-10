@@ -8,15 +8,15 @@ import { LoadingSkeleton } from '../LoadingSkeleton';
 import { flexColumnCentered as center } from '../../utils/muiTheme';
 import { subCategoriesWithDocumentKeys as documentCategories } from '../../utils/foodCategories';
 
-export const LogFoodInputContainer = ({ inputMode, foodOptions, handleLogFood }) => {
+export const LogFoodInputContainer = ({ inputMode, foodOptions, favourites, handleLogFood }) => {
 
     return (
         <Container sx={{ height: '30%', justifyContent: 'center', ...center }}>
             <Stack direction={'row'} flexWrap={'wrap'} width={350}>
                 {foodOptions ?
                     <>
-                        <LogFoodSearchInput isActive={inputMode === 'search'} foodOptions={foodOptions} handleLogFood={handleLogFood} />
-                        <LogFoodCategoryInput isActive={inputMode === 'category'} foodOptions={foodOptions} handleLogFood={handleLogFood} />
+                        <LogFoodSearchInput isActive={inputMode === 'search'} foodOptions={foodOptions} favourites={favourites} handleLogFood={handleLogFood} />
+                        <LogFoodCategoryInput isActive={inputMode === 'category'} foodOptions={foodOptions} favourites={favourites} handleLogFood={handleLogFood} />
                         <LogFoodFavouritesInput isActive={inputMode === 'favourites'} foodOptions={foodOptions} handleLogFood={handleLogFood} />
                     </>
                     : <LoadingSkeleton count={1} />
@@ -27,7 +27,7 @@ export const LogFoodInputContainer = ({ inputMode, foodOptions, handleLogFood })
 
 };
 
-const LogFoodSearchInput = ({ isActive, foodOptions, handleLogFood }) => {
+const LogFoodSearchInput = ({ isActive, foodOptions, favourites, handleLogFood }) => {
 
     const [selectedFood, setSelectedFood] = useState(null);
 
@@ -38,7 +38,9 @@ const LogFoodSearchInput = ({ isActive, foodOptions, handleLogFood }) => {
                     disablePortal
                     options={foodOptions}
                     sx={{ width: 275 }}
-                    renderOption={(props, option) => (<li {...props} key={uuid()}>{option}</li>)}
+                    renderOption={(props, option) => ( // append star if favourited food
+                        <li {...props} key={uuid()}>{option + (favourites.includes(option) ? " ★" : null)}</li>
+                    )}
                     renderInput={(params) => <TextField {...params} label="search" />}
                     onChange={(e, value) => setSelectedFood(value)}
                 />
@@ -134,7 +136,7 @@ const LogFoodFavouritesInput = ({ isActive, foodOptions, handleLogFood }) => {
             </FormControl>
         );
     }
-        
+
     if (selectedFood) setSelectedFood(''); // clears Select component value when switching between modes
     return null;
 

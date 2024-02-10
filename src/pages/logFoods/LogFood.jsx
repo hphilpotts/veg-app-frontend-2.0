@@ -127,7 +127,7 @@ export const LogFood = () => {
         <Stack sx={{ height: '90vh', width: '100vw', maxWidth: 600 }}>
             <TitleContainer containerStyle={{ height: '10%', ...center }} />
             <DateScroller selectedDay={selectedDay} handleDateScroll={handleDateScroll} />
-            <LogFoodInputContainer inputMode={inputMode} foodOptions={foodOptions} handleLogFood={handleLogFood}/>
+            <LogFoodInputContainer inputMode={inputMode} foodOptions={foodOptions} favourites={favourites} handleLogFood={handleLogFood} />
             <SelectModeButton inputMode={inputMode} setInputMode={setInputMode} />
             <LogFoodDataDisplay currentDayData={week.currentDayData} originalDayData={week.originalDayData} handleRemoveFood={handleRemoveFood} />
         </Stack>
