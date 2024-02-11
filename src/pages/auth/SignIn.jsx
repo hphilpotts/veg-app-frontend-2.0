@@ -25,6 +25,12 @@ export const SignIn = ({ setUserFromSignIn }) => {
         auth.attempt.successful ? setUserFromSignIn(auth.user) : signInFailed(auth.attempt.message);
     };
 
+    const handleEnterKeyDown = e => {
+        if (e.key === 'Enter') {
+            submitHandler(e);
+        };
+    };
+
     const signInFailed = message => {
         alert(message);
     };
@@ -35,9 +41,9 @@ export const SignIn = ({ setUserFromSignIn }) => {
             <FormControl>
                 <Container sx={{ display: 'flex', flexDirection: 'column' }}>
                     <FormLabel>email address</FormLabel>
-                    <TextField name='email' type='email' onChange={e => formChangeHandler(e.target)}></TextField>
+                    <TextField name='email' id='signin-email-field' type='email' onChange={e => formChangeHandler(e.target)} ></TextField>
                     <FormLabel>password</FormLabel>
-                    <TextField name='password' type='password' onChange={e => formChangeHandler(e.target)}></TextField>
+                    <TextField name='password' id='signin-password-field' type='password' onChange={e => formChangeHandler(e.target)} onKeyDown={e => handleEnterKeyDown(e)}></TextField>
                     <Button onClick={submitHandler}>Submit</Button>
                 </Container>
             </FormControl>
