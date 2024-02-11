@@ -39,7 +39,7 @@ const LogFoodSearchInput = ({ isActive, foodOptions, favourites, handleLogFood }
                     options={foodOptions}
                     sx={{ width: 275 }}
                     renderOption={(props, option) => ( // append star if favourited food
-                        <li {...props} key={uuid()}>{option + (favourites.includes(option) ? " ★" : null)}</li>
+                        <li {...props} key={uuid()}>{option + (favourites.includes(option) ? " ★" : "")}</li>
                     )}
                     renderInput={(params) => <TextField {...params} label="search" />}
                     onChange={(e, value) => setSelectedFood(value)}
@@ -53,7 +53,7 @@ const LogFoodSearchInput = ({ isActive, foodOptions, favourites, handleLogFood }
 
 };
 
-const LogFoodCategoryInput = ({ isActive, foodOptions, handleLogFood }) => {
+const LogFoodCategoryInput = ({ isActive, foodOptions, favourites, handleLogFood }) => {
 
     const [category, setCategory] = useState("");
     const [categoryFoods, setCategoryFoods] = useState([]);
@@ -71,7 +71,7 @@ const LogFoodCategoryInput = ({ isActive, foodOptions, handleLogFood }) => {
     };
 
     const categoryMenuItems = Object.keys(documentCategories).map(key => (<MenuItem value={key} key={uuid()}>{key}</MenuItem>));
-    const foodItems = categoryFoods.map(food => <MenuItem value={food} key={uuid()}>{food}</MenuItem>);
+    const foodItems = categoryFoods.map(food => <MenuItem value={food} key={uuid()}>{food + (favourites.includes(food) ? " ★" : "")}</MenuItem>);
 
     if (isActive) {
         return (
