@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 
-import { AppBar, Box, Container, IconButton, Link, Typography } from '@mui/material';
+import { AppBar, Box, Button, Container, IconButton, Link, Typography } from '@mui/material';
 import CottageIcon from '@mui/icons-material/Cottage';
 
 import { UserContext } from '../App';
@@ -18,7 +18,7 @@ export const Header = ({ signOut }) => {
                         <HomeIcon />
                     </Box>
                     <Box flex={2} textAlign={'right'} sx={{ display: 'flex', justifyContent: 'end' }}>
-                        {user.loggedIn ? <ActiveUserControls /> : <InactiveUserControls />}
+                        {user.loggedIn ? <ActiveUserControls signOut={signOut} /> : <InactiveUserControls />}
                     </Box>
                 </Container>
             </AppBar>
@@ -38,7 +38,9 @@ const HomeIcon = () => {
 
 const ActiveUserControls = ({ signOut }) => {
     return (
-        <Typography color='inherit' variant='body2' sx={{ margin: '0.5em' }} onClick={signOut}>logout</Typography>
+        <Button>
+            <Typography color='white' variant='body2' sx={{ textTransform: 'lowercase' }} onClick={signOut}>logout</Typography>
+        </Button>
     );
 };
 
