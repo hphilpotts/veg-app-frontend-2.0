@@ -44,7 +44,7 @@ export const SignIn = ({ setUserFromSignIn }) => {
                     <TextField name='email' id='signin-email-field' type='email' onChange={e => formChangeHandler(e.target)} ></TextField>
                     <FormLabel>password</FormLabel>
                     <TextField name='password' id='signin-password-field' type='password' onChange={e => formChangeHandler(e.target)} onKeyDown={e => handleEnterKeyDown(e)}></TextField>
-                    <Button onClick={submitHandler}>Submit</Button>
+                    <Button variant='contained' sx={{ maxWidth: '200px', margin: '5% auto 0 auto' }} onClick={submitHandler}>Submit</Button>
                 </Container>
             </FormControl>
         </>
