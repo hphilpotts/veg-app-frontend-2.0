@@ -17,28 +17,26 @@ export const Header = ({ signOut }) => {
         <Box sx={{ flexGrow: 1 }}>
             <AppBar position='static'>
                 <Container maxWidth='xl' sx={{ display: 'flex' }}>
-                    <Box flex={2}>
-                        <HomeIcon />
-                    </Box>
+                    <HomeIcon />
                     <DesktopHeaderIcon url={'logFood/'} iconText={'log food'} iconComponent={<RestaurantIcon />} />
                     <DesktopHeaderIcon url={'progress/'} iconText={'progress'} iconComponent={<AssessmentIcon />} />
                     <DesktopHeaderIcon url={'createFood/'} iconText={'create food'} iconComponent={<FiberNewIcon />} />
-                    <Box flex={2} textAlign={'right'} sx={{ display: 'flex', justifyContent: 'end' }}>
-                        {user.loggedIn ? <ActiveUserControls signOut={signOut} /> : <InactiveUserControls />}
-                    </Box>
+                    {user.loggedIn ? <ActiveUserControls signOut={signOut} /> : <InactiveUserControls />}
                 </Container>
             </AppBar>
-        </Box>
+        </Box >
     );
 };
 
 const HomeIcon = () => {
     return (
-        <Link to={'/'}>
-            <IconButton color='secondary'>
-                <CottageIcon></CottageIcon>
-            </IconButton>
-        </Link>
+        <Box flex={2}>
+            <Link to={'/'}>
+                <IconButton color='secondary'>
+                    <CottageIcon></CottageIcon>
+                </IconButton>
+            </Link>
+        </Box>
     );
 };
 
@@ -65,21 +63,23 @@ const DesktopHeaderIcon = ({ url, iconText, iconComponent }) => {
 
 const ActiveUserControls = ({ signOut }) => {
     return (
-        <Button>
-            <Typography color='white' variant='body2' sx={{ textTransform: 'lowercase' }} onClick={signOut}>logout</Typography>
-        </Button>
+        <Box flex={2} textAlign={'right'} sx={{ display: 'flex', justifyContent: 'end' }}>
+            <Button>
+                <Typography color='white' variant='body2' sx={{ textTransform: 'lowercase' }} onClick={signOut}>logout</Typography>
+            </Button>
+        </Box>
     );
 };
 
 const InactiveUserControls = () => {
     return (
-        <>
+        <Box flex={2} textAlign={'right'} sx={{ display: 'flex', justifyContent: 'end' }}>
             <Link underline="none" color='inherit' variant='body2' sx={{ margin: '0.5em' }} component={RouterLink} to={'signin/'}>
                 sign in
             </Link>
             <Link underline="none" color='inherit' variant='body2' sx={{ margin: '0.5em' }} component={RouterLink} to={'signup/'}>
                 sign up
             </Link>
-        </>
+        </Box>
     );
 };
