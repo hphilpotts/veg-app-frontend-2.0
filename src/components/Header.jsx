@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { Link as RouterLink } from 'react-router-dom';
+import { Link as RouterLink, useNavigate } from 'react-router-dom';
 
 import { AppBar, Box, Button, Container, IconButton, Link, Typography } from '@mui/material';
 import CottageIcon from '@mui/icons-material/Cottage';
@@ -42,18 +42,25 @@ const HomeIcon = () => {
     );
 };
 
-const DesktopHeaderIcon = ({ url, iconText, iconComponent }) => { // todo - fix linking / change to buttons
+const DesktopHeaderIcon = ({ url, iconText, iconComponent }) => {
+
+    const navigateTo = useNavigate();
+
+    const navigateOnClick = url => {
+        navigateTo(url);
+    };
+
     return (
-        <Box flex={1} textAlign={'right'} sx={{ display: 'flex', justifyContent: 'space-evenly' }}>
-            <Link to={url} sx={{ margin: '0.5em' }}>
-                <Typography variant='body2' color='white' sx={{ display: 'flex', alignItems: 'center' }}>
-                    {iconText}
-                    <div className='padding-div' style={{ width: '10px' }} />
-                    {iconComponent}
-                </Typography>
-            </Link>
+        <Box onClick={() => navigateOnClick(url)} flex={1} textAlign={'right'} sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <Typography variant='body2' sx={{ display: 'flex', cursor: 'pointer', marginRight: '5px' }}>
+                {iconText}
+            </Typography>
+            <Typography variant='body2' sx={{ display: 'flex', cursor: 'pointer', marginLeft: '5px' }}>
+                {iconComponent}
+            </Typography>
         </Box>
     );
+
 };
 
 const ActiveUserControls = ({ signOut }) => {
