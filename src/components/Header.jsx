@@ -20,15 +20,9 @@ export const Header = ({ signOut }) => {
                     <Box flex={2}>
                         <HomeIcon />
                     </Box>
-                    <Box flex={1} textAlign={'right'} sx={{ display: 'flex', justifyContent: 'space-evenly' }}>
-                        <LogFoodIcon />
-                    </Box>
-                    <Box flex={1} textAlign={'right'} sx={{ display: 'flex', justifyContent: 'space-evenly' }}>
-                        <ProgressIcon />
-                    </Box>
-                    <Box flex={1} textAlign={'right'} sx={{ display: 'flex', justifyContent: 'space-evenly' }}>
-                        <CreateFoodIcon />
-                    </Box>
+                    <DesktopHeaderIcon url={'logFood/'} iconText={'log food'} iconComponent={<RestaurantIcon />} />
+                    <DesktopHeaderIcon url={'progress/'} iconText={'progress'} iconComponent={<AssessmentIcon />} />
+                    <DesktopHeaderIcon url={'createFood/'} iconText={'create food'} iconComponent={<FiberNewIcon />} />
                     <Box flex={2} textAlign={'right'} sx={{ display: 'flex', justifyContent: 'end' }}>
                         {user.loggedIn ? <ActiveUserControls signOut={signOut} /> : <InactiveUserControls />}
                     </Box>
@@ -48,27 +42,17 @@ const HomeIcon = () => {
     );
 };
 
-const LogFoodIcon = () => {
+const DesktopHeaderIcon = ({ url, iconText, iconComponent }) => { // todo - fix linking / change to buttons
     return (
-        <Link sx={{ margin: '0.5em' }}>
-            <Typography variant='body2' color='white' sx={{ display: 'flex', alignItems: 'center' }}>log food<RestaurantIcon sx={{ marginLeft: '10px' }} /></Typography>
-        </Link>
-    );
-};
-
-const ProgressIcon = () => {
-    return (
-        <Link sx={{ margin: '0.5em' }}>
-            <Typography variant='body2' color='white' sx={{ display: 'flex', alignItems: 'center' }}>progress<AssessmentIcon sx={{ marginLeft: '10px' }} /></Typography>
-        </Link>
-    );
-};
-
-const CreateFoodIcon = () => {
-    return (
-        <Link sx={{ margin: '0.5em' }}>
-            <Typography variant='body2' color='white' sx={{ display: 'flex', alignItems: 'center' }}>create food<FiberNewIcon sx={{ marginLeft: '10px' }} /></Typography>
-        </Link>
+        <Box flex={1} textAlign={'right'} sx={{ display: 'flex', justifyContent: 'space-evenly' }}>
+            <Link to={url} sx={{ margin: '0.5em' }}>
+                <Typography variant='body2' color='white' sx={{ display: 'flex', alignItems: 'center' }}>
+                    {iconText}
+                    <div className='padding-div' style={{ width: '10px' }} />
+                    {iconComponent}
+                </Typography>
+            </Link>
+        </Box>
     );
 };
 
