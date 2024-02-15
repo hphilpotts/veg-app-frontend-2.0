@@ -49,7 +49,12 @@ const DesktopHeaderIcon = ({ url, iconText, iconComponent }) => {
     };
 
     return (
-        <Box onClick={() => navigateOnClick(url)} flex={1} textAlign={'right'} sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <Box
+            onClick={() => navigateOnClick(url)}
+            flex={1}
+            textAlign={'right'}
+            sx={{ display: { xs: 'none', md: 'flex' }, alignItems: 'center', justifyContent: 'center' }}
+        >
             <Typography variant='body2' sx={{ display: 'flex', cursor: 'pointer', marginRight: '5px' }}>
                 {iconText}
             </Typography>
