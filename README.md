@@ -5,6 +5,7 @@
 - remember React.Strict mode renders components twice - _so if you come back to React after a while, don't stress trying to work out why (for example) `useEffect` seems to be firing twice_...   
 
 ## bug list
+- in `logFoods` an empty string can be logged as a foodItem - add validation to prevent empty string from being logged.
 - `originalDayData` updates with just-added Food Items in LogFood when switching between input modes - work out how to prevent this
 
 ## snagging list
