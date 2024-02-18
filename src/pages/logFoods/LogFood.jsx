@@ -85,10 +85,12 @@ export const LogFood = () => {
     };
 
     const handleLogFood = foodItem => {
-        const newWeek = { ...week };
-        newWeek.currentDayData.push(foodItem);
-        setWeek(newWeek);
-        submitLoggedFoods(newWeek.currentDayData);
+        if (foodItem.length) {
+            const newWeek = { ...week };
+            newWeek.currentDayData.push(foodItem);
+            setWeek(newWeek);
+            submitLoggedFoods(newWeek.currentDayData);
+        };
     };
 
     const handleRemoveFood = foodItemIndex => {
