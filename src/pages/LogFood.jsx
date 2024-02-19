@@ -2,22 +2,22 @@ import React, { useContext, useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import Axios from 'axios';
-import { xAuth } from '../../utils/axiosConfig';
+import { xAuth } from '../utils/axiosConfig';
 
 import { Stack, Container } from '@mui/material';
 
-import { DateScroller } from '../../components/DateScroller';
-import { LogFoodInputContainer } from '../../components/logFoodPage/LogFoodInputs';
-import { LogFoodDataDisplay } from '../../components/logFoodPage/LogFoodDataDisplay';
-import { PageTitle } from '../../components/PageTitle';
-import { SelectModeButton } from '../../components/logFoodPage/SelectModeButton';
+import { DateScroller } from '../components/DateScroller';
+import { LogFoodInputContainer } from '../components/logFoodPage/LogFoodInputs';
+import { LogFoodDataDisplay } from '../components/logFoodPage/LogFoodDataDisplay';
+import { PageTitle } from '../components/PageTitle';
+import { SelectModeButton } from '../components/logFoodPage/SelectModeButton';
 
-import { flexColumnCentered as center } from '../../utils/muiTheme';
-import { getFoods, getFavouritesRequest } from '../../utils/foodHelpers';
-import { getDayName } from '../../utils/dateHelpers';
-import { createNewWeekDocument } from '../../utils/weekHelpers';
+import { flexColumnCentered as center } from '../utils/muiTheme';
+import { getFoods, getFavouritesRequest } from '../utils/foodHelpers';
+import { getDayName } from '../utils/dateHelpers';
+import { createNewWeekDocument } from '../utils/weekHelpers';
 
-import { UserContext } from '../../App';
+import { UserContext } from '../App';
 
 export const LogFood = () => {
 

@@ -2,9 +2,9 @@ import React, { useState } from 'react';
 
 import { FormControl } from '@mui/base';
 import { Button, Container, FormLabel, TextField } from '@mui/material';
-import { PageTitle } from '../../components/PageTitle';
+import { PageTitle } from '../components/PageTitle';
 
-import { userSignInRequest } from '../../utils/authHelpers';
+import { userSignInRequest } from '../utils/authHelpers';
 
 export const SignIn = ({ setUserFromSignIn }) => {
 

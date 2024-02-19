@@ -2,10 +2,10 @@ import React, { useState } from 'react';
 
 import { FormControl } from '@mui/base';
 import { Button, Container, FormLabel, TextField } from '@mui/material';
-import { PageTitle } from '../../components/PageTitle';
+import { PageTitle } from '../components/PageTitle';
 
-import { userSignupAttempt, userSignInRequest } from '../../utils/authHelpers';
-import { createNewFoodDocument } from '../../utils/foodHelpers';
+import { userSignupAttempt, userSignInRequest } from '../utils/authHelpers';
+import { createNewFoodDocument } from '../utils/foodHelpers';
 
 export const SignUp = ({ setUserFromSignIn }) => {
 

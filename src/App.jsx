@@ -6,9 +6,10 @@ import { Container } from '@mui/material';
 import { Header } from './components/Header';
 import { Footer } from './components/Footer';
 
-import { SignIn } from './pages/auth/SignIn';
-import { SignUp } from './pages/auth/SignUp';
-import { LogFood } from './pages/logFoods/LogFood';
+import { SignIn } from './pages/SignIn';
+import { SignUp } from './pages/SignUp';
+import { LogFood } from './pages/LogFood';
+import { Progress } from './pages/Progress';
 
 import { nullUser } from './utils/authHelpers';
 import { flexColumnCentered as center, topMargin } from '../src/utils/muiTheme';
@@ -33,6 +34,7 @@ const App = () => {
           <Route path='signin/' element={<SignIn setUserFromSignIn={setUserFromSignIn} />}></Route>
           <Route path='signup/' element={<SignUp setUserFromSignIn={setUserFromSignIn} />}></Route>
           <Route path='logFood/' element={<LogFood />}></Route>
+          <Route path='progress/' element={<Progress />}></Route>
           <Route path='*' element={<p>no match</p>}></Route>
         </Routes>
       </Container>
