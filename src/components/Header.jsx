@@ -31,11 +31,9 @@ export const Header = ({ signOut }) => {
 const HomeIcon = () => {
     return (
         <Box flex={2}>
-            <Link to={'/'}>
-                <IconButton color='secondary'>
-                    <CottageIcon></CottageIcon>
-                </IconButton>
-            </Link>
+            <IconButton color='secondary' component={RouterLink} to={'/'}>
+                <CottageIcon></CottageIcon>
+            </IconButton>
         </Box>
     );
 };
