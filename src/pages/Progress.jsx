@@ -4,6 +4,8 @@ import { useNavigate } from 'react-router-dom';
 import Axios from 'axios';
 import { xAuth } from '../utils/axiosConfig';
 
+import { PageTitle } from '../components/PageTitle';
+
 import { UserContext } from '../App';
 
 
@@ -40,7 +42,7 @@ export const Progress = () => {
     }, [user]);
 
     return (
-        <h1>Progress Page</h1>
+        <PageTitle titleText={'progress'} />
     );
 
 };
