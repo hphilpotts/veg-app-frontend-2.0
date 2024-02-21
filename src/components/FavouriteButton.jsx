@@ -13,7 +13,7 @@ export const FavouriteButton = ({ favourite }) => {
     return (
         <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%' }}>
             <IconButton onClick={() => testClick()}>
-                <StarIcon />
+                {favourite ? <StarIcon /> : <StarOutlineIcon />}
             </IconButton>
         </Box>
     )

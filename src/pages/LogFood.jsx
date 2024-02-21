@@ -131,7 +131,7 @@ export const LogFood = () => {
             <DateScroller selectedDay={selectedDay} handleDateScroll={handleDateScroll} />
             <LogFoodInputContainer inputMode={inputMode} foodOptions={foodOptions} favourites={favourites} handleLogFood={handleLogFood} />
             <SelectModeButton inputMode={inputMode} setInputMode={setInputMode} />
-            <LogFoodDataDisplay currentDayData={week.currentDayData} originalDayData={week.originalDayData} handleRemoveFood={handleRemoveFood} />
+            <LogFoodDataDisplay currentDayData={week.currentDayData} originalDayData={week.originalDayData} favourites={favourites} handleRemoveFood={handleRemoveFood} />
         </Stack>
     );
 
