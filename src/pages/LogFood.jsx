@@ -100,6 +100,10 @@ export const LogFood = () => {
         submitLoggedFoods(newWeek.currentDayData);
     };
 
+    const handleUpdateFavourites = /* async */ foodItem => {
+        console.log(foodItem + ' passed to handleUpdateFavs template function');
+    };
+
     const submitLoggedFoods = async data => {
         const day = getDayName(selectedDay);
         const requestBody = { id: week.id, day: day, newData: data, user: user.id };
@@ -131,7 +135,10 @@ export const LogFood = () => {
             <DateScroller selectedDay={selectedDay} handleDateScroll={handleDateScroll} />
             <LogFoodInputContainer inputMode={inputMode} foodOptions={foodOptions} favourites={favourites} handleLogFood={handleLogFood} />
             <SelectModeButton inputMode={inputMode} setInputMode={setInputMode} />
-            <LogFoodDataDisplay currentDayData={week.currentDayData} originalDayData={week.originalDayData} favourites={favourites} handleRemoveFood={handleRemoveFood} />
+            <LogFoodDataDisplay 
+                currentDayData={week.currentDayData} originalDayData={week.originalDayData} favourites={favourites} 
+                handleRemoveFood={handleRemoveFood} handleUpdateFavourites={handleUpdateFavourites} 
+            />
         </Stack>
     );
 

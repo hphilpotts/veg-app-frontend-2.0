@@ -7,7 +7,7 @@ import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
 
 import { FavouriteButton } from '../FavouriteButton';
 
-export const LogFoodDataDisplay = ({ currentDayData, originalDayData, favourites, handleRemoveFood }) => {
+export const LogFoodDataDisplay = ({ currentDayData, originalDayData, favourites, handleRemoveFood, handleUpdateFavourites }) => {
 
     let foodItemsList;
 
@@ -21,7 +21,7 @@ export const LogFoodDataDisplay = ({ currentDayData, originalDayData, favourites
                     </Typography>
                 </Container>
                 <Container sx={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center', width: '50%' }}>
-                    <FavouriteButton favourite={favourites.includes(foodItem)} />
+                    <FavouriteButton foodItem={foodItem} favourite={favourites.includes(foodItem)} handleClick={handleUpdateFavourites} />
                     <IconButton onClick={() => handleRemoveFood(index)}>
                         <RemoveCircleOutlineIcon />
                     </IconButton>
