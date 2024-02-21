@@ -13,7 +13,7 @@ import { PageTitle } from '../components/PageTitle';
 import { SelectModeButton } from '../components/logFoodPage/SelectModeButton';
 
 import { flexColumnCentered as center } from '../utils/muiTheme';
-import { getFoods, getFavouritesRequest } from '../utils/foodHelpers';
+import { getFoods, getFavouritesRequest, updateFavouritesRequest } from '../utils/foodHelpers';
 import { getDayName } from '../utils/dateHelpers';
 import { createNewWeekDocument } from '../utils/weekHelpers';
 
@@ -100,8 +100,9 @@ export const LogFood = () => {
         submitLoggedFoods(newWeek.currentDayData);
     };
 
-    const handleUpdateFavourites = /* async */ foodItem => {
-        console.log(foodItem + ' passed to handleUpdateFavs template function');
+    const handleUpdateFavourites = foodItem => {
+        updateFavouritesRequest(user, foodItem);
+        getFavourites(user);
     };
 
     const submitLoggedFoods = async data => {

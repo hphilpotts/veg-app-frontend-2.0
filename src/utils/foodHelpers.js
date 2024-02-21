@@ -38,3 +38,14 @@ export const getFavouritesRequest = async user => {
         return error;
     };
 };
+
+export const updateFavouritesRequest = async (user, foodItem) => {
+    const requestBody = { id: user.id, foodItem: foodItem };
+    try {
+        const res = await Axios.put('/api/user/favourites/update', requestBody, xAuth(user.token));
+        return res.status;
+    } catch (error) {
+        console.error(error);
+        return error;
+    };
+};
