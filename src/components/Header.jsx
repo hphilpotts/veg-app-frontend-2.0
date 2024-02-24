@@ -18,9 +18,9 @@ export const Header = ({ signOut }) => {
             <AppBar position='static'>
                 <Container maxWidth='xl' sx={{ display: 'flex' }}>
                     <HomeIcon />
-                    <DesktopHeaderIcon url={'logFood/'} iconText={'log food'} iconComponent={<RestaurantIcon />} />
-                    <DesktopHeaderIcon url={'progress/'} iconText={'progress'} iconComponent={<AssessmentIcon />} />
-                    <DesktopHeaderIcon url={'createFood/'} iconText={'create food'} iconComponent={<FiberNewIcon />} />
+                    <DesktopHeaderIcon url={'logFood/'} iconText={'log food'} iconComponent={<RestaurantIcon />} isActive={user.loggedIn} />
+                    <DesktopHeaderIcon url={'progress/'} iconText={'progress'} iconComponent={<AssessmentIcon />} isActive={user.loggedIn} />
+                    <DesktopHeaderIcon url={'createFood/'} iconText={'create food'} iconComponent={<FiberNewIcon />} isActive={user.loggedIn} />
                     {user.loggedIn ? <ActiveUserControls signOut={signOut} /> : <InactiveUserControls />}
                 </Container>
             </AppBar>
@@ -38,7 +38,7 @@ const HomeIcon = () => {
     );
 };
 
-const DesktopHeaderIcon = ({ url, iconText, iconComponent }) => {
+const DesktopHeaderIcon = ({ url, iconText, iconComponent, isActive }) => {
 
     const navigateTo = useNavigate();
 
@@ -46,21 +46,23 @@ const DesktopHeaderIcon = ({ url, iconText, iconComponent }) => {
         navigateTo(url);
     };
 
-    return (
-        <Box
-            onClick={() => navigateOnClick(url)}
-            flex={1}
-            textAlign={'right'}
-            sx={{ display: { xs: 'none', md: 'flex' }, alignItems: 'center', justifyContent: 'center' }}
-        >
-            <Typography variant='body2' sx={{ display: 'flex', cursor: 'pointer', marginRight: '5px' }}>
-                {iconText}
-            </Typography>
-            <Typography variant='body2' sx={{ display: 'flex', cursor: 'pointer', marginLeft: '5px' }}>
-                {iconComponent}
-            </Typography>
-        </Box>
-    );
+    if (isActive) {
+        return (
+            <Box
+                onClick={() => navigateOnClick(url)}
+                flex={1}
+                textAlign={'right'}
+                sx={{ display: { xs: 'none', md: 'flex' }, alignItems: 'center', justifyContent: 'center' }}
+            >
+                <Typography variant='body2' sx={{ display: 'flex', cursor: 'pointer', marginRight: '5px' }}>
+                    {iconText}
+                </Typography>
+                <Typography variant='body2' sx={{ display: 'flex', cursor: 'pointer', marginLeft: '5px' }}>
+                    {iconComponent}
+                </Typography>
+            </Box>
+        );
+    } else return null;
 
 };
 
