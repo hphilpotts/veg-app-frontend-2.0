@@ -11,6 +11,7 @@ import { SignIn } from './pages/SignIn';
 import { SignUp } from './pages/SignUp';
 import { LogFood } from './pages/LogFood';
 import { Progress } from './pages/Progress';
+import { CreateFood } from './pages/CreateFood';
 
 import { nullUser } from './utils/authHelpers';
 import { flexColumnCentered as center, topMargin } from '../src/utils/muiTheme';
@@ -36,6 +37,7 @@ const App = () => {
           <Route path='signup/' element={<SignUp setUserFromSignIn={setUserFromSignIn} />}></Route>
           <Route path='logFood/' element={<LogFood />}></Route>
           <Route path='progress/' element={<Progress />}></Route>
+          <Route path='createFood/' element={<CreateFood />}></Route>
           <Route path='*' element={<p>no match</p>}></Route>
         </Routes>
       </Container>

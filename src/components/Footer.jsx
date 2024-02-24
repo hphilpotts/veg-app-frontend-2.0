@@ -13,7 +13,7 @@ export const Footer = () => {
             <BottomNavigation showLabels position='static' color='primary' sx={{ top: 'auto', bottom: 0 }} >
                 <BottomNavigationAction label="log food" icon={<RestaurantIcon />} component={RouterLink} to={'logFood/'} />
                 <BottomNavigationAction label="progress" icon={<AssessmentIcon />} component={RouterLink} to={'progress/'} />
-                <BottomNavigationAction label="create food" icon={<FiberNewIcon />} />
+                <BottomNavigationAction label="create food" icon={<FiberNewIcon />} component={RouterLink} to={'createFood/'} />
             </BottomNavigation>
         </Paper >
     );
