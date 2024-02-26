@@ -14,10 +14,27 @@ export const CreateFood = () => {
 
     const user = useContext(UserContext);
 
-    const [category, setCategory] = useState("");
+    const [selectedCategory, setSelectedCategory] = useState("");
+    const [formData, setFormData] = useState({ item: '', category: '' });
 
-    const handleCategoryChange = e => {
-        setCategory(e.target.value);
+    const handleCategorySelectChange = e => {
+        setSelectedCategory(e.target.value);
+    };
+
+    const handleTextInput = e => {
+        const updatedFormData = { ...formData };
+        updatedFormData.item = e.target.value;
+        setFormData(updatedFormData);
+    };
+
+    const handleSubmitForm = () => {
+        const completedFormData = {...formData};
+        completedFormData.user = user.id;
+        completedFormData.category = documentCategories[selectedCategory];
+        completedFormData.action = 'add';
+        // TODO - implement Axios call w/ completed data
+        console.log('completed form data:');
+        console.log(completedFormData);
     };
 
     const navigateTo = useNavigate();
@@ -30,23 +47,25 @@ export const CreateFood = () => {
 
     const categoryMenuItems = Object.keys(documentCategories).map(key => (<MenuItem value={key} key={uuid()}>{key}</MenuItem>));
 
+    // TODO - implement add and log functionality
+
     return (
         <>
             <PageTitle titleText={'create food'} />
             <Stack spacing={1}>
-                <TextField label='food name' />
+                <TextField label='food name' value={formData.item} onChange={handleTextInput} />
                 <FormControl>
                     <InputLabel id="category-select-input-label">category</InputLabel>
                     <Select
-                        value={category}
-                        onChange={handleCategoryChange}
+                        value={selectedCategory}
+                        onChange={handleCategorySelectChange}
                         label="category"
                         labelId="category-select-input-label">
                         {categoryMenuItems}
                     </Select>
                 </FormControl>
-                <Button variant='contained'>add new food</Button>
-                <Button variant='outlined'>add and log for today</Button>
+                <Button variant='contained' onClick={() => handleSubmitForm()}>add new food</Button>
+                {/* <Button variant='outlined'>add and log for today</Button> */}
             </Stack>
         </>
     );
