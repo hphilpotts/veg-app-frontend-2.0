@@ -14,25 +14,24 @@ import { UserContext } from '../App';
 export const CreateFood = () => {
 
     const user = useContext(UserContext);
-
+    const [foodItem, setFoodItem] = useState('');
     const [selectedCategory, setSelectedCategory] = useState("");
-    const [formData, setFormData] = useState({ item: '', category: '' });
+
+    const handleTextInput = e => {
+        setFoodItem(e.target.value);
+    };
 
     const handleCategorySelectChange = e => {
         setSelectedCategory(e.target.value);
     };
 
-    const handleTextInput = e => {
-        const updatedFormData = { ...formData };
-        updatedFormData.item = e.target.value;
-        setFormData(updatedFormData);
-    };
-
     const handleSubmitForm = () => {
-        const completedFormData = {...formData};
-        completedFormData.user = user.id;
-        completedFormData.category = foodDocumentCategories[selectedCategory];
-        completedFormData.action = 'add';
+        const completedFormData = {
+            user: user.id,
+            category: selectedCategory,
+            action: 'add',
+            item: foodItem
+        };
         updateFoodsDocumentRequest(user, completedFormData);
     };
 
@@ -44,26 +43,25 @@ export const CreateFood = () => {
         };
     }, [user]);
 
-    const categoryMenuItems = Object.keys(foodDocumentCategories).map(key => (<MenuItem value={key} key={uuid()}>{key}</MenuItem>));
-
-    // TODO - implement add and log functionality
+    const selectCategoryMenuItems = Object.keys(foodDocumentCategories).map(key => (<MenuItem value={key} key={uuid()}>{key}</MenuItem>));
 
     return (
         <>
             <PageTitle titleText={'create food'} />
             <Stack spacing={1}>
-                <TextField label='food name' value={formData.item} onChange={handleTextInput} />
+                <TextField id='food-item-input' label='food item name' value={foodItem} onChange={handleTextInput} />
                 <FormControl>
                     <InputLabel id="category-select-input-label">category</InputLabel>
                     <Select
-                        value={selectedCategory}
-                        onChange={handleCategorySelectChange}
+                        id='category-select-input'
                         label="category"
-                        labelId="category-select-input-label">
-                        {categoryMenuItems}
+                        labelId="category-select-input-label"
+                        value={selectedCategory}
+                        onChange={handleCategorySelectChange}>
+                        {selectCategoryMenuItems}
                     </Select>
                 </FormControl>
-                <Button variant='contained' onClick={() => handleSubmitForm()}>add new food</Button>
+                <Button id='submit-button' aria-label='submit food item' variant='contained' onClick={() => handleSubmitForm()}>add new food</Button>
                 {/* <Button variant='outlined'>add and log for today</Button> */}
             </Stack>
         </>
