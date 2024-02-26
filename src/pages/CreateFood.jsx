@@ -6,7 +6,8 @@ import { v4 as uuid } from 'uuid';
 import { MenuItem, Stack, FormControl, TextField, InputLabel, Select, Button } from '@mui/material';
 import { PageTitle } from '../components/PageTitle';
 
-import { subCategoriesWithDocumentKeys as documentCategories } from '../utils/foodCategories';
+import { subCategoriesWithDocumentKeys as foodDocumentCategories } from '../utils/foodCategories';
+import { updateFoodsDocumentRequest } from '../utils/foodHelpers';
 
 import { UserContext } from '../App';
 
@@ -30,11 +31,9 @@ export const CreateFood = () => {
     const handleSubmitForm = () => {
         const completedFormData = {...formData};
         completedFormData.user = user.id;
-        completedFormData.category = documentCategories[selectedCategory];
+        completedFormData.category = foodDocumentCategories[selectedCategory];
         completedFormData.action = 'add';
-        // TODO - implement Axios call w/ completed data
-        console.log('completed form data:');
-        console.log(completedFormData);
+        updateFoodsDocumentRequest(user, completedFormData);
     };
 
     const navigateTo = useNavigate();
@@ -45,7 +44,7 @@ export const CreateFood = () => {
         };
     }, [user]);
 
-    const categoryMenuItems = Object.keys(documentCategories).map(key => (<MenuItem value={key} key={uuid()}>{key}</MenuItem>));
+    const categoryMenuItems = Object.keys(foodDocumentCategories).map(key => (<MenuItem value={key} key={uuid()}>{key}</MenuItem>));
 
     // TODO - implement add and log functionality
 

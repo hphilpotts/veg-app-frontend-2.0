@@ -28,6 +28,16 @@ export const getFoods = async (user, category) => {
 
 };
 
+export const updateFoodsDocumentRequest = async (user, requestBody) => {
+    try {
+        const res = await Axios.post('/api/foods/update', requestBody, xAuth(user.token));
+        return res;
+    } catch (error) {
+        console.error(error);
+        return error;
+    };
+};
+
 export const getFavouritesRequest = async user => {
     const url = `/api/user/favourites?userId=${user.id}`
     try {
