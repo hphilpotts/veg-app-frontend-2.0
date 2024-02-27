@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 
 import { v4 as uuid } from 'uuid';
 
-import { MenuItem, Stack, FormControl, TextField, InputLabel, Select, Button } from '@mui/material';
+import { MenuItem, Stack, FormControl, TextField, InputLabel, Select, Button, Divider } from '@mui/material';
 import { PageTitle } from '../components/PageTitle';
 
 import { subCategoriesWithDocumentKeys as foodDocumentCategories } from '../utils/foodCategories';
@@ -15,7 +15,7 @@ export const CreateFood = () => {
 
     const user = useContext(UserContext);
     const [foodItem, setFoodItem] = useState('');
-    const [selectedCategory, setSelectedCategory] = useState("");
+    const [selectedCategory, setSelectedCategory] = useState('');
 
     const handleTextInput = e => {
         setFoodItem(e.target.value);
@@ -25,14 +25,22 @@ export const CreateFood = () => {
         setSelectedCategory(e.target.value);
     };
 
-    const handleSubmitForm = () => {
+    const handleSubmitForm = async () => {
+
         const completedFormData = {
             user: user.id,
-            category: selectedCategory,
+            category: foodDocumentCategories[selectedCategory],
             action: 'add',
             item: foodItem
         };
-        updateFoodsDocumentRequest(user, completedFormData);
+
+        const res = await updateFoodsDocumentRequest(user, completedFormData);
+
+        if (res.status === 200) {
+            setFoodItem('');;
+            setSelectedCategory('');
+        };
+
     };
 
     const navigateTo = useNavigate();
@@ -48,8 +56,8 @@ export const CreateFood = () => {
     return (
         <>
             <PageTitle titleText={'create food'} />
-            <Stack spacing={1}>
-                <TextField id='food-item-input' label='food item name' value={foodItem} onChange={handleTextInput} />
+            <Stack spacing={2}>
+                <TextField id='food-item-input' label='food item name' value={foodItem} onChange={handleTextInput} type='text' autoComplete='disabled'/>
                 <FormControl>
                     <InputLabel id="category-select-input-label">category</InputLabel>
                     <Select
@@ -63,6 +71,8 @@ export const CreateFood = () => {
                 </FormControl>
                 <Button id='submit-button' aria-label='submit food item' variant='contained' onClick={() => handleSubmitForm()}>add new food</Button>
                 {/* <Button variant='outlined'>add and log for today</Button> */}
+                <Divider/>
+                <Button onClick={() => console.log(navigateTo('/logFood/'))}>go to log foods</Button>
             </Stack>
         </>
     );
