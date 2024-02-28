@@ -6,6 +6,8 @@ import { xAuth } from '../utils/axiosConfig';
 
 import { PageTitle } from '../components/PageTitle';
 
+import { calculateWeekFoodCount } from '../utils/weekHelpers';
+
 import { UserContext } from '../App';
 
 
@@ -42,7 +44,10 @@ export const Progress = () => {
     }, [user]);
 
     return (
-        <PageTitle titleText={'progress'} />
+        <>
+            <PageTitle titleText={'progress'} />
+            <button onClick={() => calculateWeekFoodCount(weekData)}>test</button>
+        </>
     );
 
 };

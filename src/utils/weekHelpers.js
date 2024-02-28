@@ -12,3 +12,20 @@ export const createNewWeekDocument = async (user, date) => {
         return error;
     };
 };
+
+export const calculateWeekFoodCount = weekData => {
+
+    if (!weekData._id) return; // no weekData saved in state - return 
+
+    const uniqueWeekFoods = [];
+    ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'].forEach(day => {
+        if (weekData[day]) {
+            weekData[day].map(foodItem => {
+                if (!uniqueWeekFoods.includes(foodItem)) {
+                    uniqueWeekFoods.push(foodItem);
+                };
+            });
+        };
+    });
+    console.log(uniqueWeekFoods);
+};
