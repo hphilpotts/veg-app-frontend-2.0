@@ -13,19 +13,20 @@ export const createNewWeekDocument = async (user, date) => {
     };
 };
 
+const dayNames = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
+
 export const calculateWeekFoodCount = weekData => {
-
     if (!weekData._id) return; // no weekData saved in state - return 
-
     const uniqueWeekFoods = [];
-    ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'].forEach(day => {
-        if (weekData[day]) {
-            weekData[day].map(foodItem => {
-                if (!uniqueWeekFoods.includes(foodItem)) {
-                    uniqueWeekFoods.push(foodItem);
-                };
-            });
+    dayNames.forEach(day => populateUniqueFoods(uniqueWeekFoods, weekData[day]));
+    return uniqueWeekFoods.length;
+};
+
+const populateUniqueFoods = (targetArray, dayArray) => {
+    if (!dayArray.length) return; // dayArray passed in may be empty - prevents error mapping empty arr
+    dayArray.map(foodItem => {
+        if (!targetArray.includes(foodItem)) {
+            targetArray.push(foodItem);
         };
     });
-    console.log(uniqueWeekFoods);
 };
