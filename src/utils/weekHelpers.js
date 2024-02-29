@@ -15,11 +15,20 @@ export const createNewWeekDocument = async (user, date) => {
 
 const dayNames = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
 
-export const calculateWeekFoodCount = weekData => {
-    if (!weekData._id) return; // no weekData saved in state - return 
-    const uniqueWeekFoods = [];
-    dayNames.forEach(day => populateUniqueFoods(uniqueWeekFoods, weekData[day]));
-    return uniqueWeekFoods.length;
+export const evaluateWeekProgress = weekData => {
+
+    if (!weekData._id) return; // no weekData saved in state - return
+
+    const progressData = { 
+        uniqueFoods: [],
+        get uniqueFoodsCount() {
+            return this.uniqueFoods.length;
+        }
+     };
+
+    dayNames.forEach(day => populateUniqueFoods(progressData.uniqueFoods, weekData[day]));
+    
+    return progressData;
 };
 
 const populateUniqueFoods = (targetArray, dayArray) => {
