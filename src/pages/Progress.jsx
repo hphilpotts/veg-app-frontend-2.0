@@ -50,7 +50,7 @@ export const Progress = () => {
             <PageTitle titleText={'progress'} />
             {progressData ?
                 <>
-                    <p>All Foods Count: {progressData.allFoodCount}</p>
+                    <p>All Foods Count: {progressData.allFoodsCount}</p>
                     <p>Unique Foods Count: {progressData.uniqueFoodsCount}</p>
                 </> 
                 : null

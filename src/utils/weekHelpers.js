@@ -13,34 +13,34 @@ export const createNewWeekDocument = async (user, date) => {
     };
 };
 
-const dayNames = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
+class ProgressData {
+
+    constructor(allFoods) {
+        this.allFoods = allFoods;
+        this.uniqueFoods = [...new Set(allFoods)];
+    }
+
+    get allFoodsCount() { // ? undecided whether these are neccessary (although either way it's good pratice for me to use them)
+        return this.allFoods.length; // ... or if simply accessing progressData.allFoods.length in Progress page is better
+    }
+    get uniqueFoodsCount() {
+        return this.uniqueFoods.length;
+    }
+
+}
 
 export const evaluateWeekProgress = weekData => {
-
-    if (!weekData._id) return; // no weekData saved in state - return
-
-    const progressData = { 
-        allFoods: [],
-        uniqueFoods: [],
-        get allFoodCount() {
-            return this.allFoods.length;
-        },
-        get uniqueFoodsCount() {
-            return this.uniqueFoods.length;
-        }
-     };
-
-    dayNames.forEach(day => weekData[day] ? weekData[day].forEach(element => progressData.allFoods.push(element)) : null);
-    dayNames.forEach(day => populateUniqueFoods(progressData.uniqueFoods, weekData[day]));
-
-    return progressData;
+    if (!weekData._id) return; // no weekData saved in state - exit by return
+    const allFoodsArray = combineAllFoods(weekData);
+    return new ProgressData(allFoodsArray);
 };
 
-const populateUniqueFoods = (targetArray, dayArray) => {
-    if (!dayArray.length) return; // dayArray passed in may be empty - prevents error mapping empty arr
-    dayArray.map(foodItem => {
-        if (!targetArray.includes(foodItem)) {
-            targetArray.push(foodItem);
+const combineAllFoods = weekData => {
+    const output = [];
+    for (const property in weekData) {
+        if (weekData[property].constructor === Array) { // only the day data properties are arrays, filters out timestamps, user properties etc.
+            output.push(weekData[property]);
         };
-    });
+    };
+    return output.flat();
 };
