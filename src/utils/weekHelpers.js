@@ -20,14 +20,19 @@ export const evaluateWeekProgress = weekData => {
     if (!weekData._id) return; // no weekData saved in state - return
 
     const progressData = { 
+        allFoods: [],
         uniqueFoods: [],
+        get allFoodCount() {
+            return this.allFoods.length;
+        },
         get uniqueFoodsCount() {
             return this.uniqueFoods.length;
         }
      };
 
+    dayNames.forEach(day => weekData[day] ? weekData[day].forEach(element => progressData.allFoods.push(element)) : null);
     dayNames.forEach(day => populateUniqueFoods(progressData.uniqueFoods, weekData[day]));
-    
+
     return progressData;
 };
 

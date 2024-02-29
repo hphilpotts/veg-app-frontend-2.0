@@ -16,7 +16,7 @@ export const Progress = () => {
     const user = useContext(UserContext);
 
     const [weekData, setWeekData] = useState({});
-    const [weeklyTotal, setWeeklyTotal] = useState(0);
+    const [progressData, setProgressData] = useState(null);
 
     const fetchWeekData = async (user, date) => {
 
@@ -26,8 +26,7 @@ export const Progress = () => {
         try {
             const res = await Axios.get(requestUrl, xAuth(user.token));
             setWeekData(res.data.Week);
-            const progressData = evaluateWeekProgress(res.data.Week);
-            setWeeklyTotal(progressData.uniqueFoodsCount);
+            setProgressData(evaluateWeekProgress(res.data.Week));
         } catch (error) {
             error.message.includes('Cannot read properties of null') ?
                 console.warn('the week document you are fetching does not exist!') :
@@ -49,7 +48,14 @@ export const Progress = () => {
     return (
         <>
             <PageTitle titleText={'progress'} />
-            { weeklyTotal ? <p>{weeklyTotal}</p> : null}
+            {progressData ?
+                <>
+                    <p>All Foods Count: {progressData.allFoodCount}</p>
+                    <p>Unique Foods Count: {progressData.uniqueFoodsCount}</p>
+                </> 
+                : null
+            }
+
         </>
     );
 
