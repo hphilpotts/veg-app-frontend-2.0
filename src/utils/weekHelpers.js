@@ -13,11 +13,18 @@ export const createNewWeekDocument = async (user, date) => {
     };
 };
 
+export const evaluateWeekProgress = weekData => {
+    if (!weekData._id) return; // no weekData saved in state - exit by return
+    const allFoodsArray = combineAllFoods(weekData);
+    return new ProgressData(allFoodsArray);
+};
+
 class ProgressData {
 
-    constructor(allFoods) {
+    constructor(allFoods, target = 30) {
         this.allFoods = allFoods;
         this.uniqueFoods = [...new Set(allFoods)];
+        this.foodsRemaining = target - allFoods.length;
     }
 
     get allFoodsCount() { // ? undecided whether these are neccessary (although either way it's good pratice for me to use them)
@@ -26,14 +33,7 @@ class ProgressData {
     get uniqueFoodsCount() {
         return this.uniqueFoods.length;
     }
-
 }
-
-export const evaluateWeekProgress = weekData => {
-    if (!weekData._id) return; // no weekData saved in state - exit by return
-    const allFoodsArray = combineAllFoods(weekData);
-    return new ProgressData(allFoodsArray);
-};
 
 const combineAllFoods = weekData => {
     const output = [];

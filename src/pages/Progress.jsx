@@ -4,8 +4,10 @@ import { useNavigate } from 'react-router-dom';
 import Axios from 'axios';
 import { xAuth } from '../utils/axiosConfig';
 
+import { Box, CircularProgress, Typography } from '@mui/material';
 import { PageTitle } from '../components/PageTitle';
 
+import { flexColumnCentered as center } from '../utils/muiTheme';
 import { evaluateWeekProgress } from '../utils/weekHelpers';
 
 import { UserContext } from '../App';
@@ -48,14 +50,47 @@ export const Progress = () => {
     return (
         <>
             <PageTitle titleText={'progress'} />
-            {progressData ?
-                <>
-                    <p>All Foods Count: {progressData.allFoodsCount}</p>
-                    <p>Unique Foods Count: {progressData.uniqueFoodsCount}</p>
-                </> 
-                : null
-            }
+            <ProgressDial data={progressData} />
+        </>
+    );
 
+};
+
+const ProgressDial = ({ data }) => {
+
+    if (!data) return null;
+
+    const target = data.uniqueFoodsCount + data.foodsRemaining;
+    const progress = data.uniqueFoodsCount / target * 100;
+
+    return (
+        <>
+            <Box sx={{ position: 'relative', display: 'inline-flex', marginTop: '5%' }}>
+                <CircularProgress variant='determinate' value={progress} size={200} thickness={10} />
+                <Box sx={{
+                    top: 0,
+                    left: 0,
+                    bottom: 0,
+                    right: 0,
+                    position: 'absolute',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                }}>
+                    <Typography>
+                        {data.uniqueFoodsCount} / {target}
+                    </Typography>
+                </Box>
+
+            </Box>
+            <Box sx={center}>
+                <Typography>
+                    {data.uniqueFoodsCount} different foods eaten so far this week
+                </Typography>
+                <Typography>
+                    {data.foodsRemaining} new foods left to go!
+                </Typography>
+            </Box>
         </>
     );
 
