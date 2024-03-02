@@ -15,6 +15,7 @@ export const createNewWeekDocument = async (user, date) => {
 
 export const evaluateWeekProgress = weekData => {
     if (!weekData._id) return; // no weekData saved in state - exit by return
+    evaluatePastWeeks(weekData.weekCommencing);
     const allFoodsArray = combineAllFoods(weekData);
     return new ProgressData(allFoodsArray);
 };
@@ -24,7 +25,7 @@ class ProgressData {
     constructor(allFoods, target = 30) {
         this.allFoods = allFoods;
         this.uniqueFoods = [...new Set(allFoods)];
-        this.foodsRemaining = target - allFoods.length;
+        this.foodsRemaining = target - this.uniqueFoods.length;
     }
 
     get allFoodsCount() { // ? undecided whether these are neccessary (although either way it's good pratice for me to use them)
@@ -43,4 +44,19 @@ const combineAllFoods = weekData => {
         };
     };
     return output.flat();
+};
+
+export const evaluatePastWeeks = startDate => {
+    const pastWeekCommencings = getPreviousWeeks(startDate, 4);
+    console.log(pastWeekCommencings);
+};
+
+const getPreviousWeeks = (date, numberWeeks) => { // todo - possibly move out to dateHelpers?
+    const outputArr = [];
+    const currentDate = new Date(date);
+    for (let count = 0; count < numberWeeks; count++) { 
+        currentDate.setDate(currentDate.getDate() - 7);
+        outputArr.push(new Date(currentDate));
+    };
+    return outputArr;
 };
