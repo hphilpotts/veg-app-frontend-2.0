@@ -1,6 +1,8 @@
 import Axios from 'axios';
 import { xAuth } from './axiosConfig';
 
+// axios requests
+
 export const createNewWeekDocument = async (user, date) => {
     const formattedDate = date.toISOString().split('T')[0];
     const requestBody = { user: user.id, date: formattedDate };
@@ -13,8 +15,23 @@ export const createNewWeekDocument = async (user, date) => {
     };
 };
 
+export const getWeekDocument = async (user, date) => {
+    const formattedDate = date.toISOString().split('T')[0];
+    const requestUrl = `/api/week/find?user=${user.id}&date=${formattedDate}`;
+    try {
+        const res = await Axios.get(requestUrl, xAuth(user.token));
+        return res;
+    } catch (error) {
+        error.message.includes('Cannot read properties of null') ?
+            console.warn('the week document you are fetching does not exist!') :
+            console.error(error);
+    };
+};
+
+// weekly progress evaluation
+
 export const evaluateWeekProgress = weekData => {
-    if (!weekData._id) return; // no weekData saved in state - exit by return
+    if (!weekData?._id) return; // no weekData saved in state - exit by return
     evaluatePastWeeks(weekData.weekCommencing);
     const allFoodsArray = combineAllFoods(weekData);
     return new ProgressData(allFoodsArray);
@@ -54,7 +71,7 @@ export const evaluatePastWeeks = startDate => {
 const getPreviousWeeks = (date, numberWeeks) => { // todo - possibly move out to dateHelpers?
     const outputArr = [];
     const currentDate = new Date(date);
-    for (let count = 0; count < numberWeeks; count++) { 
+    for (let count = 0; count < numberWeeks; count++) {
         currentDate.setDate(currentDate.getDate() - 7);
         outputArr.push(new Date(currentDate));
     };

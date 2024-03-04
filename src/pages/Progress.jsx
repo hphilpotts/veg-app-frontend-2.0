@@ -1,14 +1,11 @@
 import React, { useContext, useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import Axios from 'axios';
-import { xAuth } from '../utils/axiosConfig';
-
 import { Box, CircularProgress, Typography } from '@mui/material';
 import { PageTitle } from '../components/PageTitle';
 
 import { flexColumnCentered as center } from '../utils/muiTheme';
-import { evaluateWeekProgress } from '../utils/weekHelpers';
+import { evaluateWeekProgress, getWeekDocument } from '../utils/weekHelpers';
 
 import { UserContext } from '../App';
 
@@ -21,20 +18,12 @@ export const Progress = () => {
     const [progressData, setProgressData] = useState(null);
 
     const fetchWeekData = async (user, date) => {
-
-        const formattedDate = date.toISOString().split('T')[0];
-        const requestUrl = `/api/week/find?user=${user.id}&date=${formattedDate}`;
-
-        try {
-            const res = await Axios.get(requestUrl, xAuth(user.token));
+        const res = await getWeekDocument(user, date);
+        if (res) {
             setWeekData(res.data.Week);
-            setProgressData(evaluateWeekProgress(res.data.Week));
-        } catch (error) {
-            error.message.includes('Cannot read properties of null') ?
-                console.warn('the week document you are fetching does not exist!') :
-                console.error(error);
+            const evaluatedWeek = evaluateWeekProgress(res.data.Week);
+            setProgressData(evaluatedWeek);
         };
-
     };
 
     const navigateTo = useNavigate();
