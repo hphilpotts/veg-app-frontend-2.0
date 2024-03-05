@@ -28,44 +28,37 @@ export const getWeekDocument = async (user, date) => {
     };
 };
 
+
 // weekly progress evaluation
 
-export const evaluateWeekProgress = weekData => {
-    if (!weekData?._id) return; // no weekData saved in state - exit by return
-    evaluatePastWeeks(weekData.weekCommencing);
-    const allFoodsArray = combineAllFoods(weekData);
-    return new ProgressData(allFoodsArray);
-};
-
 class ProgressData {
-
     constructor(allFoods, target = 30) {
         this.allFoods = allFoods;
         this.uniqueFoods = [...new Set(allFoods)];
         this.foodsRemaining = target - this.uniqueFoods.length;
     }
-
     get allFoodsCount() { // ? undecided whether these are neccessary (although either way it's good pratice for me to use them)
         return this.allFoods.length; // ... or if simply accessing progressData.allFoods.length in Progress page is better
     }
     get uniqueFoodsCount() {
         return this.uniqueFoods.length;
     }
-}
-
-const combineAllFoods = weekData => {
-    const output = [];
-    for (const property in weekData) {
-        if (weekData[property].constructor === Array) { // only the day data properties are arrays, filters out timestamps, user properties etc.
-            output.push(weekData[property]);
-        };
-    };
-    return output.flat();
 };
 
-export const evaluatePastWeeks = startDate => {
+export const evaluateWeekProgress = weekData => {
+    if (!weekData?._id) return; // no weekData saved in state - exit by return
+    const allFoodsArray = combineAllFoods(weekData);
+    return new ProgressData(allFoodsArray);
+};
+
+export const evaluatePastWeeks = async (startDate, user) => {
     const pastWeekCommencings = getPreviousWeeks(startDate, 4);
-    console.log(pastWeekCommencings);
+    let previousTotals = await Promise.all(pastWeekCommencings.map(async date => {
+        const res = await getWeekDocument(user, date);
+        const weeklyTally = combineAllFoods(res.data.Week).length;
+        return [weeklyTally, date.toISOString().split('T')[0]];
+    }));
+    return previousTotals;
 };
 
 const getPreviousWeeks = (date, numberWeeks) => { // todo - possibly move out to dateHelpers?
@@ -76,4 +69,14 @@ const getPreviousWeeks = (date, numberWeeks) => { // todo - possibly move out to
         outputArr.push(new Date(currentDate));
     };
     return outputArr;
+};
+
+const combineAllFoods = weekData => {
+    const output = [];
+    for (const property in weekData) {
+        if (weekData[property].constructor === Array) { // only the day data properties are arrays, filters out timestamps, user properties etc.
+            output.push(weekData[property]);
+        };
+    };
+    return output.flat();
 };

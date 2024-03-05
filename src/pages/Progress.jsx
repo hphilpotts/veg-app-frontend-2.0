@@ -5,7 +5,7 @@ import { Box, CircularProgress, Typography } from '@mui/material';
 import { PageTitle } from '../components/PageTitle';
 
 import { flexColumnCentered as center } from '../utils/muiTheme';
-import { evaluateWeekProgress, getWeekDocument } from '../utils/weekHelpers';
+import { evaluatePastWeeks, evaluateWeekProgress, getWeekDocument } from '../utils/weekHelpers';
 
 import { UserContext } from '../App';
 
@@ -16,13 +16,16 @@ export const Progress = () => {
 
     const [weekData, setWeekData] = useState({});
     const [progressData, setProgressData] = useState(null);
+    const [pastProgressData, setPastProgressData] = useState(null);
 
     const fetchWeekData = async (user, date) => {
         const res = await getWeekDocument(user, date);
         if (res) {
             setWeekData(res.data.Week);
             const evaluatedWeek = evaluateWeekProgress(res.data.Week);
+            const pastWeeks = await evaluatePastWeeks(date, user);
             setProgressData(evaluatedWeek);
+            setPastProgressData(pastWeeks);
         };
     };
 
