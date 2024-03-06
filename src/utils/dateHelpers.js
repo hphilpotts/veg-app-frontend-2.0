@@ -23,3 +23,13 @@ const dayNames = {
         5: 'friday',
         6: 'saturday'
 }
+
+export const getPreviousWeeks = (date, numberWeeks) => {
+    const outputArr = [];
+    const currentDate = new Date(date);
+    for (let count = 0; count < numberWeeks; count++) {
+        currentDate.setDate(currentDate.getDate() - 7);
+        outputArr.push(new Date(currentDate));
+    };
+    return outputArr;
+};

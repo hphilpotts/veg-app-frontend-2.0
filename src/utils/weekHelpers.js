@@ -1,6 +1,8 @@
 import Axios from 'axios';
 import { xAuth } from './axiosConfig';
 
+import { getPreviousWeeks } from './dateHelpers';
+
 // axios requests
 
 export const createNewWeekDocument = async (user, date) => {
@@ -56,19 +58,9 @@ export const evaluatePastWeeks = async (startDate, user) => {
     let previousTotals = await Promise.all(pastWeekCommencings.map(async date => {
         const res = await getWeekDocument(user, date);
         const weeklyTally = combineAllFoods(res.data.Week).length;
-        return [weeklyTally, date.toISOString().split('T')[0]];
+        return weeklyTally;
     }));
     return previousTotals;
-};
-
-const getPreviousWeeks = (date, numberWeeks) => { // todo - possibly move out to dateHelpers?
-    const outputArr = [];
-    const currentDate = new Date(date);
-    for (let count = 0; count < numberWeeks; count++) {
-        currentDate.setDate(currentDate.getDate() - 7);
-        outputArr.push(new Date(currentDate));
-    };
-    return outputArr;
 };
 
 const combineAllFoods = weekData => {

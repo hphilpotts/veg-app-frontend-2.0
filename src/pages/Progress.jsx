@@ -2,10 +2,12 @@ import React, { useContext, useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { Box, CircularProgress, Typography } from '@mui/material';
+import { BarChart } from '@mui/x-charts';
 import { PageTitle } from '../components/PageTitle';
 
 import { flexColumnCentered as center } from '../utils/muiTheme';
 import { evaluatePastWeeks, evaluateWeekProgress, getWeekDocument } from '../utils/weekHelpers';
+import { getPreviousWeeks } from '../utils/dateHelpers';
 
 import { UserContext } from '../App';
 
@@ -43,6 +45,7 @@ export const Progress = () => {
         <>
             <PageTitle titleText={'progress'} />
             <ProgressDial data={progressData} />
+            <ProgressBarChart date={weekData.weekCommencing} progressData={progressData} pastProgressData={pastProgressData} />
         </>
     );
 
@@ -87,3 +90,18 @@ const ProgressDial = ({ data }) => {
     );
 
 };
+
+const ProgressBarChart = ({ date, progressData, pastProgressData }) => {
+
+    const dates = getPreviousWeeks(date, 4).reverse().concat(new Date(date));
+
+    // skip stringify on invalid dates, then 
+        // if no valid dates passed - e.g. if parent states have not yet been updated from DB - filter to result in empty array
+        // ? could this be radically simplified through non-render if any of the props are undefined / not updated ... ?
+    const displayDates = dates.map(date => !isNaN(date) ? date.toLocaleDateString().split('T')[0] : null).filter(e => e != undefined);
+
+    return (
+        <p>chart</p>
+    )
+
+}
