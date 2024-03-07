@@ -5,6 +5,7 @@ import { Box, CircularProgress, Typography } from '@mui/material';
 import { BarChart } from '@mui/x-charts';
 import { PageTitle } from '../components/PageTitle';
 
+import { green } from '@mui/material/colors';
 import { flexColumnCentered as center } from '../utils/muiTheme';
 import { evaluatePastWeeks, evaluateWeekProgress, getWeekDocument } from '../utils/weekHelpers';
 import { getPreviousWeeks } from '../utils/dateHelpers';
@@ -96,12 +97,32 @@ const ProgressBarChart = ({ date, progressData, pastProgressData }) => {
     const dates = getPreviousWeeks(date, 4).reverse().concat(new Date(date));
 
     // skip stringify on invalid dates, then 
-        // if no valid dates passed - e.g. if parent states have not yet been updated from DB - filter to result in empty array
-        // ? could this be radically simplified through non-render if any of the props are undefined / not updated ... ?
+    // if no valid dates passed - e.g. if parent states have not yet been updated from DB - filter to result in empty array
+    // ? could this be radically simplified through non-render if any of the props are undefined / not updated ... ?
     const displayDates = dates.map(date => !isNaN(date) ? date.toLocaleDateString().split('T')[0] : null).filter(e => e != undefined);
 
-    return (
-        <p>chart</p>
-    )
+    const totals = pastProgressData?.toReversed().concat(progressData.uniqueFoodsCount);
 
-}
+    if (totals?.length && displayDates?.length) { // see above ? comment...
+        return ( // todo - title etc - put in container?
+            <BarChart
+                xAxis={[{
+                    scaleType: 'band',
+                    data: displayDates,
+                    tickLabelStyle: {
+                        angle: 45,
+                        textAnchor: 'start',
+                        fontSize: '0.5rem'
+                    }
+                }]}
+                yAxis={[{ label: 'weekly unique foods eaten' }]}
+                series={[{ data: totals, color: green[800] }]}
+                width={375}
+                height={375}
+            />
+        );
+    } else {
+        return null;
+    };
+
+};
