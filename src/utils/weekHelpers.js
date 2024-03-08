@@ -55,10 +55,14 @@ export const evaluateWeekProgress = weekData => {
 
 export const evaluatePastWeeks = async (startDate, user) => {
     const pastWeekCommencings = getPreviousWeeks(startDate, 4);
-    let previousTotals = await Promise.all(pastWeekCommencings.map(async date => { // TODO - add try/catch in case a request errors
-        const res = await getWeekDocument(user, date);
-        const weeklyTally = combineAllFoods(res.data.Week).length;
-        return weeklyTally;
+    let previousTotals = await Promise.all(pastWeekCommencings.map(async date => {
+        try {
+            const res = await getWeekDocument(user, date);
+            const weeklyTally = combineAllFoods(res.data.Week).length;
+            return weeklyTally;
+        } catch (error) {
+            return error;
+        };
     }));
     return previousTotals;
 };
