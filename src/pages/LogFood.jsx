@@ -1,5 +1,6 @@
 import React, { useContext, useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import dayjs from 'dayjs';
 
 import Axios from 'axios';
 import { xAuth } from '../utils/axiosConfig';
@@ -14,7 +15,6 @@ import { SelectModeButton } from '../components/logFoodPage/SelectModeButton';
 
 import { flexColumnCentered as center } from '../utils/muiTheme';
 import { getFoods, getFavouritesRequest, updateFavouritesRequest } from '../utils/foodHelpers';
-import { getDayName } from '../utils/dateHelpers';
 import { createNewWeekDocument } from '../utils/weekHelpers';
 
 import { UserContext } from '../App';
@@ -23,7 +23,7 @@ export const LogFood = () => {
 
     const user = useContext(UserContext);
 
-    const [selectedDay, setSelectedDay] = useState(new Date()); // inits as today
+    const [selectedDay, setSelectedDay] = useState(dayjs()); // inits as today
     const [foodOptions, setFoodOptions] = useState(null);
     const [favourites, setFavourites] = useState([]);
     const [week, setWeek] = useState({ id: '', currentDayData: [], originalDayData: [] });
@@ -56,12 +56,12 @@ export const LogFood = () => {
 
     const getDayData = async (user, date) => {
 
-        const formattedDate = date.toISOString().split('T')[0];
+        const formattedDate = date.format('YYYY-MM-DD')
         const requestUrl = `/api/week/find?user=${user.id}&date=${formattedDate}`;
 
         try {
             const res = await Axios.get(requestUrl, xAuth(user.token));
-            const dayData = res.data.Week[getDayName(date)];
+            const dayData = res.data.Week[date.format('dddd').toLowerCase()];
             setWeek({ id: res.data.Week._id, currentDayData: [...dayData], originalDayData: [...dayData] });
         } catch (error) {
             // if a null TypeError week document does not exist, create new week and retry; otherwise log other errors to the console
@@ -114,7 +114,7 @@ export const LogFood = () => {
     };
 
     const submitLoggedFoods = async data => {
-        const day = getDayName(selectedDay);
+        const day = selectedDay.format('dddd').toLowerCase();
         const requestBody = { id: week.id, day: day, newData: data, user: user.id };
         try {
             const res = await Axios.put(`/api/week/update`, requestBody, xAuth(user.token));
@@ -141,7 +141,8 @@ export const LogFood = () => {
     return (
         <Stack sx={{ height: '90vh', width: '100vw', maxWidth: 600 }}>
             <TitleContainer containerStyle={{ height: '10%', ...center }} />
-            <DateScroller selectedDay={selectedDay} handleDateScroll={handleDateScroll} />
+            {/* todo: update date handling in DateScroller with dayjs and re-enable */}
+            {/* <DateScroller selectedDay={selectedDay} handleDateScroll={handleDateScroll} /> */}
             <LogFoodInputContainer inputMode={inputMode} foodOptions={foodOptions} favourites={favourites} handleLogFood={handleLogFood} />
             <SelectModeButton inputMode={inputMode} setInputMode={setInputMode} />
             <LogFoodDataDisplay
