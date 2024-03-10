@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
+import dayjs from 'dayjs';
 
 import { Container, Stack, IconButton, Typography } from '@mui/material';
 
 import { flexColumnCentered as centre } from '../utils/muiTheme';
-import { incrementDate, decrementDate, getDayName } from '../utils/dateHelpers';
 
 import ArrowLeftIcon from '@mui/icons-material/ArrowLeft';
 import ArrowRightIcon from '@mui/icons-material/ArrowRight';
@@ -14,7 +14,7 @@ export const DateScroller = ({ selectedDay, handleDateScroll }) => {
 
     const decrementHandler = date => {
 
-        const previousDay = decrementDate(date);
+        const previousDay = date.subtract(1, 'd');
         handleDateScroll(previousDay);
         setButtonDisabled(false);
 
@@ -22,19 +22,18 @@ export const DateScroller = ({ selectedDay, handleDateScroll }) => {
 
     const incrementHandler = date => {
 
-        const nextDay = incrementDate(date);
+        const nextDay = date.add(1, 'd');
         handleDateScroll(nextDay);
 
-        const today = new Date();
-        today.setHours(0, 0, 0, 0);
+        const today = dayjs().startOf('date');
 
-        if (today.getTime() <= nextDay.getTime()) { // check if next day is in the future, disable button if so
+        if (today.isBefore(nextDay)) { // check if next day is in the future, disable button if so
             setButtonDisabled(true);
         };
 
     };
     
-    const displayDate = `${getDayName(selectedDay).slice(0, 3)} ${selectedDay.toLocaleDateString()}`
+    const displayDate = selectedDay.format('DD/MM/YY');
 
     return (
         <Container sx={{ height: '10%', ...centre }}>

@@ -141,8 +141,7 @@ export const LogFood = () => {
     return (
         <Stack sx={{ height: '90vh', width: '100vw', maxWidth: 600 }}>
             <TitleContainer containerStyle={{ height: '10%', ...center }} />
-            {/* todo: update date handling in DateScroller with dayjs and re-enable */}
-            {/* <DateScroller selectedDay={selectedDay} handleDateScroll={handleDateScroll} /> */}
+            <DateScroller selectedDay={selectedDay} handleDateScroll={handleDateScroll} />
             <LogFoodInputContainer inputMode={inputMode} foodOptions={foodOptions} favourites={favourites} handleLogFood={handleLogFood} />
             <SelectModeButton inputMode={inputMode} setInputMode={setInputMode} />
             <LogFoodDataDisplay
