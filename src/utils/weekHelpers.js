@@ -6,8 +6,8 @@ import { getPreviousWeeks } from './dateHelpers';
 // axios requests
 
 export const createNewWeekDocument = async (user, date) => {
-    const formattedDate = date.toISOString().split('T')[0];
-    const requestBody = { user: user.id, date: formattedDate };
+    // const formattedDate = date.toISOString().split('T')[0];
+    const requestBody = { user: user.id, date: date.format('YYYY-MM-DD') };
     try {
         const res = await Axios.post('/api/week/create', requestBody, xAuth(user.token));
         return res;
@@ -18,8 +18,7 @@ export const createNewWeekDocument = async (user, date) => {
 };
 
 export const getWeekDocument = async (user, date) => {
-    const formattedDate = date.toISOString().split('T')[0];
-    const requestUrl = `/api/week/find?user=${user.id}&date=${formattedDate}`;
+    const requestUrl = `/api/week/find?user=${user.id}&date=${date.format('YYYY-MM-DD')}`;
     try {
         const res = await Axios.get(requestUrl, xAuth(user.token));
         return res;

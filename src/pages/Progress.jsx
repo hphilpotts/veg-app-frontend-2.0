@@ -1,5 +1,6 @@
 import React, { useContext, useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import dayjs from 'dayjs';
 
 import { Box, CircularProgress, Typography } from '@mui/material';
 import { BarChart } from '@mui/x-charts';
@@ -38,21 +39,21 @@ export const Progress = () => {
         if (!user.loggedIn) {
             navigateTo('/');
         } else {
-            fetchWeekData(user, new Date());
+            fetchWeekData(user, dayjs());
         }
     }, [user]);
 
     return (
         <>
             <PageTitle titleText={'progress'} />
-            <ProgressDial data={progressData} />
-            <ProgressBarChart date={weekData.weekCommencing} progressData={progressData} pastProgressData={pastProgressData} />
+            {/* <ProgressDial data={progressData} /> */}
+            <ProgressBarChart date={dayjs(weekData.weekCommencing)} progressData={progressData} pastProgressData={pastProgressData} />
         </>
     );
 
 };
 
-const ProgressDial = ({ data }) => {
+const ProgressDial = ({ data }) => { // todo - re-enable in Progress above when converted to dayjs
 
     if (!data) return null;
 
@@ -94,14 +95,14 @@ const ProgressDial = ({ data }) => {
 
 const ProgressBarChart = ({ date, progressData, pastProgressData }) => {
 
-    const dates = getPreviousWeeks(date, 4).reverse().concat(new Date(date));
+    const dates = getPreviousWeeks(date, 4).concat(dayjs());
 
-    // skip stringify on invalid dates, then 
+    // skip format on invalid dates, then 
     // if no valid dates passed - e.g. if parent states have not yet been updated from DB - filter to result in empty array
     // ? could this be radically simplified through non-render if any of the props are undefined / not updated ... ?
-    const displayDates = dates.map(date => !isNaN(date) ? date.toLocaleDateString().split('T')[0] : null).filter(e => e != undefined);
+    const displayDates = dates.map(date => !isNaN(date) ? date.format('DD-MM-YY') : null).filter(e => e != undefined);
 
-    const totals = pastProgressData?.toReversed().concat(progressData.uniqueFoodsCount);
+    const totals = pastProgressData?.concat(progressData.uniqueFoodsCount);
 
     if (totals?.length && displayDates?.length) { // see above ? comment...
         return ( // todo - title etc - put in container?

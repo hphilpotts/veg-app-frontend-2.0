@@ -25,11 +25,9 @@ const dayNames = {
 }
 
 export const getPreviousWeeks = (date, numberWeeks) => {
-    const outputArr = [];
-    const currentDate = new Date(date);
+    const output = [];
     for (let count = 0; count < numberWeeks; count++) {
-        currentDate.setDate(currentDate.getDate() - 7);
-        outputArr.push(new Date(currentDate));
+        output.unshift(date.subtract(count, 'w'));
     };
-    return outputArr;
+    return output;
 };
