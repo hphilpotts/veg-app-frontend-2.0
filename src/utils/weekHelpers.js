@@ -1,7 +1,6 @@
 import Axios from 'axios';
 import { xAuth } from './axiosConfig';
 
-import { getPreviousWeeks } from './dateHelpers';
 
 // axios requests
 
@@ -64,6 +63,14 @@ export const evaluatePastWeeks = async (startDate, user) => {
         };
     }));
     return previousTotals;
+};
+
+const getPreviousWeeks = (date, numberWeeks) => {
+    const output = [];
+    for (let count = 0; count < numberWeeks; count++) {
+        output.unshift(date.subtract(count, 'w'));
+    };
+    return output;
 };
 
 const combineAllFoods = weekData => {

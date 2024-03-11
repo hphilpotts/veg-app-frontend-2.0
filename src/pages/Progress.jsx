@@ -9,7 +9,7 @@ import { PageTitle } from '../components/PageTitle';
 import { green } from '@mui/material/colors';
 import { flexColumnCentered as center } from '../utils/muiTheme';
 import { evaluatePastWeeks, evaluateWeekProgress, getWeekDocument } from '../utils/weekHelpers';
-import { getPreviousWeeks } from '../utils/dateHelpers';
+import { getPreviousWeeks } from '../utils/weekHelpers';
 
 import { UserContext } from '../App';
 
