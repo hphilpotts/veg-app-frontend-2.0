@@ -48,7 +48,7 @@ export const Progress = () => {
         <>
             <PageTitle titleText={'progress'} />
             <ProgressDial data={currentWeekProgress} />
-            <ProgressBarChart date={dayjs(weekData.weekCommencing)} progressData={currentWeekProgress} pastProgressData={pastWeeksProgress} />
+            <ProgressBarChart date={dayjs(weekData.weekCommencing)} progressData={currentWeekProgress} pastWeekTotals={pastWeeksProgress} />
         </>
     );
 
@@ -94,18 +94,14 @@ const ProgressDial = ({ data }) => { // todo - re-enable in Progress above when 
 
 };
 
-const ProgressBarChart = ({ date, progressData, pastProgressData }) => {
+const ProgressBarChart = ({ date, progressData, pastWeekTotals }) => {
 
-    const dates = getPreviousWeeks(date).concat(date);
+    if (date && progressData && pastWeekTotals) {
 
-    // skip format on invalid dates, then 
-    // if no valid dates passed - e.g. if parent states have not yet been updated from DB - filter to result in empty array
-    // ? could this be radically simplified through non-render if any of the props are undefined / not updated ... ?
-    const displayDates = dates.map(date => !isNaN(date) ? date.format('DD-MM-YY') : null).filter(e => e != undefined);
+        const dates = getPreviousWeeks(date).concat(date);
+        const displayDates = dates.map(date => date.format('DD-MM-YY'));
+        const totals = pastWeekTotals.concat(progressData.uniqueFoodsCount);
 
-    const totals = pastProgressData?.concat(progressData.uniqueFoodsCount);
-
-    if (totals?.length && displayDates?.length) { // see above ? comment...
         return ( // todo - title etc - put in container?
             <BarChart
                 xAxis={[{
@@ -123,8 +119,7 @@ const ProgressBarChart = ({ date, progressData, pastProgressData }) => {
                 height={375}
             />
         );
-    } else {
-        return null;
+
     };
 
 };
