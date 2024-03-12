@@ -45,7 +45,7 @@ class ProgressData {
     }
 };
 
-export const evaluateWeekProgress = weekData => {
+export const evaluateCurrentWeek = weekData => {
     if (!weekData?._id) return; // no weekData saved in state - exit by return
     const allFoodsArray = combineAllFoods(weekData);
     return new ProgressData(allFoodsArray);
@@ -65,7 +65,7 @@ export const evaluatePastWeeks = async (startDate, user) => {
     return previousTotals;
 };
 
-const getPreviousWeeks = (date, numberWeeks) => {
+export const getPreviousWeeks = (date, numberWeeks) => {
     const output = [];
     for (let count = 0; count < numberWeeks; count++) {
         output.unshift(date.subtract(count, 'w'));

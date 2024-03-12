@@ -8,7 +8,7 @@ import { PageTitle } from '../components/PageTitle';
 
 import { green } from '@mui/material/colors';
 import { flexColumnCentered as center } from '../utils/muiTheme';
-import { evaluatePastWeeks, evaluateWeekProgress, getWeekDocument } from '../utils/weekHelpers';
+import { evaluatePastWeeks, evaluateCurrentWeek, getWeekDocument } from '../utils/weekHelpers';
 import { getPreviousWeeks } from '../utils/weekHelpers';
 
 import { UserContext } from '../App';
@@ -19,17 +19,17 @@ export const Progress = () => {
     const user = useContext(UserContext);
 
     const [weekData, setWeekData] = useState({});
-    const [progressData, setProgressData] = useState(null);
-    const [pastProgressData, setPastProgressData] = useState(null);
+    const [currentWeekProgress, setCurrentWeekProgress] = useState(null);
+    const [pastWeeksProgress, setPastWeeksProgress] = useState(null);
 
-    const fetchWeekData = async (user, date) => {
+    const processWeekData = async (user, date) => {
         const res = await getWeekDocument(user, date);
         if (res) {
             setWeekData(res.data.Week);
-            const evaluatedWeek = evaluateWeekProgress(res.data.Week);
+            const evaluatedWeek = evaluateCurrentWeek(res.data.Week);
             const pastWeeks = await evaluatePastWeeks(date, user);
-            setProgressData(evaluatedWeek);
-            setPastProgressData(pastWeeks);
+            setCurrentWeekProgress(evaluatedWeek);
+            setPastWeeksProgress(pastWeeks);
         };
     };
 
@@ -39,15 +39,15 @@ export const Progress = () => {
         if (!user.loggedIn) {
             navigateTo('/');
         } else {
-            fetchWeekData(user, dayjs());
+            processWeekData(user, dayjs());
         }
     }, [user]);
 
     return (
         <>
             <PageTitle titleText={'progress'} />
-            {/* <ProgressDial data={progressData} /> */}
-            <ProgressBarChart date={dayjs(weekData.weekCommencing)} progressData={progressData} pastProgressData={pastProgressData} />
+            <ProgressDial data={currentWeekProgress} />
+            <ProgressBarChart date={dayjs(weekData.weekCommencing)} progressData={currentWeekProgress} pastProgressData={pastWeeksProgress} />
         </>
     );
 
