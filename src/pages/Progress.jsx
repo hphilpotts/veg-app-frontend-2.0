@@ -27,7 +27,8 @@ export const Progress = () => {
         if (res) {
             setWeekData(res.data.Week);
             const evaluatedWeek = evaluateCurrentWeek(res.data.Week);
-            const pastWeeks = await evaluatePastWeeks(date, user);
+            const weekStartDate = dayjs(res.data.Week.weekCommencing)
+            const pastWeeks = await evaluatePastWeeks(weekStartDate, user);
             setCurrentWeekProgress(evaluatedWeek);
             setPastWeeksProgress(pastWeeks);
         };
@@ -95,7 +96,7 @@ const ProgressDial = ({ data }) => { // todo - re-enable in Progress above when 
 
 const ProgressBarChart = ({ date, progressData, pastProgressData }) => {
 
-    const dates = getPreviousWeeks(date, 4).concat(dayjs());
+    const dates = getPreviousWeeks(date).concat(date);
 
     // skip format on invalid dates, then 
     // if no valid dates passed - e.g. if parent states have not yet been updated from DB - filter to result in empty array

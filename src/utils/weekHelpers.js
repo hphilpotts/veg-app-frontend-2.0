@@ -52,7 +52,7 @@ export const evaluateCurrentWeek = weekData => {
 };
 
 export const evaluatePastWeeks = async (startDate, user) => {
-    const pastWeekCommencings = getPreviousWeeks(startDate, 4);
+    const pastWeekCommencings = getPreviousWeeks(startDate);
     let previousTotals = await Promise.all(pastWeekCommencings.map(async date => {
         try {
             const res = await getWeekDocument(user, date);
@@ -65,9 +65,9 @@ export const evaluatePastWeeks = async (startDate, user) => {
     return previousTotals;
 };
 
-export const getPreviousWeeks = (date, numberWeeks) => {
+export const getPreviousWeeks = (date, numberWeeks = 4) => {
     const output = [];
-    for (let count = 0; count < numberWeeks; count++) {
+    for (let count = 1; count <= numberWeeks; count++) {
         output.unshift(date.subtract(count, 'w'));
     };
     return output;
