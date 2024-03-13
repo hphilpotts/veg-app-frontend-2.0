@@ -41,7 +41,7 @@ export const updateFoodsDocumentRequest = async (user, requestBody) => {
 export const getFavouritesRequest = async user => {
     const url = `/api/user/favourites?userId=${user.id}`
     try {
-        const res = await Axios.get(url); // todo - add xAuth(user.token) to get config (2nd argument) when protected on BE
+        const res = await Axios.get(url, xAuth(user.token));
         return res.data.userFavourites;
     } catch (error) {
         console.error(error);

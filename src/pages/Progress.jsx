@@ -54,7 +54,7 @@ export const Progress = () => {
 
 };
 
-const ProgressDial = ({ data }) => { // todo - re-enable in Progress above when converted to dayjs
+const ProgressDial = ({ data }) => {
 
     if (!data) return null;
 
@@ -102,7 +102,7 @@ const ProgressBarChart = ({ date, progressData, pastWeekTotals }) => {
         const displayDates = dates.map(date => date.format('DD-MM-YY'));
         const totals = pastWeekTotals.concat(progressData.uniqueFoodsCount);
 
-        return ( // todo - title etc - put in container?
+        return (
             <BarChart
                 xAxis={[{
                     scaleType: 'band',
