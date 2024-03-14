@@ -67,8 +67,9 @@ export const evaluatePastWeeks = async (startDate, user) => {
 
 export const getPreviousWeeks = (date, numberWeeks = 4) => {
     const output = [];
+    const monday = date.startOf('week').add(1, 'd')
     for (let count = 1; count <= numberWeeks; count++) {
-        output.unshift(date.subtract(count, 'w'));
+        output.unshift(monday.subtract(count, 'w'));
     };
     return output;
 };
