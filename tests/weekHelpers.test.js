@@ -1,12 +1,52 @@
 import { describe, expect, expectTypeOf, test } from "vitest";
-import { getPreviousWeeks } from "../src/utils/weekHelpers";
+import { ProgressData, getPreviousWeeks } from "../src/utils/weekHelpers";
 import dayjs from "dayjs";
 
-const testDate = dayjs('01-01-2012');
-const testCall = getPreviousWeeks(testDate);
+
+describe('ProgressData objects should:', () => {
+
+    const testAllFoodsArray = ['apple', 'banana', 'carrot', 'banana'];
+    const TestProgressData = new ProgressData(testAllFoodsArray);
+
+
+    test('be able to be contsructed with one or two arguments', () => {
+        const TwoArgumentProgressData = new ProgressData(testAllFoodsArray, 31);
+        expect(TestProgressData).toBeInstanceOf(ProgressData);
+        expect(TwoArgumentProgressData).toBeInstanceOf(ProgressData);
+    });
+
+    test('have an allFoods property as expected', () => {
+        expect(TestProgressData.allFoods[0]).toBe('apple');
+        expect(TestProgressData.allFoods.length).toBe(4);
+    });
+
+    test('have a uniqueFoods property as expected', () => {
+        expect(TestProgressData.uniqueFoods[2]).toBe('carrot');
+        expect(TestProgressData.uniqueFoods.length).toBe(3);
+    });
+
+    test('have a foodsRemaining property that defaults to a target of 30 unique foods', () => {
+        expect(TestProgressData.foodsRemaining).toBe(27);
+    });
+
+    test('have a foodsRemaining property that can be overriden with a second argument', () => {
+        const TargetOfTenProgressData = new ProgressData(testAllFoodsArray, 10);
+        expect(TargetOfTenProgressData.foodsRemaining).toBe(7);
+    });
+
+    test('have getters that return as expected', () => {
+        expect(TestProgressData.allFoodsCount).toBe(4);
+        expect(TestProgressData.uniqueFoodsCount).toBe(3);
+    });
+
+})
 
 
 describe('getPreviousWeeks should:', () => {
+
+    const testDate = dayjs('01-01-2012');
+    const testCall = getPreviousWeeks(testDate);
+
 
     test('return an array of four dates when one argument passed', () => {
         expect(getPreviousWeeks(testDate).length).toBe(4);

@@ -31,7 +31,7 @@ export const getWeekDocument = async (user, date) => {
 
 // weekly progress evaluation
 
-class ProgressData {
+export class ProgressData {
     constructor(allFoods, target = 30) {
         this.allFoods = allFoods;
         this.uniqueFoods = [...new Set(allFoods)];
