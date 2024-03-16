@@ -1,6 +1,25 @@
 import { describe, expect, expectTypeOf, test } from "vitest";
-import { ProgressData, getPreviousWeeks } from "../src/utils/weekHelpers";
+import { ProgressData, evaluateCurrentWeek, getPreviousWeeks } from "../src/utils/weekHelpers";
 import dayjs from "dayjs";
+
+
+const testWeekData = {
+    _id: "abc1234",
+    user: "ja50n0bj3ct5",
+    monday: ["oats"],
+    tuesday: [],
+    wednesday: [],
+    thursday: [],
+    friday: [],
+    saturday: [],
+    sunday: [],
+    weekCommencing: "2024-03-11T00:00:00.000Z",
+    createdAt: "2024-03-11T00:15:59.027Z",
+    updatedAt: "2024-03-11T00:18:44.894Z",
+    __v: 1
+};
+
+const testDate = dayjs(testWeekData.weekCommencing);
 
 
 describe('ProgressData objects should:', () => {
@@ -39,14 +58,30 @@ describe('ProgressData objects should:', () => {
         expect(TestProgressData.uniqueFoodsCount).toBe(3);
     });
 
-})
+});
+
+
+describe('evaluateCurrentWeek should:', () => {
+
+    test('exit by return if no weekData id passed in', () => {
+        expect(evaluateCurrentWeek({})).toBe(undefined);
+        expect(evaluateCurrentWeek({ prop: 'data' })).toBe(undefined);
+        expect(evaluateCurrentWeek({ prop: 'data', id: null })).toBe(undefined);
+    });
+
+    test('return a valid and complete ProgressData object from valid weekData', () => {
+        const testOutput = evaluateCurrentWeek(testWeekData);
+        expect(testOutput).toBeInstanceOf(ProgressData);
+        expect(testOutput.allFoodsCount).toBe(1);
+        expect(testOutput.foodsRemaining).toBe(29);
+    });
+
+});
 
 
 describe('getPreviousWeeks should:', () => {
 
-    const testDate = dayjs('01-01-2012');
     const testCall = getPreviousWeeks(testDate);
-
 
     test('return an array of four dates when one argument passed', () => {
         expect(getPreviousWeeks(testDate).length).toBe(4);
@@ -69,7 +104,7 @@ describe('getPreviousWeeks should:', () => {
         expect(testCall[0].isBefore(testCall[1])).toBe(true);
         expect(testCall[3].isAfter(testCall[2])).toBe(true);
         expect(testCall[0].isAfter(testCall[3])).not.toBe(true);
-    })
+    });
 
     test('return dates one week apart', () => {
         expect(testCall[3].subtract(7, 'd').isSame(testCall[2])).toBe(true);
@@ -77,7 +112,7 @@ describe('getPreviousWeeks should:', () => {
     });
 
     test('return an array of dates ending the week before the input date', () => {
-        const mondayOfInputWeek = testDate.startOf('week').add(1, 'd')
+        const mondayOfInputWeek = testDate.startOf('week').add(1, 'd');
         expect(testCall[3].add(7, 'd').isSame(mondayOfInputWeek)).toBe(true);
     });
 
