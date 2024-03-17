@@ -166,17 +166,17 @@ describe('combineAllFoods shoud:', () => {
         expect(testCall.every(isTypeString)).toBe(true);
     });
 
-    test('filter out properties from weekData which are not arrays', () => {
-        expect(testCall._id).toBe(undefined);
-        expect(testCall.user).toBe(undefined);
-        expect(testCall.weekCommencing).toBe(undefined);
-        expect(testCall.createdAt).toBe(undefined);
-        expect(testCall.updatedAt).toBe(undefined);
-        expect(testCall.__v).toBe(undefined);
-    });
-
     test('return an array of expected length', () => {
         expect(testCall.length).toBe(3);
+    });
+
+    test('filter properties from weekData which are not <day>: [<foodItem>]', () => {
+        expect(testCall).not.toContain(testWeekData._id);
+        expect(testCall).not.toContain(testWeekData.user);
+        expect(testCall).not.toContain(testWeekData.weekCommencing);
+        expect(testCall).not.toContain(testWeekData.createdAt);
+        expect(testCall).not.toContain(testWeekData.updatedAt);
+        expect(testCall).not.toContain(testWeekData.__v);
     });
 
     test('return an array with expected elements', () => {
