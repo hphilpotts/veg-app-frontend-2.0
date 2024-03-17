@@ -1,5 +1,5 @@
 import { describe, expect, expectTypeOf, test } from "vitest";
-import { ProgressData, evaluateCurrentWeek, getPreviousWeeks } from "../src/utils/weekHelpers";
+import { ProgressData, evaluateCurrentWeek, getPreviousWeeks, combineAllFoods } from "../src/utils/weekHelpers";
 import dayjs from "dayjs";
 
 
@@ -7,8 +7,8 @@ const testWeekData = {
     _id: "abc1234",
     user: "ja50n0bj3ct5",
     monday: ["oats"],
-    tuesday: [],
-    wednesday: [],
+    tuesday: ["oats"],
+    wednesday: ["oranges"],
     thursday: [],
     friday: [],
     saturday: [],
@@ -20,6 +20,12 @@ const testWeekData = {
 };
 
 const testDate = dayjs(testWeekData.weekCommencing);
+
+
+// todo - createNewWeekDocument tests
+
+
+// todo - getWeekDocument tests
 
 
 describe('ProgressData objects should:', () => {
@@ -72,11 +78,14 @@ describe('evaluateCurrentWeek should:', () => {
     test('return a valid and complete ProgressData object from valid weekData', () => {
         const testOutput = evaluateCurrentWeek(testWeekData);
         expect(testOutput).toBeInstanceOf(ProgressData);
-        expect(testOutput.allFoodsCount).toBe(1);
-        expect(testOutput.foodsRemaining).toBe(29);
+        expect(testOutput.allFoodsCount).toBe(3);
+        expect(testOutput.foodsRemaining).toBe(28);
     });
 
 });
+
+
+// todo - evaluatePastWeeks test
 
 
 describe('getPreviousWeeks should:', () => {
@@ -142,3 +151,38 @@ describe('getPreviousWeeks should:', () => {
 
 });
 
+
+describe('combineAllFoods shoud:', () => {
+
+    const testCall = combineAllFoods(testWeekData);
+
+    test('return an array', () => {
+        expect(testCall.constructor).toBe(Array);
+        expect(combineAllFoods({}).constructor).toBe(Array);
+    });
+
+    test('return an array of strings', () => {
+        const isTypeString = element => typeof element === 'string';
+        expect(testCall.every(isTypeString)).toBe(true);
+    });
+
+    test('filter out properties from weekData which are not arrays', () => {
+        expect(testCall._id).toBe(undefined);
+        expect(testCall.user).toBe(undefined);
+        expect(testCall.weekCommencing).toBe(undefined);
+        expect(testCall.createdAt).toBe(undefined);
+        expect(testCall.updatedAt).toBe(undefined);
+        expect(testCall.__v).toBe(undefined);
+    });
+
+    test('return an array of expected length', () => {
+        expect(testCall.length).toBe(3);
+    });
+
+    test('return an array with expected elements', () => {
+        expect(testCall[0]).toBe('oats');
+        expect(testCall[1]).toBe('oats');
+        expect(testCall[2]).toBe('oranges');
+    });
+
+});

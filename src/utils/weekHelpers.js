@@ -74,7 +74,7 @@ export const getPreviousWeeks = (date, numberWeeks = 4) => {
     return output;
 };
 
-const combineAllFoods = weekData => {
+export const combineAllFoods = weekData => {
     const output = [];
     for (const property in weekData) {
         if (weekData[property].constructor === Array) { // only the day data properties are arrays, filters out timestamps, user properties etc.
