@@ -33,7 +33,6 @@ describe('ProgressData objects should:', () => {
     const testAllFoodsArray = ['apple', 'banana', 'carrot', 'banana'];
     const TestProgressData = new ProgressData(testAllFoodsArray);
 
-
     test('be able to be contsructed with one or two arguments', () => {
         const TwoArgumentProgressData = new ProgressData(testAllFoodsArray, 31);
         expect(TestProgressData).toBeInstanceOf(ProgressData);
@@ -42,12 +41,12 @@ describe('ProgressData objects should:', () => {
 
     test('have an allFoods property as expected', () => {
         expect(TestProgressData.allFoods[0]).toBe('apple');
-        expect(TestProgressData.allFoods.length).toBe(4);
+        expect(TestProgressData.allFoods).toHaveLength(4);
     });
 
     test('have a uniqueFoods property as expected', () => {
         expect(TestProgressData.uniqueFoods[2]).toBe('carrot');
-        expect(TestProgressData.uniqueFoods.length).toBe(3);
+        expect(TestProgressData.uniqueFoods).toHaveLength(3);
     });
 
     test('have a foodsRemaining property that defaults to a target of 30 unique foods', () => {
@@ -70,14 +69,14 @@ describe('ProgressData objects should:', () => {
 describe('evaluateCurrentWeek should:', () => {
 
     test('exit by return if no weekData id passed in', () => {
-        expect(evaluateCurrentWeek({})).toBe(undefined);
-        expect(evaluateCurrentWeek({ prop: 'data' })).toBe(undefined);
-        expect(evaluateCurrentWeek({ prop: 'data', id: null })).toBe(undefined);
+        expect(evaluateCurrentWeek({})).toBeUndefined();
+        expect(evaluateCurrentWeek({ prop: 'data' })).toBeUndefined();
+        expect(evaluateCurrentWeek({ prop: 'data', id: null })).toBeUndefined();
     });
 
     test('return a valid and complete ProgressData object from valid weekData', () => {
         const testOutput = evaluateCurrentWeek(testWeekData);
-        expect(testOutput).toBeInstanceOf(ProgressData);
+        expect(testOutput, "Hello World").toBeInstanceOf(ProgressData);
         expect(testOutput.allFoodsCount).toBe(3);
         expect(testOutput.foodsRemaining).toBe(28);
     });
@@ -93,38 +92,37 @@ describe('getPreviousWeeks should:', () => {
     const testCall = getPreviousWeeks(testDate);
 
     test('return an array of four dates when one argument passed', () => {
-        expect(getPreviousWeeks(testDate).length).toBe(4);
+        expect(getPreviousWeeks(testDate)).toHaveLength(4);
     });
 
     test('return the specified number of dates when second argument passed', () => {
-        expect(getPreviousWeeks(testDate, 4).length).toBe(4);
-        expect(getPreviousWeeks(testDate, 1).length).toBe(1);
-        expect(getPreviousWeeks(testDate, 10).length).toBe(10);
-        expect(getPreviousWeeks(testDate, 0).length).toBe(0);
+        expect(getPreviousWeeks(testDate, 4)).toHaveLength(4);
+        expect(getPreviousWeeks(testDate, 1)).toHaveLength(1);
+        expect(getPreviousWeeks(testDate, 10)).toHaveLength(10);
+        expect(getPreviousWeeks(testDate, 0)).toHaveLength(0);
     });
 
     test('return an array of dayjs objects', () => {
         expectTypeOf(testCall[0]).toEqualTypeOf("object");
-        expect(testCall[0]['$isDayjsObject']).toBe(true);
+        expect(testCall[0]['$isDayjsObject']).toBeTruthy();
         expect(testCall.constructor).toBe(Array);
     });
 
     test('return dates in chronological order', () => {
-        expect(testCall[0].isBefore(testCall[1])).toBe(true);
-        expect(testCall[3].isAfter(testCall[2])).toBe(true);
-        expect(testCall[0].isAfter(testCall[3])).not.toBe(true);
+        expect(testCall[0].isBefore(testCall[1])).toBeTruthy();
+        expect(testCall[3].isAfter(testCall[2])).toBeTruthy();
+        expect(testCall[0].isAfter(testCall[3])).toBeFalsy();
     });
 
     test('return dates one week apart', () => {
-        expect(testCall[3].subtract(7, 'd').isSame(testCall[2])).toBe(true);
-        expect(testCall[0].add(7, 'd').isSame(testCall[1])).toBe(true);
+        expect(testCall[3].subtract(7, 'd').isSame(testCall[2])).toBeTruthy();
+        expect(testCall[0].add(7, 'd').isSame(testCall[1])).toBeTruthy();
     });
 
     test('return an array of dates ending the week before the input date', () => {
         const mondayOfInputWeek = testDate.startOf('week').add(1, 'd');
-        expect(testCall[3].add(7, 'd').isSame(mondayOfInputWeek)).toBe(true);
+        expect(testCall[3].add(7, 'd').isSame(mondayOfInputWeek)).toBeTruthy();
     });
-
 
     test('return an array of dates which are Mondays', () => {
         const testCall2 = getPreviousWeeks(dayjs('01-02-2012'));
@@ -142,7 +140,7 @@ describe('getPreviousWeeks should:', () => {
         expect(testCall[0].minute()).toBe(0);
         expect(testCall[0].second()).toBe(0);
         expect(testCall[0].millisecond()).toBe(0);
-        expect(testCall[0].isSame(testCall[0].startOf('day'))).toBe(true);
+        expect(testCall[0].isSame(testCall[0].startOf('day'))).toBeTruthy();
     });
 
     test('throw type error if JS Date is passed in', () => {
@@ -163,11 +161,11 @@ describe('combineAllFoods shoud:', () => {
 
     test('return an array of strings', () => {
         const isTypeString = element => typeof element === 'string';
-        expect(testCall.every(isTypeString)).toBe(true);
+        expect(testCall.every(isTypeString)).toBeTruthy();
     });
 
     test('return an array of expected length', () => {
-        expect(testCall.length).toBe(3);
+        expect(testCall).toHaveLength(3);
     });
 
     test('filter properties from weekData which are not <day>: [<foodItem>]', () => {
@@ -180,6 +178,8 @@ describe('combineAllFoods shoud:', () => {
     });
 
     test('return an array with expected elements', () => {
+        expect(testCall).toContain('oats');
+        expect(testCall).toContain('oranges');
         expect(testCall[0]).toBe('oats');
         expect(testCall[1]).toBe('oats');
         expect(testCall[2]).toBe('oranges');
