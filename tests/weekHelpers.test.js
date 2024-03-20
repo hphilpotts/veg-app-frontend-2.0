@@ -1,5 +1,6 @@
-import { describe, expect, expectTypeOf, test } from "vitest";
-import { ProgressData, evaluateCurrentWeek, getPreviousWeeks, combineAllFoods } from "../src/utils/weekHelpers";
+import { afterEach, beforeEach, describe, expect, expectTypeOf, test, vi } from "vitest";
+import { createNewWeekDocument, ProgressData, evaluateCurrentWeek, getPreviousWeeks, combineAllFoods } from "../src/utils/weekHelpers";
+import axios from "axios";
 import dayjs from "dayjs";
 
 
@@ -21,8 +22,27 @@ const testWeekData = {
 
 const testDate = dayjs(testWeekData.weekCommencing);
 
+describe("createNewWeekDocument should", () => {
 
-// todo - createNewWeekDocument tests
+    beforeEach(() => {
+        vi.mock('axios');
+    });
+
+    test("return mocked response data", async () => {
+        axios.post.mockResolvedValueOnce({ status: 201, message: "New Week added successfully!" });
+        const res = await createNewWeekDocument({ id: testWeekData._id }, testDate);
+        expect(res.status).toBe(201);
+        expect(res.message).toBe("New Week added successfully!");
+    })
+
+    test("return error response if request fails", async () => {
+        axios.post.mockRejectedValueOnce(new Error("axios request fail message"));
+        const errorRes = await createNewWeekDocument({ id: testWeekData._id }, testDate);
+        expect(errorRes).toBeInstanceOf(Error);
+        expect(errorRes.message).toBe("axios request fail message");
+    });
+
+});
 
 
 // todo - getWeekDocument tests
