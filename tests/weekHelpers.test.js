@@ -29,6 +29,11 @@ describe("createNewWeekDocument should", () => {
         vi.mock('axios');
     });
 
+    test("make an axios request as expected given the arguments passed in", () => {
+        createNewWeekDocument({ id: testWeekData._id }, testDate);
+        expect(axios.post).toBeCalledWith("/api/week/create", { "date": "2024-03-11", "user": "abc1234" }, { "headers": { "x-auth-token": undefined } });
+    });
+
     test("return mocked create week success response data", async () => {
         axios.post.mockResolvedValueOnce({ status: 201, message: "New Week added successfully!" });
         const res = await createNewWeekDocument({ id: testWeekData._id }, testDate);
@@ -59,6 +64,11 @@ describe("getWeekDocument should:", () => {
         consoleWarnMock.mockReset();
         consoleErrorMock.mockReset();
     });
+
+    test("make an axios request as expected given the arguments passed in", () => {
+        getWeekDocument({ id: testWeekData._id }, testDate);
+        expect(axios.get).toHaveBeenCalledWith("/api/week/find?user=abc1234&date=2024-03-11", { "headers": { "x-auth-token": undefined } });
+    })
 
     test("return mocked week data as fetched via axios", async () => {
         axios.get.mockResolvedValueOnce({ data: testWeekData });
