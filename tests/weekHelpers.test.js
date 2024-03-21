@@ -1,5 +1,5 @@
-import { afterEach, beforeEach, describe, expect, expectTypeOf, test, vi } from "vitest";
-import { createNewWeekDocument, ProgressData, evaluateCurrentWeek, getPreviousWeeks, combineAllFoods } from "../src/utils/weekHelpers";
+import { afterAll, afterEach, beforeEach, describe, expect, expectTypeOf, test, vi } from "vitest";
+import { createNewWeekDocument, getWeekDocument, ProgressData, evaluateCurrentWeek, getPreviousWeeks, combineAllFoods } from "../src/utils/weekHelpers";
 import axios from "axios";
 import dayjs from "dayjs";
 
@@ -22,13 +22,14 @@ const testWeekData = {
 
 const testDate = dayjs(testWeekData.weekCommencing);
 
+
 describe("createNewWeekDocument should", () => {
 
     beforeEach(() => {
         vi.mock('axios');
     });
 
-    test("return mocked response data", async () => {
+    test("return mocked create week success response data", async () => {
         axios.post.mockResolvedValueOnce({ status: 201, message: "New Week added successfully!" });
         const res = await createNewWeekDocument({ id: testWeekData._id }, testDate);
         expect(res.status).toBe(201);
@@ -45,7 +46,45 @@ describe("createNewWeekDocument should", () => {
 });
 
 
-// todo - getWeekDocument tests
+describe("getWeekDocument should:", () => {
+
+    const consoleWarnMock = vi.spyOn(console, 'warn').mockImplementation(() => undefined);
+    const consoleErrorMock = vi.spyOn(console, 'error').mockImplementation(() => undefined);
+
+    beforeEach(() => {
+        vi.mock('axios');
+    });
+
+    afterEach(() => {
+        consoleWarnMock.mockReset();
+        consoleErrorMock.mockReset();
+    });
+
+    test("return mocked week data as fetched via axios", async () => {
+        axios.get.mockResolvedValueOnce({ data: testWeekData });
+        const res = await getWeekDocument({ id: testWeekData._id }, testDate);
+        expect(res.data).toHaveProperty('_id');
+        expect(res.data.weekCommencing).toBe("2024-03-11T00:00:00.000Z");
+        expect(res.data.monday[0]).toEqual("oats");
+    });
+
+    test("log a week does not exist warning to console if error message includes 'Cannot read properties of null' from axios request", async () => {
+        axios.get.mockRejectedValueOnce(new Error("Cannot read properties of null"));
+        const res = await getWeekDocument({ id: testWeekData._id }, testDate);
+        expect(consoleWarnMock).toHaveBeenCalledOnce();
+        expect(consoleWarnMock).toHaveBeenCalledWith("the week document you are fetching does not exist!");
+        expect(res).toBeUndefined();
+    });
+
+    test("log an error if an error other than 'Cannot read properties of null' is returned from axios request", async () => {
+        axios.get.mockRejectedValueOnce(new Error("Error getting week by date, please try again later"));
+        const res = await getWeekDocument({ id: testWeekData._id }, testDate);
+        expect(consoleErrorMock).toHaveBeenCalledOnce();
+        expect(consoleWarnMock).not.toBeCalled();
+        expect(res).toBeUndefined();
+    });
+
+});
 
 
 describe('ProgressData objects should:', () => {
