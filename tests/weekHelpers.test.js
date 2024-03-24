@@ -1,5 +1,5 @@
-import { afterAll, afterEach, beforeEach, describe, expect, expectTypeOf, test, vi } from "vitest";
-import { createNewWeekDocument, getWeekDocument, ProgressData, evaluateCurrentWeek, getPreviousWeeks, combineAllFoods } from "../src/utils/weekHelpers";
+import { afterEach, beforeEach, describe, expect, expectTypeOf, test, vi } from "vitest";
+import { createNewWeekDocument, getWeekDocument, ProgressData, evaluateCurrentWeek, evaluatePastWeeks, getPreviousWeeks, combineAllFoods } from "../src/utils/weekHelpers";
 import axios from "axios";
 import dayjs from "dayjs";
 
@@ -11,6 +11,22 @@ const testWeekData = {
     tuesday: ["oats"],
     wednesday: ["oranges"],
     thursday: [],
+    friday: [],
+    saturday: [],
+    sunday: [],
+    weekCommencing: "2024-03-11T00:00:00.000Z",
+    createdAt: "2024-03-11T00:15:59.027Z",
+    updatedAt: "2024-03-11T00:18:44.894Z",
+    __v: 1
+};
+
+const testWeekData2 = {
+    _id: "abc1234",
+    user: "ja50n0bj3ct5",
+    monday: ["oats"],
+    tuesday: ["oats"],
+    wednesday: ["oranges"],
+    thursday: ["apples", "avocados"],
     friday: [],
     saturday: [],
     sunday: [],
@@ -137,6 +153,10 @@ describe('ProgressData objects should:', () => {
 
 describe('evaluateCurrentWeek should:', () => {
 
+    afterEach(() => {
+        vi.restoreAllMocks();
+    });
+
     test('exit by return if no weekData id passed in', () => {
         expect(evaluateCurrentWeek({})).toBeUndefined();
         expect(evaluateCurrentWeek({ prop: 'data' })).toBeUndefined();
@@ -153,7 +173,29 @@ describe('evaluateCurrentWeek should:', () => {
 });
 
 
-// todo - evaluatePastWeeks test
+describe("evaluatePastWeeks should", () => {
+
+    beforeEach(() => {
+        vi.mock('axios');
+    });
+
+    test("return an array of 4 numbers", async () => {
+        axios.get.mockResolvedValue({ data: { Week: testWeekData } });
+        const res = await evaluatePastWeeks(testDate, { id: testWeekData.user });
+        expect(res).toHaveLength(4);
+        const isNumber = element => typeof element === 'number';
+        expect(res.every(isNumber)).toBe(true);
+    })
+
+    test("return an array with values as expected", async () => {
+        axios.get.mockResolvedValueOnce({ data: { Week: testWeekData2 } });
+        axios.get.mockResolvedValue({ data: { Week: testWeekData } });
+        const res = await evaluatePastWeeks(testDate, { id: testWeekData.user });
+        expect(res[0]).toEqual(5);
+        expect(res[1]).toEqual(3);
+    });
+
+});
 
 
 describe('getPreviousWeeks should:', () => {
