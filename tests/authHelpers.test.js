@@ -1,5 +1,5 @@
 import { describe, test, expect, beforeEach, vi } from "vitest";
-import { nullUser, userSignupAttempt } from "../src/utils/authHelpers";
+import { nullUser, userSignupAttempt, userSignInRequest } from "../src/utils/authHelpers";
 import axios from "axios";
 
 
@@ -23,9 +23,8 @@ describe("nullUsers should", () => {
 
 });
 
+
 describe("userSignupAttempt should", () => {
-
-
 
     beforeEach(() => {
         vi.mock('axios');
@@ -41,7 +40,6 @@ describe("userSignupAttempt should", () => {
         expect(response.message).toEqual("user signed up successfully!");
     });
 
-
     test("return an AuthAttempt object as expected when unsuccessful", async () => {
 
         axios.post.mockResolvedValueOnce({ status: 500 });
@@ -56,6 +54,56 @@ describe("userSignupAttempt should", () => {
         const response2 = await userSignupAttempt({ email: 'test123@test.com', username: "test user", password: "password" });
         expect(response2.message).toEqual("error creating user, try again!");
         expect(response2.successful).toBeFalsy();
+
+    });
+
+});
+
+
+describe("userSigninRequest should", () => {
+
+    beforeEach(() => {
+        vi.mock('axios');
+    });
+
+    test("return a response object as expected when successful", async () => {
+
+        axios.post.mockResolvedValueOnce({ status: 200, data: { body: { username: 'user1', _id: 'user1Id' }, token: 'user1token' } });
+        const res = await userSignInRequest({ username: 'user1', password: 'password'});
+
+        expect(res).toBeTypeOf('object');
+
+        expect(res).toHaveProperty('user');
+        expect(res.user).toBeTypeOf('object');
+        expect(res.user.loggedIn).toBe(true);
+        expect(res.user.name).toEqual('user1');
+        expect(res.user.id).toEqual('user1Id');
+        expect(res.user.token).toEqual('user1token');
+
+        expect(res).toHaveProperty('attempt');
+        expect(res.attempt).toBeTypeOf('object');
+        expect(res.attempt.successful).toBe(true);
+        expect(res.attempt.message).toEqual("signed in successfully!");
+
+    });
+
+    test("return a response object as expected when unsuccessful", async () => {
+
+        axios.post.mockRejectedValueOnce({ response: { data: { message: "Password and email do not match, please try again." }, status: 400 } });
+        const res = await userSignInRequest({ username: 'user1', password: 'password'});
+
+        expect(res).toBeTypeOf('object'); 
+        expect(res).toHaveProperty('user');
+        expect(res.user).toBeTypeOf('object');
+        expect(res.user.loggedIn).toBe(false);
+        expect(res.user.name).toEqual('Guest');
+        expect(res.user.id).toBeNull();
+        expect(res.user.token).toBeNull();
+
+        expect(res).toHaveProperty('attempt');
+        expect(res.attempt).toBeTypeOf('object');
+        expect(res.attempt.successful).toBe(false);
+        expect(res.attempt.message).toEqual("Password and email do not match, please try again.");
 
     });
 
