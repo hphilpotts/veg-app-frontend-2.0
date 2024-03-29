@@ -35,7 +35,7 @@ export const LogFood = () => {
     };
 
     const getAllFoodOptions = async user => {
-        const foodsCollection = await getFoods(user, null);
+        const foodsCollection = await getFoods(user);
         setFoodOptionsHandler(inputMode, foodsCollection.Foods);
     };
 

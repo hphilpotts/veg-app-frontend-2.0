@@ -11,7 +11,7 @@ export const createNewFoodDocument = async user => {
     };
 };
 
-export const getFoods = async (user, category) => {
+export const getFoods = async (user, category = null) => {
 
     let url = `/api/foods?user=${user.id}`;
     if (category) {
