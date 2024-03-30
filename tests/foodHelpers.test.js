@@ -100,3 +100,90 @@ describe("getFoods shoud", () => {
     });
 
 });
+
+
+describe("updateFoodsDocumentRequest should", () => {
+
+    beforeEach(() => {
+        vi.mock('axios');
+    });
+
+    afterEach(() => {
+        vi.resetAllMocks();
+    });
+
+    test("make an Axios POST request as expected given the arguments passed in", async () => {
+        // todo - unit test
+    });
+
+    test("return a response as expected if successful", async () => {
+        // todo - unit test
+    });
+
+    test("log an error to the console with expected message if unsuccessful", async () => {
+        // todo - unit test
+    });
+
+    test("return an error as expected if unsuccessful", async () => {
+
+    });
+
+});
+
+
+describe("getFavouritesRequest should", () => {
+
+    beforeEach(() => {
+        vi.mock('axios');
+    });
+
+    afterEach(() => {
+        vi.resetAllMocks();
+    });
+
+    test("make an Axios GET request as expected with the user argument passed in", async () => {
+        // todo - unit test
+    });
+
+    test("return a response as expected if successful", async () => {
+        // todo - unit test
+    });
+
+    test("log an error to the console with expected message if unsuccessful", async () => {
+        // todo - unit test
+    });
+
+    test("return an error as expected if unsuccessful", async () => {
+
+    });
+
+});
+
+
+describe("updateFavouritesRequest should", () => {
+
+    beforeEach(() => {
+        vi.mock('axios');
+    });
+
+    afterEach(() => {
+        vi.resetAllMocks();
+    });
+
+    test("make an Axios GET request as expected with the arguments passed in", async () => {
+        // todo - unit test
+    });
+
+    test("return a response as expected if successful", async () => {
+        // todo - unit test
+    });
+
+    test("log an error to the console with expected message if unsuccessful", async () => {
+        // todo - unit test
+    });
+
+    test("return an error as expected if unsuccessful", async () => {
+
+    });
+
+});
