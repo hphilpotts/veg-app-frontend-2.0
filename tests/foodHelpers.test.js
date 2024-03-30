@@ -52,7 +52,6 @@ describe("createNewFoodDocument should", () => {
 describe("getFoods shoud", () => {
 
     const mockUser = { id: 'dummyUserId' };
-
     const mockFoodsData = ['apple', 'banana', 'orange'];
 
     beforeEach(() => {
@@ -76,7 +75,7 @@ describe("getFoods shoud", () => {
     });
 
     test("return a response as expected if successful", async () => {
-        axios.get.mockResolvedValueOnce({ status: 201, data: mockFoodsData  });
+        axios.get.mockResolvedValueOnce({ status: 201, data: mockFoodsData });
         const response = await exports.getFoods(mockUser);
         expect(response.constructor).toBe(Array);
         expect(response).toHaveLength(3);
@@ -104,6 +103,10 @@ describe("getFoods shoud", () => {
 
 describe("updateFoodsDocumentRequest should", () => {
 
+    const mockUser = { id: 'dummyUserId', token: 'mock-token' };
+    const mockRequestBody = { data: ['apple', 'banana', 'orange'] };
+    const mockResponse = { status: 200 };
+
     beforeEach(() => {
         vi.mock('axios');
     });
@@ -113,19 +116,35 @@ describe("updateFoodsDocumentRequest should", () => {
     });
 
     test("make an Axios POST request as expected given the arguments passed in", async () => {
-        // todo - unit test
+        exports.updateFoodsDocumentRequest(mockUser, mockRequestBody);
+        expect(axios.post).toHaveBeenCalledOnce();
+        expect(axios.post).toHaveBeenCalledWith('/api/foods/update', mockRequestBody, { headers: { 'x-auth-token': 'mock-token' } });
     });
 
     test("return a response as expected if successful", async () => {
-        // todo - unit test
+        axios.post.mockResolvedValueOnce(mockResponse);
+        const res = await exports.updateFoodsDocumentRequest(mockUser, mockRequestBody);
+        expect(res).toBeDefined();
+        expect(res).toBeTypeOf('object');
+        expect(res).toHaveProperty('status');
+        expect(res.status).toBe(200);
     });
 
     test("log an error to the console with expected message if unsuccessful", async () => {
-        // todo - unit test
+        const consoleErrorMock = vi.spyOn(console, 'error').mockImplementation(() => undefined);
+        axios.post.mockRejectedValueOnce(new Error("Error updating foods document, please try again later"));
+        await exports.updateFoodsDocumentRequest(mockUser, mockRequestBody);
+        expect(consoleErrorMock).toHaveBeenCalledOnce();
+        expect(consoleErrorMock).toHaveBeenCalledWith(Error("Error updating foods document, please try again later"));
     });
 
     test("return an error as expected if unsuccessful", async () => {
-
+        axios.post.mockRejectedValueOnce(new Error("Error updating foods document, please try again later"));
+        const res = await exports.updateFoodsDocumentRequest(mockUser, mockRequestBody);
+        expect(res).toBeDefined();
+        expect(res).toBeTypeOf('object');
+        expect(res).toBeInstanceOf(Error);
+        expect(res.message).toBe("Error updating foods document, please try again later");
     });
 
 });
@@ -154,7 +173,7 @@ describe("getFavouritesRequest should", () => {
     });
 
     test("return an error as expected if unsuccessful", async () => {
-
+        // todo - unit test
     });
 
 });
@@ -183,7 +202,7 @@ describe("updateFavouritesRequest should", () => {
     });
 
     test("return an error as expected if unsuccessful", async () => {
-
+        // todo - unit test
     });
 
 });
